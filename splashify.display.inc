@@ -15,6 +15,12 @@
 function splashify_init() {
   global $base_url;
   
+  // Make sure the jStorage library is installed.
+  if (!file_exists('sites/all/libraries/jstorage/jstorage.min.js')) {
+    drupal_set_message(t('In order for Splashify to work, the !jstorage library needs to be installed under: sites/all/libraries/jstorage/ .', array('!jstorage' => l('jStorage', 'http://www.jstorage.info/', array('attributes' => array('target' => '_blank'))), )), 'error');
+    return;
+  }
+  
   // If this is the cron script or drush, do not run the splashify code.
   if ((function_exists('drush_verify_cli') && call_user_func('drush_verify_cli')) || (strpos($_SERVER['PHP_SELF'], 'cron.php') !== FALSE)) {
     return;
@@ -168,8 +174,8 @@ function splashify_init() {
       $js_before .= 'var what_urls = [];';
       $path_count = 0;
       foreach ($paths as $path) {
-        $path = url(drupal_strip_dangerous_protocols($path));
-        $js_before .= "what_urls[{$pathCount}] = '{$path}';";
+        $path = url(drupal_strip_dangerous_protocols(trim($path)));
+        $js_before .= "what_urls[{$path_count}] = '{$path}';";
         $path_count++;
       }
       
@@ -197,7 +203,7 @@ function splashify_init() {
       $next_index = array_rand($paths);
       
       // Define the action url.
-      $js_before = "var action_url = '" . url(drupal_strip_dangerous_protocols($paths[$next_index])) . "';";
+      $js_before = "var action_url = '" . url(drupal_strip_dangerous_protocols(trim($paths[$next_index]))) . "';";
       
     }
     
@@ -230,9 +236,14 @@ function splashify_init() {
     $colorbox_settings['href'] = 'href:action_url';
     
     // Set size
-    if ($size_action) {
+    if (count($size_action) > 1) {
       $colorbox_settings['width'] = 'width:' . $size_action[0];
       $colorbox_settings['height'] = 'height:' . $size_action[1];
+    }
+    else {
+      // The colorbox has strange behavior when we don't set the dimensions.
+      $colorbox_settings['width'] = 'width:800';
+      $colorbox_settings['height'] = 'height:600';
     }
     
     $colorbox_load_string = implode(', ', $colorbox_settings);
@@ -321,17 +332,21 @@ function _splashify_get_config() {
   // This controls whether or not we should use the mobile settings for this request.
   $do_mobile = FALSE;
   
+  // If this admin setting is true, force the system to use the mobile settings.
+  $when_mobile_test = variable_get('splashify_when_mobile_test', 0);
+  $force_mobile = ($when_mobile_test==0) ? FALSE : TRUE;
+  
   if (!empty($is_mobile_enabled) && module_exists('mobile_tools')) {
     
     // Is this a mobile request?
     module_load_include('module', 'mobile_tools');
     $mobile = mobile_tools_is_mobile_device();
-    if ($mobile['type'] != 'desktop') {
+    if ($mobile['type'] != 'desktop' || $force_mobile) {
       // This is a mobile request! 
       $do_mobile = TRUE;
       
       // Get the mobile admin settings
-      $when_frequency = variable_get('splashify_when_mobile_frequency', 'never');
+      $when_frequency = variable_get('splashify_when_mobile_frequency', 'never');      
       $where_page = variable_get('splashify_where_mobile_page', 'home');
       $where_listpages = variable_get('splashify_where_mobile_listpages', '');
       $what_mode = variable_get('splashify_what_mobile_mode', 'random');
@@ -358,6 +373,7 @@ function _splashify_get_config() {
   
   return array(
     'when_frequency' => $when_frequency,
+    'when_mobile_test' => $when_mobile_test,
     'where_page' => $where_page,
     'where_listpages' => $where_listpages,
     'what_mode' => $what_mode,

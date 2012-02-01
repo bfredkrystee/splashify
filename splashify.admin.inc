@@ -8,7 +8,13 @@
  * splashify.
  */
 
+/*
+ * "Splashify" settings tab.
+ */
 function splashify_admin_main() {
+  // Check to make sure the jStorage library is installed.
+  
+  
   return<<<EOD
   <p>Access the tabs on this page to update the settings for this module.</p>
   <p>This module was based on the Drupal 6 module <a href="http://drupal.org/project/splash" target="_blank">Splash</a>. 
@@ -86,6 +92,14 @@ function splashify_admin_when_form() {
         'daily' => t('Daily'),
         'weekly' => t('Weekly'),
       ), 
+    );
+    
+    $form['mobile']['splashify_when_mobile_test'] = array(
+      '#type' => 'checkbox',
+      '#title' => 'Test Mobile',
+      '#default_value' => variable_get('splashify_when_mobile_test', 0),
+      '#description' => 'Turn this option on to force the mobile settings to take affect so you can test from your desktop browser.',
+      '#disabled' => $disable_mobile,
     );
   }
 
@@ -290,7 +304,7 @@ function splashify_admin_how_form() {
     $splashify_how_mode_options['lightbox'] = t('Open in a Lightbox (colorbox)');
   } 
   else {
-    drupal_set_message(t('In order to access the lightbox option, you need to have the @colorbox module installed.', array('@colorbox' => '<a href="http://drupal.org/project/colorbox" target="_blank">Colorbox</a>', )), 'warning');
+    drupal_set_message(t('In order to access the lightbox option, you need to have the !colorbox module installed.', array('!colorbox' => l('Colorbox', 'http://drupal.org/project/colorbox', array('attributes' => array('target' => '_blank', ))), )), 'warning');
   }
   
   $form['desktop'] = array(
@@ -307,12 +321,21 @@ function splashify_admin_how_form() {
     '#description' => t('How should we load the splash page? Redirect, open in a new window or open in a lightbox.'),
   );
   
-  $form['desktop']['splashify_how_desktop_size'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Window/Box size'),
-    '#default_value' => variable_get('splashify_how_desktop_size', ''),
-    '#description' => t('Size (<code>WIDTHxHEIGHT</code>, e.g. 400x300) of the Window or Lightbox.'),
-  );
+  if (variable_get('splashify_how_desktop_mode', '') == 'redirect') {
+    // If they specified the redirect option, we want to hide the window size text field.
+    $form['desktop']['splashify_how_desktop_size'] = array(
+      '#type' => 'hidden',
+      '#value' => '',
+    );
+  }
+  else {
+    $form['desktop']['splashify_how_desktop_size'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Window/Box size'),
+      '#default_value' => variable_get('splashify_how_desktop_size', ''),
+      '#description' => t('Size (<code>WIDTHxHEIGHT</code>, e.g. 400x300) of the Window or Lightbox.'),
+    );
+  }
   
   $form['mobile'] = array(
     '#type' => 'fieldset',
@@ -330,12 +353,22 @@ function splashify_admin_how_form() {
       '#description' => t('How should we load the splash page? Redirect, open in a new window or open in a lightbox. The disabled option prevents the splash from appearing.'),
     );
     
-    $form['mobile']['splashify_how_mobile_size'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Window/Box size'),
-      '#default_value' => variable_get('splashify_how_mobile_size', ''),
-      '#description' => t('Size (<code>WIDTHxHEIGHT</code>, e.g. 400x300) of the Window or Lightbox.'),
-    );
+    if (variable_get('splashify_how_mobile_mode', '') == 'redirect') {
+      // If they specified the redirect option, we want to hide the window size text field.
+      $form['mobile']['splashify_how_mobile_size'] = array(
+        '#type' => 'hidden',
+        '#value' => '',
+      );
+    }
+    else {
+      $form['mobile']['splashify_how_mobile_size'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Window/Box size'),
+        '#default_value' => variable_get('splashify_how_mobile_size', ''),
+        '#description' => t('Size (<code>WIDTHxHEIGHT</code>, e.g. 400x300) of the Window or Lightbox.'),
+      );
+    }
+    
   } 
   else {
     $form['mobile']['splashify_how_mobile_mode'] = array(
