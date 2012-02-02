@@ -397,7 +397,12 @@ function _splashify_get_config() {
   }
 
   // $what_content is a text_format field. Get the value.
-  $what_content_value = $what_content['value'];
+  if (is_array($what_content)) {
+    $what_content_value = $what_content['value'];
+  }
+  else {
+    $what_content_value = '';
+  }
 
   return array(
     'when_frequency' => $when_frequency,

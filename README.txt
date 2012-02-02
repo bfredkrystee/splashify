@@ -8,15 +8,21 @@ License - GPL (see LICENSE)
 
 Overview:
 ---------
-Splashify is a full features splash page module that is designed to be search
-engine friendly. It allows you to specify a page to be displayed anywhere on
-your site, using a few different delivery options (redirect, popup window or
-Colorbox). The module also allows mobile device specific options.
+Splashify is a full featured splash page module that is designed to be search
+engine friendly. It is originally based on the Drupal 6 Splash module. It
+allows you to specify a page to be displayed anywhere on your site, using one
+of a few different delivery options (redirect, popup window or Colorbox). The
+module also provides options specific to mobile devices.
+
+The main focus of this module is the following:
+- Be search engine friendly by redirecting via JavaScript (when applicable).
+- Allow specific options for mobile devices.
+- Use Colorbox for displaying the splas page as a lightbox.
 
 
 Installation:
 -------------
-1. Download the jStorage jquery library and place the files in:
+1. Download the jStorage jquery library and place the files in this folder:
    sites/all/libraries/jstorage/
    Link: http://www.jstorage.info/
 2. Download and unpack the Splashify module directory in your modules folder

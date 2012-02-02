@@ -239,8 +239,8 @@ function splashify_admin_what_form() {
   $form['desktop']['splashify_what_desktop_content'] = array(
     '#type' => 'text_format',
     '#title' => t('Content'),
-    '#default_value' => $splashify_what_desktop_content['value'],
-    '#format' => $splashify_what_desktop_content['format'],
+    '#default_value' => (is_array($splashify_what_desktop_content)) ? $splashify_what_desktop_content['value'] : '',
+    '#format' => (is_array($splashify_what_desktop_content)) ? $splashify_what_desktop_content['format'] : '',
     '#description' => t('Text to show or paths/URLs (one on each line) to use.  To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
   );
 
@@ -268,8 +268,8 @@ function splashify_admin_what_form() {
     $form['mobile']['splashify_what_mobile_content'] = array(
       '#type' => 'text_format',
       '#title' => t('Content'),
-      '#default_value' => $splashify_what_mobile_content['value'],
-      '#format' => $splashify_what_mobile_content['format'],
+      '#default_value' => (is_array($splashify_what_mobile_content)) ? $splashify_what_mobile_content['value'] : '',
+      '#format' => (is_array($splashify_what_mobile_content)) ? $splashify_what_mobile_content['format'] : '',
       '#description' => t('Text to show or paths/URLs (one on each line) to use.  To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
     );
   }

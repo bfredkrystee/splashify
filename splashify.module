@@ -23,15 +23,16 @@ function splashify_menu() {
   );
 
   // Define the admin area.
-  $items['admin/settings/splashify'] = array(
+  $items['admin/config/system/splashify'] = array(
     'page callback' => 'splashify_admin_main',
     'title' => 'Splashify',
+    'description' => 'Access settings for displaying a splash page on your site.',
     'file' => 'splashify.admin.inc',
     'type' => MENU_NORMAL_ITEM,
     'access arguments' => array('access splashify admin'),
   );
 
-  $items['admin/settings/splashify/info'] = array(
+  $items['admin/config/system/splashify/info'] = array(
     'page callback' => 'splashify_admin_main',
     'title' => 'Splashify',
     'file' => 'splashify.admin.inc',
@@ -40,7 +41,7 @@ function splashify_menu() {
     'weight' => 4,
   );
 
-  $items['admin/settings/splashify/when'] = array(
+  $items['admin/config/system/splashify/when'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('splashify_admin_when_form'),
     'title' => 'When',
@@ -50,7 +51,7 @@ function splashify_menu() {
     'weight' => 6,
   );
 
-  $items['admin/settings/splashify/where'] = array(
+  $items['admin/config/system/splashify/where'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('splashify_admin_where_form'),
     'title' => 'Where',
@@ -60,7 +61,7 @@ function splashify_menu() {
     'weight' => 8,
   );
 
-  $items['admin/settings/splashify/what'] = array(
+  $items['admin/config/system/splashify/what'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('splashify_admin_what_form'),
     'title' => 'What',
@@ -70,7 +71,7 @@ function splashify_menu() {
     'weight' => 10,
   );
 
-  $items['admin/settings/splashify/how'] = array(
+  $items['admin/config/system/splashify/how'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('splashify_admin_how_form'),
     'title' => 'How',
