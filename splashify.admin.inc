@@ -12,9 +12,6 @@
  * "Splashify" settings tab.
  */
 function splashify_admin_main() {
-  // Check to make sure the jStorage library is installed.
-  
-  
   return<<<EOD
   <p>Access the tabs on this page to update the settings for this module.</p>
   <p>This module was based on the Drupal 6 module <a href="http://drupal.org/project/splash" target="_blank">Splash</a>. 
