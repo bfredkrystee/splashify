@@ -157,7 +157,7 @@ function splashify_init() {
   }
   // Every Day.
   elseif ($when_frequency == 'daily') {
-    // Set to expire in 24 hours
+    // Set to expire in 24 hours.
     $js_expiretime = time() + (24 * 60 * 60);
   }
   // Next Week.
@@ -245,24 +245,24 @@ function splashify_init() {
   $js_action = '';
   if ($how_mode == 'redirect') {
 
-    // Redirect to a different url
+    // Redirect to a different url.
     $js_action = "{$js_before} window.location = action_url;";
   }
   elseif ($how_mode == 'window') {
 
-    // Open up a popup window
+    // Open up a popup window.
     $size_str = $size_action ? ', "width=' . $size_action[0] . ',height=' . $size_action[1] . '"' : '';
     $js_action = "{$js_before} window.onload = function() { window.open(action_url, 'splash'{$size_str}); };";
   }
   elseif ($how_mode == 'lightbox' && module_exists('colorbox')) {
 
-    // Open up a lightbox
+    // Open up a lightbox.
     $colorbox_settings = array();
     $colorbox_settings['transition'] = "transition:'elastic'";
     $colorbox_settings['iframe'] = "iframe:'true'";
     $colorbox_settings['href'] = 'href:action_url';
 
-    // Set size
+    // Set size.
     if (count($size_action) > 1) {
       $colorbox_settings['width'] = 'width:' . $size_action[0];
       $colorbox_settings['height'] = 'height:' . $size_action[1];

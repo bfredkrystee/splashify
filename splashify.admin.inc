@@ -307,7 +307,7 @@ function splashify_admin_how_form() {
         'http://drupal.org/project/colorbox', array(
           'attributes' => array(
             'target' => '_blank',
-          )
+          ),
         )
       ),
     ));

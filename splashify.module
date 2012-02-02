@@ -22,7 +22,7 @@ function splashify_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  // Define the admin area
+  // Define the admin area.
   $items['admin/settings/splashify'] = array(
     'page callback' => 'splashify_admin_main',
     'title' => 'Splashify',
