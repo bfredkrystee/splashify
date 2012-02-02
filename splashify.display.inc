@@ -18,13 +18,16 @@ function splashify_init() {
 
   // Make sure the jStorage library is installed.
   if (!file_exists('sites/all/libraries/jstorage/jstorage.min.js')) {
-    drupal_set_message(t('In order for Splashify to work, the !jstorage library needs to be installed under: sites/all/libraries/jstorage/ .', array(
-      '!jstorage' => l(t('jStorage'), 
+    $jstorage_error = t('In order for Splashify to work, the !jstorage library needs to be installed under: sites/all/libraries/jstorage/ .', array(
+      '!jstorage' => l(t('jStorage'),
       'http://www.jstorage.info/', array(
         'attributes' => array(
-          'target' => '_blank'))), 
-        )), 
-      'error');
+          'target' => '_blank',
+        ),
+      )),
+    ));
+
+    drupal_set_message(filter_xss($jstorage_error), 'error');
     return;
   }
 
@@ -76,7 +79,7 @@ function splashify_init() {
     }
   }
   elseif ($where_page == 'list') {
-    // Display the splash on the provided list of pages. Loop through the 
+    // Display the splash on the provided list of pages. Loop through the
     // paths.
     $list_paths = preg_split('/[\n\r]+/', $where_listpages);
     foreach ($list_paths as $list_path) {
@@ -126,7 +129,7 @@ function splashify_init() {
 
   /*
    * Step #3: Display the Splash Page
-   * 
+   *
    * At this point, we know that $splash_display == TRUE.
    */
 
@@ -294,7 +297,7 @@ function splashify_init() {
     if(!splash || splash < nowtimeSeconds || {$js_splash_always}){
       // Set when the splash variable should expire.
       (jQuery).jStorage.set("splash", {$js_expiretime});
-            
+
       // Do the splash action.
       {$js_action}
     }

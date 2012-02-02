@@ -15,11 +15,11 @@
 function splashify_admin_main() {
   return <<<EOD
   <p>Access the tabs on this page to update the settings for this module.</p>
-  <p>This module was based on the Drupal 6 module <a href="http://drupal.org/project/splash" target="_blank">Splash</a>. 
-  Instead of using cookies to determine when the splash page shows up, we use 
-  <a href="http://www.jstorage.info/" target="_blank">jStorage</a>. This allows us to not depend on cookies and provides 
-  support for other browsers. The big benefit, however, is that this prevents search engines from indexing the splash page 
-  in place of the correct page. The idea here is not to trick google, but to make sure the splash page is not indexed instead 
+  <p>This module was based on the Drupal 6 module <a href="http://drupal.org/project/splash" target="_blank">Splash</a>.
+  Instead of using cookies to determine when the splash page shows up, we use
+  <a href="http://www.jstorage.info/" target="_blank">jStorage</a>. This allows us to not depend on cookies and provides
+  support for other browsers. The big benefit, however, is that this prevents search engines from indexing the splash page
+  in place of the correct page. The idea here is not to trick google, but to make sure the splash page is not indexed instead
   of the correct page.</p>
   <p>Below is a breakdown of the features of this module:</p>
   <ul>
@@ -116,7 +116,7 @@ function splashify_admin_where_form() {
     if(jQuery("#edit-splashify-where-desktop-listpages").val() != '') {
       jQuery("#desktop_listpages").show();
     }
-    
+
     jQuery("input[name='splashify_where_desktop_page']").change(function(){
       if(jQuery('#edit-splashify-where-desktop-page-list').is(':checked')){
         jQuery("#desktop_listpages").show();
@@ -168,7 +168,7 @@ EOD;
       if(jQuery("#edit-splashify-where-mobile-listpages").val() != '') {
         jQuery("#mobile_listpages").show();
       }
-    
+
       jQuery("input[name='splashify_where_mobile_page']").change(function(){
         if(jQuery('#edit-splashify-where-mobile-page-list').is(':checked')){
           jQuery("#mobile_listpages").show();
@@ -302,13 +302,17 @@ function splashify_admin_how_form() {
     $splashify_how_mode_options['lightbox'] = t('Open in a Lightbox (colorbox)');
   }
   else {
-    drupal_set_message(t('In order to access the lightbox option, you need to have the !colorbox module installed.', array(
-      '!colorbox' => l(t('Colorbox'), 
-      'http://drupal.org/project/colorbox', array(
-        'attributes' => array(
-          'target' => '_blank', 
-        ))), 
-      )), 'warning');
+    $colorbox_warning = t("In order to access the lightbox option, you need to have the !colorbox module installed.", array(
+      '!colorbox' => l(t('Colorbox'),
+        'http://drupal.org/project/colorbox', array(
+          'attributes' => array(
+            'target' => '_blank',
+          )
+        )
+      ),
+    ));
+
+    drupal_set_message(filter_xss($colorbox_warning), 'warning');
   }
 
   $form['desktop'] = array(
