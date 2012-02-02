@@ -1,1 +1,2 @@
-- Check for the jStorage Library.
+- Test on actual mobile device.
+- Test in multiple browsers.

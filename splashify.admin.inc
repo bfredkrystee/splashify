@@ -304,7 +304,7 @@ function splashify_admin_how_form() {
     $splashify_how_mode_options['lightbox'] = t('Open in a Lightbox (colorbox)');
   } 
   else {
-    drupal_set_message(t('In order to access the lightbox option, you need to have the !colorbox module installed.', array('!colorbox' => l('Colorbox', 'http://drupal.org/project/colorbox', array('attributes' => array('target' => '_blank', ))), )), 'warning');
+    drupal_set_message(t('In order to access the lightbox option, you need to have the !colorbox module installed.', array('!colorbox' => l(t('Colorbox'), 'http://drupal.org/project/colorbox', array('attributes' => array('target' => '_blank', ))), )), 'warning');
   }
   
   $form['desktop'] = array(

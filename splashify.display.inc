@@ -17,7 +17,7 @@ function splashify_init() {
   
   // Make sure the jStorage library is installed.
   if (!file_exists('sites/all/libraries/jstorage/jstorage.min.js')) {
-    drupal_set_message(t('In order for Splashify to work, the !jstorage library needs to be installed under: sites/all/libraries/jstorage/ .', array('!jstorage' => l('jStorage', 'http://www.jstorage.info/', array('attributes' => array('target' => '_blank'))), )), 'error');
+    drupal_set_message(t('In order for Splashify to work, the !jstorage library needs to be installed under: sites/all/libraries/jstorage/ .', array('!jstorage' => l(t('jStorage'), 'http://www.jstorage.info/', array('attributes' => array('target' => '_blank'))), )), 'error');
     return;
   }
   
