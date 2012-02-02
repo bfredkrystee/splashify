@@ -169,7 +169,7 @@ function splashify_init() {
        * we need to create an array of the sequential url's and figure out which is 
        * the next url to display (based on the previous url)...all through JS.
        */
-       
+
       // Create the JS array of url values
       $js_before .= 'var what_urls = [];';
       $path_count = 0;

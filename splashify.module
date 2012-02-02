@@ -61,7 +61,7 @@ function splashify_menu() {
     'type' => MENU_LOCAL_TASK,
     'access arguments' => array('access splashify admin'),
     'weight' => 10,
-   );
+  );
   
   $items['admin/settings/splashify/how'] = array(
     'page callback' => 'drupal_get_form',
