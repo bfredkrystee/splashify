@@ -1,6 +1,4 @@
 <?php
-// $Id$
-
 
 /**
  * @file
@@ -114,4 +112,3 @@ function splashify_help($path, $arg) {
       break;
   }
 }
-

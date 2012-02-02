@@ -1,6 +1,4 @@
 <?php
-// $Id$
-
 
 /**
  * @file
@@ -79,7 +77,7 @@ function splashify_admin_when_form() {
     '#disabled' => $disable_mobile,
   );
 
-  // If the mobile splash is enabled, display the mobile options
+  // If the mobile splash is enabled, display the mobile options.
   if (variable_get('splashify_when_mobile', 0) == 1) {
     $form['mobile']['splashify_when_mobile_frequency'] = array(
       '#type' => 'select',
@@ -112,7 +110,7 @@ function splashify_admin_when_form() {
 function splashify_admin_where_form() {
   $form = array();
 
-  // Add Javascript to handle the List Pages field
+  // Add Javascript to handle the List Pages field.
   $javascript = <<<EOD
   jQuery(document).ready(function(){
     if(jQuery("#edit-splashify-where-desktop-listpages").val() != '') {
@@ -163,7 +161,7 @@ EOD;
     '#title' => t('Mobile Settings'),
   );
 
-  // If the mobile splash is enabled, display the mobile options
+  // If the mobile splash is enabled, display the mobile options.
   if (variable_get('splashify_when_mobile', 0) == 1) {
     $javascript = <<<EOD
     jQuery(document).ready(function(){
@@ -251,7 +249,7 @@ function splashify_admin_what_form() {
     '#title' => t('Mobile Settings'),
   );
 
-  // If the mobile splash is enabled, display the mobile options
+  // If the mobile splash is enabled, display the mobile options.
   if (variable_get('splashify_when_mobile', 0) == 1) {
     $form['mobile']['splashify_what_mobile_mode'] = array(
       '#type' => 'select',
@@ -304,9 +302,13 @@ function splashify_admin_how_form() {
     $splashify_how_mode_options['lightbox'] = t('Open in a Lightbox (colorbox)');
   }
   else {
-    drupal_set_message(t('In order to access the lightbox option, you need to have the !colorbox module installed.', array('!colorbox' => l(t('Colorbox'), 'http://drupal.org/project/colorbox', array('attributes' => array('target' => '_blank',
-              ))),
-        )), 'warning');
+    drupal_set_message(t('In order to access the lightbox option, you need to have the !colorbox module installed.', array(
+      '!colorbox' => l(t('Colorbox'), 
+      'http://drupal.org/project/colorbox', array(
+        'attributes' => array(
+          'target' => '_blank', 
+        ))), 
+      )), 'warning');
   }
 
   $form['desktop'] = array(
@@ -345,7 +347,7 @@ function splashify_admin_how_form() {
     '#title' => t('Mobile Settings'),
   );
 
-  // If the mobile splash is enabled, display the mobile options
+  // If the mobile splash is enabled, display the mobile options.
   if (variable_get('splashify_when_mobile', 0) == 1) {
     // Determines how the splash page shows up.
     $form['mobile']['splashify_how_mobile_mode'] = array(
@@ -381,4 +383,3 @@ function splashify_admin_how_form() {
 
   return system_settings_form($form);
 }
-

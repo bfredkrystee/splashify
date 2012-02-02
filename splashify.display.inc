@@ -1,6 +1,4 @@
 <?php
-// $Id$
-
 
 /**
  * @file
@@ -20,8 +18,13 @@ function splashify_init() {
 
   // Make sure the jStorage library is installed.
   if (!file_exists('sites/all/libraries/jstorage/jstorage.min.js')) {
-    drupal_set_message(t('In order for Splashify to work, the !jstorage library needs to be installed under: sites/all/libraries/jstorage/ .', array('!jstorage' => l(t('jStorage'), 'http://www.jstorage.info/', array('attributes' => array('target' => '_blank'))),
-        )), 'error');
+    drupal_set_message(t('In order for Splashify to work, the !jstorage library needs to be installed under: sites/all/libraries/jstorage/ .', array(
+      '!jstorage' => l(t('jStorage'), 
+      'http://www.jstorage.info/', array(
+        'attributes' => array(
+          'target' => '_blank'))), 
+        )), 
+      'error');
     return;
   }
 
@@ -73,7 +76,8 @@ function splashify_init() {
     }
   }
   elseif ($where_page == 'list') {
-    // Display the splash on the provided list of pages. Loop through the paths
+    // Display the splash on the provided list of pages. Loop through the 
+    // paths.
     $list_paths = preg_split('/[\n\r]+/', $where_listpages);
     foreach ($list_paths as $list_path) {
       $list_path = trim($list_path);
@@ -128,7 +132,7 @@ function splashify_init() {
 
 
   /*
-   * Determine the time values
+   * Determine the time values.
    */
 
 
@@ -143,22 +147,22 @@ function splashify_init() {
   // This variable is a way to always show the splash in the JS.
   $js_splash_always = 'false';
 
-  // Once
+  // Once.
   if ($when_frequency == 'once') {
     // Set to expire in one year.
     $js_expiretime = time() + (365 * 24 * 60 * 60);
   }
-  // Every Day
+  // Every Day.
   elseif ($when_frequency == 'daily') {
     // Set to expire in 24 hours
     $js_expiretime = time() + (24 * 60 * 60);
   }
-  // Next Week
+  // Next Week.
   elseif ($when_frequency == 'weekly') {
     // Set to expire in 7 days.
     $js_expiretime = time() + (7 * 24 * 60 * 60);
   }
-  // Never Expire
+  // Never Expire.
   elseif ($when_frequency == 'always' || $_GET['splash'] == 'on') {
     // This should make the splash always show up.
     $js_expiretime = time();
@@ -192,7 +196,7 @@ function splashify_init() {
        */
 
 
-      // Create the JS array of url values
+      // Create the JS array of url values.
       $js_before .= 'var what_urls = [];';
       $path_count = 0;
       foreach ($paths as $path) {
@@ -217,7 +221,7 @@ function splashify_init() {
       $js_before .= "var action_url = what_urls[new_url_index];";
 
       // Set the splash url used for this page, so we can display the correct
-      // splash on the next page load...
+      // splash on the next page load.
       $js_before .= "(jQuery).jStorage.set('splashlasturl', action_url);";
     }
     elseif ($what_mode == 'random') {
@@ -278,9 +282,9 @@ function splashify_init() {
 
   /*
    * Finally: Generate the JS that puts it all together!
-   * 
+   *
    * At this point the page passed all of the server side checks. We now
-   * implement JS code that checks if the splash page should show up, based 
+   * implement JS code that checks if the splash page should show up, based
    * on when it last showed up.
    */
 
@@ -367,7 +371,7 @@ function _splashify_get_config() {
       // This is a mobile request!
       $do_mobile = TRUE;
 
-      // Get the mobile admin settings
+      // Get the mobile admin settings.
       $when_frequency  = variable_get('splashify_when_mobile_frequency', 'never');
       $where_page      = variable_get('splashify_where_mobile_page', 'home');
       $where_listpages = variable_get('splashify_where_mobile_listpages', '');
@@ -379,7 +383,7 @@ function _splashify_get_config() {
   }
 
   if (!$do_mobile) {
-    // Get the desktop admin settings
+    // Get the desktop admin settings.
     $when_frequency  = variable_get('splashify_when_desktop_frequency', 'never');
     $where_page      = variable_get('splashify_where_desktop_page', 'home');
     $where_listpages = variable_get('splashify_where_desktop_listpages', '');
@@ -404,4 +408,3 @@ function _splashify_get_config() {
     'how_size' => $how_size,
   );
 }
-
