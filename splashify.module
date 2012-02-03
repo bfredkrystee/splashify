@@ -95,21 +95,3 @@ function splashify_permissions() {
     ),
   );
 }
-
-/**
- * Implements hook_help().
- */
-function splashify_help($path, $arg) {
-  switch ($path) {
-    case 'admin/help#splashify':
-      $output = '';
-      $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Testing.....') . '</p>';
-      return $output;
-      break;
-
-    case 'admin/config/splashify/when':
-      return '<p>' . t("Define when the splash page comes up.") . '</p>';
-      break;
-  }
-}

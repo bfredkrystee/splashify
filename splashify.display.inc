@@ -322,6 +322,11 @@ EOD;
 
 /**
  * Display the What: Content either in the site template or full screen.
+ * 
+ * @return
+ *     If the $what_mode equals 'template', returns the string entered into
+ *     $what_content_value. If $what_mode equals 'fullscreen', it displays
+ *     the text right there and exits the request.
  */
 function splashify_display_splashtext() {
   $config = _splashify_get_config();
@@ -351,6 +356,11 @@ function splashify_display_splashtext() {
  *
  * Will either retrieve the desktop or mobile settings, depending whether this
  * is a mobile request or not.
+ *
+ * @return array
+ *     Returns an associate array with the following keys: when_frequency,
+ *     when_mobile_test, where_page, where_listpages, what_mode, what_content,
+ *     what_content_value, how_mode, and how_size.
  */
 function _splashify_get_config() {
   // This controls whether mobile is enabled or not.
