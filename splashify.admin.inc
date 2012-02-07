@@ -28,6 +28,12 @@ function splashify_admin_main() {
     <li><strong>Scope</strong>: Allow the splash page to appear on any page of your site.</li>
     <li><strong>Lightbox</strong>: Support <a href="http://drupal.org/project/colorbox" target="_blank">Colorbox</a> as the lightbox jQuery plugin.</li>
   </ul>
+  <br />
+  <h2>What do we consider a splash page?</h2>
+  <p>We define a splash page as being content that shows up at a specified interval, at a specified location, one time. If
+  someone goes to a certain page for the first time, we want to make sure the splash content shows up. But if the person
+  is coming from an internal link on the site, we don't want the splash content to show up over and over again (otherwise,
+  the splash page would become a nuisance).</p>
 EOD;
 }
 
