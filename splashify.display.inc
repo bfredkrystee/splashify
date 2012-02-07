@@ -213,7 +213,7 @@ function splashify_init() {
 
       // Have we already loaded a splash page? If so, grab the index of
       // that url.
-      $js_before .= "var last_url = (jQuery).jStorage.get('splashlasturl', '');";
+      $js_before .= "var last_url = $.jStorage.get('splashlasturl', '');";
       $js_before .= "var last_url_index = what_urls.indexOf(last_url);";
 
       // Make sure the last url index value is correct.
@@ -225,7 +225,7 @@ function splashify_init() {
 
       // Set the splash url used for this page, so we can display the correct
       // splash on the next page load.
-      $js_before .= "(jQuery).jStorage.set('splashlasturl', action_url);";
+      $js_before .= "$.jStorage.set('splashlasturl', action_url);";
     }
     elseif ($what_mode == 'random') {
 
@@ -276,7 +276,7 @@ function splashify_init() {
     $colorbox_load_string = implode(', ', $colorbox_settings);
 
     // Generate the JS to load the colorbox after the page loads.
-    $js_action = 'jQuery(document).ready(function(){ ' . $js_before . ' jQuery.colorbox({' . $colorbox_load_string . '}); });';
+    $js_action = '$(document).ready(function(){ ' . $js_before . ' $.colorbox({' . $colorbox_load_string . '}); });';
   }
   else {
     // Do nothing! This is a fail safe.
@@ -292,32 +292,34 @@ function splashify_init() {
    */
 
   $splash_js = <<<EOD
-    var splash = (jQuery).jStorage.get("splash");
+  (function ($) {
+    var splash = $.jStorage.get("splash");
     var nowtimeSeconds = {$js_nowtime};
     if(!splash || splash < nowtimeSeconds || {$js_splash_always}){
       // Set when the splash variable should expire.
-      (jQuery).jStorage.set("splash", {$js_expiretime});
+      $.jStorage.set("splash", {$js_expiretime});
 
       // Do the splash action.
       {$js_action}
     }
+  })(jQuery);
 EOD;
 
   drupal_add_js('sites/all/libraries/jstorage/jstorage.min.js', array(
-      'type' => 'file',
-      'scope' => 'header',
-      'group' => JS_LIBRARY,
-      'weight' => 0,
-      'cache' => FALSE,
-    ));
+    'type' => 'file',
+    'scope' => 'header',
+    'group' => JS_LIBRARY,
+    'weight' => 0,
+    'cache' => FALSE,
+  ));
 
   drupal_add_js($splash_js, array(
-      'type' => 'inline',
-      'scope' => 'header',
-      'group' => JS_LIBRARY,
-      'weight' => 1,
-      'cache' => FALSE,
-    ));
+    'type' => 'inline',
+    'scope' => 'header',
+    'group' => JS_DEFAULT,
+    'weight' => 5,
+    'cache' => FALSE,
+  ));
 }
 
 /**
