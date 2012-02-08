@@ -17,7 +17,7 @@ function splashify_init() {
   global $base_url;
 
   // Make sure the jStorage library is installed.
-  if (!file_exists('sites/all/libraries/jstorage/jstorage.min.js')) {
+  if (!file_exists('sites/all/libraries/jstorage/jstorage.min.js') && !file_exists('sites/all/libraries/jstorage/jstorage.js')) {
     $jstorage_error = t('In order for Splashify to work, the !jstorage library needs to be installed under: sites/all/libraries/jstorage/ .', array(
       '!jstorage' => l(t('jStorage'),
       'http://www.jstorage.info/', array(
@@ -305,7 +305,15 @@ function splashify_init() {
   })(jQuery);
 EOD;
 
-  drupal_add_js('sites/all/libraries/jstorage/jstorage.min.js', array(
+  // Add jstorage (minified or not)
+  if (file_exists('sites/all/libraries/jstorage/jstorage.min.js')) {
+    $jstorage_file = 'sites/all/libraries/jstorage/jstorage.min.js';
+  }
+  else {
+    $jstorage_file = 'sites/all/libraries/jstorage/jstorage.js';
+  }
+
+  drupal_add_js($jstorage_file, array(
     'type' => 'file',
     'scope' => 'header',
     'group' => JS_LIBRARY,
