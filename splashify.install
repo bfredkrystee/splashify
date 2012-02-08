@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Handles installation and uninstalling Splashify.
+ */
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Deletes all of the variables this module creates via variable_set().
+ */
+function splashify_uninstall() {
+  // Desktop variables.
+  variable_del('splashify_when_desktop_frequency');
+  variable_del('splashify_where_desktop_page');
+  variable_del('splashify_where_desktop_listpages');
+  variable_del('splashify_what_desktop_mode');
+  variable_del('splashify_what_desktop_content');
+  variable_del('splashify_how_desktop_mode');
+  variable_del('splashify_how_desktop_size');
+
+  // Mobile variables.
+  variable_del('splashify_when_mobile_test');
+  variable_del('splashify_when_mobile_frequency');
+  variable_del('splashify_where_mobile_page');
+  variable_del('splashify_where_mobile_listpages');
+  variable_del('splashify_what_mobile_mode');
+  variable_del('splashify_what_mobile_content');
+  variable_del('splashify_how_mobile_mode');
+  variable_del('splashify_how_mobile_size');
+}

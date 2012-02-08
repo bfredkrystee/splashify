@@ -333,10 +333,10 @@ EOD;
 /**
  * Display the What: Content either in the site template or full screen.
  *
- * @return
- *     If the $what_mode equals 'template', returns the string entered into
- *     $what_content_value. If $what_mode equals 'fullscreen', it displays
- *     the text right there and exits the request.
+ * @return string
+ *   If the $what_mode equals 'template', returns the string entered into
+ *   $what_content_value. If $what_mode equals 'fullscreen', it displays
+ *   the text right there and exits the request.
  */
 function splashify_display_splashtext() {
   $config = _splashify_get_config();

@@ -17,23 +17,41 @@ function splashify_admin_main() {
   <p>Access the tabs on this page to update the settings for this module.</p>
   <p>This module was based on the Drupal 6 module <a href="http://drupal.org/project/splash" target="_blank">Splash</a>.
   Instead of using cookies to determine when the splash page shows up, we use
-  <a href="http://www.jstorage.info/" target="_blank">jStorage</a>. This allows us to not depend on cookies and provides
-  support for other browsers. The big benefit, however, is that this prevents search engines from indexing the splash page
-  in place of the correct page. The idea here is not to trick google, but to make sure the splash page is not indexed instead
-  of the correct page.</p>
+  <a href="http://www.jstorage.info/" target="_blank">jStorage</a>. This allows
+  us to not depend on cookies and provides support for other browsers. The big
+  benefit, however, is that this prevents search engines from indexing the
+  splash page in place of the correct page. The idea here is not to trick
+  Google, but to make sure the splash page is not indexed instead of the
+  correct page.</p>
   <p>Below is a breakdown of the features of this module:</p>
   <ul>
-    <li><strong>Mobile</strong>: When the <a href="http://drupal.org/project/mobile_tools" target="_blank">Mobile Tools</a> module is installed, allows for settings to be set to create or prevent a splash page on mobile devices.</li>
-    <li><strong>Search Engine Friendly</strong>: Instead of redirecting the user from PHP, we redirect with JS. This prevents the redirect from happening when search engine crawlers visit the page.</li>
-    <li><strong>Scope</strong>: Allow the splash page to appear on any page of your site.</li>
-    <li><strong>Lightbox</strong>: Support <a href="http://drupal.org/project/colorbox" target="_blank">Colorbox</a> as the lightbox jQuery plugin.</li>
+    <li><strong>Mobile</strong>: When the <a href="http://drupal.org/project/mobile_tools" target="_blank">Mobile Tools</a>
+    module is installed, allows for settings to be set to create or prevent a
+    splash page on mobile devices. These settings are separate from the desktop
+    settings that can be defined.</li>
+    <li><strong>Search Engine Friendly</strong>: Instead of redirecting the
+    user from PHP, we redirect with JS. This prevents the redirect from
+    happening when search engine crawlers visit the page. And if JS is
+    disabled, the original page shows up and no redirect happens. So your
+    splash pages should not be indexed over the top of the page that should be
+    indexed!</li>
+    <li><strong>Scope</strong>: Allow the splash page to appear on any page of
+    your site. For example, you can have the splash page appear when someone
+    goes to an interior page (but the system prevents the splash page from
+    showing up again when they click another link within your site).</li>
+    <li><strong>Lightbox</strong>: Supports <a href="http://drupal.org/project/colorbox" target="_blank">ColorBox</a>
+    as the lightbox jQuery plugin.</li>
   </ul>
   <br />
   <h2>What do we consider a splash page?</h2>
-  <p>We define a splash page as being content that shows up at a specified interval, at a specified location, one time. If
-  someone goes to a certain page for the first time, we want to make sure the splash content shows up. But if the person
-  is coming from an internal link on the site, we don't want the splash content to show up over and over again (otherwise,
-  the splash page would become a nuisance).</p>
+  <p>We define a splash page as being content that shows up at a specified
+  interval, at a specified location, one time. If someone goes to a certain
+  page for the first time, we want to make sure the splash content shows up.
+  But if the person is coming from an internal link on the site, we don't want
+  the splash content to show up over and over again (otherwise, the splash page
+  would become a nuisance).</p>
+  <p>We determine how often the splash page should show up by what is defined
+  under the "When" tab.</p>
 EOD;
 }
 
