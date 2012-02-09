@@ -163,7 +163,7 @@ EOD;
     '#title' => t('Desktop Settings'),
   );
 
-  $page_options = array('home' => t('Home Page'), 'all' => t('All Pages'), 'list' => t('List Pages'));
+  $page_options = array('home' => t('Front Page'), 'all' => t('All Pages'), 'list' => t('List Pages'));
   $form['desktop']['splashify_where_desktop_page'] = array(
     '#type' => 'radios',
     '#title' => t('Specify where the splash page should show up:'),
@@ -350,7 +350,7 @@ function splashify_admin_how_form() {
     '#title' => t('Splash Display Mode'),
     '#options' => $splashify_how_mode_options,
     '#default_value' => variable_get('splashify_how_desktop_mode', 'redirect'),
-    '#description' => t('How should we load the splash page? Redirect, open in a new window or open in a lightbox.'),
+    '#description' => t('Determines how the splash page should show up. If you want to use the lightbox option, you need to have the Colorbox module installed.'),
   );
 
   if (variable_get('splashify_how_desktop_mode', '') == 'redirect') {
