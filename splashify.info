@@ -2,3 +2,5 @@ name = Splashify
 description = Display a splash page anywhere on the site.
 core = 7.x
 configure = admin/config/system/splashify
+
+dependencies[] = libraries
