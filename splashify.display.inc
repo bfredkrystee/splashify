@@ -15,26 +15,21 @@
  */
 function splashify_init() {
   global $base_url;
+  $library = libraries_load('jstorage', 'minified');
 
   // Make sure the jStorage library is installed.
-  if (!file_exists('sites/all/libraries/jstorage/jstorage.min.js') && !file_exists('sites/all/libraries/jstorage/jstorage.js')) {
-    $jstorage_error = t('In order for Splashify to work, the !jstorage library needs to be installed under: sites/all/libraries/jstorage/ .', array(
-      '!jstorage' => l(t('jStorage'),
-      'http://www.jstorage.info/', array(
-        'attributes' => array(
-          'target' => '_blank',
-        ),
-      )),
-    ));
-
-    drupal_set_message(filter_xss($jstorage_error), 'error');
+  if (!$library['installed']) {
+    drupal_set_message('In order for Splashify to work, the jStorage library needs to be installed. See the README.txt file for more information.', 'error');
     return;
   }
 
   // If this is the cron script or drush, do not run the splashify code.
-  if ((function_exists('drush_verify_cli') && call_user_func('drush_verify_cli')) || (strpos($_SERVER['PHP_SELF'], 'cron.php') !== FALSE)) {
+  $drush_check = (function_exists('drush_verify_cli') && call_user_func('drush_verify_cli')) ? TRUE : FALSE;
+  $cron_check = (strpos($_SERVER['PHP_SELF'], 'cron.php') !== FALSE) ? TRUE : FALSE;
+  if ($drush_check || $cron_check) {
     return;
   }
+
 
   /*
    * Step #1: Retrieve the admin settings.
@@ -53,19 +48,15 @@ function splashify_init() {
 
 
   /*
-   * Step #2: Should we display the splash?
+   * Step #2: Should we display the splash page?
    */
 
+  // Default to not showing the splash page.
   $splash_display = FALSE;
-  $splash_reason = '';
 
   if (!isset($_GET['splash'])) {
     $_GET['splash'] = '';
   }
-
-  /*
-   * Determine if this page should show the splash page.
-   */
 
   $splash_correct_page = FALSE;
   if ($where_page == 'all') {
@@ -98,29 +89,29 @@ function splashify_init() {
 
   if (empty($what_content_value)) {
     // The What: Content field is not specified.
-    $splash_reason = 'No What: Content value.';
+    $splash_display = FALSE;
   }
   elseif ($_GET['splash'] == 'off') {
     // Special case for preventing the splash page from showing up.
-    $splash_reason = 'Splash page forced not to be displayed.';
+    $splash_display = FALSE;
   }
   elseif ($_GET['splash'] == 'on') {
     // Special case for forcing the splash page to show up.
     $splash_display = TRUE;
-    $splash_reason = 'Splash page forced to be displayed.';
   }
   elseif ($splash_correct_page) {
-    // We need to show the splash page on this page.
-    // Make sure we are not coming from an internal page.
+    // We need to show the splash page on this page. Do one last check.
     if (($parsed_url = parse_url($base_url)) && stristr($_SERVER['HTTP_REFERER'], $parsed_url['host'])) {
-      $splash_reason = 'Correct page is loaded from an internal link.';
+      // This page was loaded from an internal page. Do not show the splash
+      // page.
+      $splash_display = FALSE;
     }
     else {
+      // We passed all of the tests...display the splash page!
       $splash_display = TRUE;
-      $splash_reason = 'This is the correct page.';
     }
   }
-
+  
   // If we shouldn't display the splash, end the code here.
   if (!$splash_display) {
     return;
@@ -133,11 +124,7 @@ function splashify_init() {
    * At this point, we know that $splash_display == TRUE.
    */
 
-
-  /*
-   * Determine the time values.
-   */
-
+  // Determine the time values.
 
   // Controls when the jStorage variable should expire next. In other words,
   // when should the splash page show up again?
@@ -148,7 +135,7 @@ function splashify_init() {
   $js_nowtime = time();
 
   // This variable is a way to always show the splash in the JS.
-  $js_splash_always = 'false';
+  $js_splash_always = FALSE;
 
   // Once.
   if ($when_frequency == 'once') {
@@ -169,28 +156,20 @@ function splashify_init() {
   elseif ($when_frequency == 'always' || $_GET['splash'] == 'on') {
     // This should make the splash always show up.
     $js_expiretime = time();
-    $js_splash_always = 'true';
+    $js_splash_always = TRUE;
   }
 
-  /*
-   * If we are working with a url, we need to specify that url value here
-   */
-
-  $action_url = '';
-  $js_before = '';
-
+  // If we are working with a url, we need to specify that url value here.
+  $url = '';
+  $js_mode_settings = array();
   if ($what_mode == 'template' || $what_mode == 'fullscreen') {
-
-    // We need to redirect to the /splash page.
-    // Define the action url.
-    $js_before .= "var action_url = 'splash';";
+    // We need to redirect to the /splash page. Define the action url.
+    $js_mode_settings['url'] = 'splash';
   }
   elseif ($what_mode == 'sequence' || $what_mode == 'random') {
-
-    // We are working with url values in the What: Content field.
+    // We are working with url values in the "What: Content" field.
     $paths = preg_split('/[\n\r]+/', $what_content_value);
     if ($what_mode == 'sequence') {
-
       /*
        * Since we are using jStorage to store the last splash page that was
        * displayed, we need to create an array of the sequential url's and
@@ -198,85 +177,57 @@ function splashify_init() {
        * url)...all through JS.
        */
 
+      // We don't use this value in this case, so set it to empty.
+      $js_mode_settings['url'] = '';
 
       // Create the JS array of url values.
-      $js_before .= 'var what_urls = [];';
       $path_count = 0;
+
+      // This holds all of the url values in the correct order.
+      $js_mode_settings['urls'] = array();
+      $js_mode_settings['total_urls'] = count($paths);
       foreach ($paths as $path) {
-        $path = url(drupal_strip_dangerous_protocols(trim($path)));
-        $js_before .= "what_urls[{$path_count}] = '{$path}';";
-        $path_count++;
+        $js_mode_settings['urls'][] = url(drupal_strip_dangerous_protocols(trim($path)));
       }
-
-      // Default the new url index value to the first url.
-      $js_before .= "var new_url_index = 0;";
-
-      // Have we already loaded a splash page? If so, grab the index of
-      // that url.
-      $js_before .= "var last_url = $.jStorage.get('splashlasturl', '');";
-      $js_before .= "var last_url_index = what_urls.indexOf(last_url);";
-
-      // Make sure the last url index value is correct.
-      // If so, set the new index url to the [last index url] + 1.
-      $js_before .= "if(last_url_index > -1 && last_url_index+1 < {$path_count}) { new_url_index = last_url_index + 1; }";
-
-      // Define the action url.
-      $js_before .= "var action_url = what_urls[new_url_index];";
-
-      // Set the splash url used for this page, so we can display the correct
-      // splash on the next page load.
-      $js_before .= "$.jStorage.set('splashlasturl', action_url);";
     }
     elseif ($what_mode == 'random') {
-
       $next_index = array_rand($paths);
 
       // Define the action url.
-      $js_before = "var action_url = '" . url(drupal_strip_dangerous_protocols(trim($paths[$next_index]))) . "';";
+      $js_mode_settings['url'] = url(drupal_strip_dangerous_protocols(trim($paths[$next_index])));
     }
   }
 
-  /*
-   * Generate the JS code that should be executed when the splash page should
-   * show up.
-   */
-
+  // Define the last remaining JS variables we need to send.
   $size_action = $how_size ? explode('x', $how_size) : FALSE;
   $js_action = '';
+  $js_mode = '';
   if ($how_mode == 'redirect') {
-
     // Redirect to a different url.
-    $js_action = "{$js_before} window.location = action_url;";
+    $js_mode = 'redirect';
   }
   elseif ($how_mode == 'window') {
-
     // Open up a popup window.
-    $size_str = $size_action ? ', "width=' . $size_action[0] . ',height=' . $size_action[1] . '"' : '';
-    $js_action = "{$js_before} window.onload = function() { window.open(action_url, 'splash'{$size_str}); };";
+    $js_mode = 'window';
+    $js_mode_settings['size'] = $size_action ? 'width=' . $size_action[0] . ',height=' . $size_action[1] : '';
   }
   elseif ($how_mode == 'lightbox' && module_exists('colorbox')) {
+    // Display a ColorBox.
+    $js_mode = 'colorbox';
 
-    // Open up a lightbox.
-    $colorbox_settings = array();
-    $colorbox_settings['transition'] = "transition:'elastic'";
-    $colorbox_settings['iframe'] = "iframe:'true'";
-    $colorbox_settings['href'] = 'href:action_url';
-
-    // Set size.
+    // Get the size of the lightbox.
     if (count($size_action) > 1) {
-      $colorbox_settings['width'] = 'width:' . $size_action[0];
-      $colorbox_settings['height'] = 'height:' . $size_action[1];
+      $colorbox_width = $size_action[0];
+      $colorbox_height = $size_action[1];
     }
     else {
-      // The colorbox has strange behavior when we don't set the dimensions.
-      $colorbox_settings['width'] = 'width:800';
-      $colorbox_settings['height'] = 'height:600';
+      // Default size settings for the colorbox.
+      $colorbox_width = 800;
+      $colorbox_height = 600;
     }
 
-    $colorbox_load_string = implode(', ', $colorbox_settings);
-
-    // Generate the JS to load the colorbox after the page loads.
-    $js_action = '$(document).ready(function(){ ' . $js_before . ' $.colorbox({' . $colorbox_load_string . '}); });';
+    $js_mode_settings['size_width'] = $colorbox_width;
+    $js_mode_settings['size_height'] = $colorbox_height;
   }
   else {
     // Do nothing! This is a fail safe.
@@ -284,45 +235,29 @@ function splashify_init() {
   }
 
   /*
-   * Finally: Generate the JS that puts it all together!
+   * Finally: Include the JS that puts it all together!
    *
    * At this point the page passed all of the server side checks. We now
    * implement JS code that checks if the splash page should show up, based
-   * on when it last showed up.
+   * on when it last showed up. It then executes the JS action code, based
+   * on the specified settings.
    */
 
-  $splash_js = <<<EOD
-  (function ($) {
-    var splash = $.jStorage.get("splash");
-    var nowtimeSeconds = {$js_nowtime};
-    if(!splash || splash < nowtimeSeconds || {$js_splash_always}){
-      // Set when the splash variable should expire.
-      $.jStorage.set("splash", {$js_expiretime});
+  // Make our splash settings variables available to our JavaScript.
+  $js_settings = array(
+    'js_nowtime' => $js_nowtime,
+    'js_splash_always' => $js_splash_always ? '1' : '0',
+    'js_expiretime' => $js_expiretime,
+    'js_action' => $js_action,
+    'js_mode' => $js_mode,
+    'js_mode_settings' => $js_mode_settings,
+  );
+  drupal_add_js(array('splashify' => $js_settings), 'setting');
 
-      // Do the splash action.
-      {$js_action}
-    }
-  })(jQuery);
-EOD;
-
-  // Add jstorage (minified or not)
-  if (file_exists('sites/all/libraries/jstorage/jstorage.min.js')) {
-    $jstorage_file = 'sites/all/libraries/jstorage/jstorage.min.js';
-  }
-  else {
-    $jstorage_file = 'sites/all/libraries/jstorage/jstorage.js';
-  }
-
-  drupal_add_js($jstorage_file, array(
+  // Include the main JS file that does the heavy lifting.
+  $js_spotify_int = drupal_get_path('module', 'splashify') . '/js/spotify_init.js';
+  drupal_add_js($js_spotify_int, array(
     'type' => 'file',
-    'scope' => 'header',
-    'group' => JS_LIBRARY,
-    'weight' => 0,
-    'cache' => FALSE,
-  ));
-
-  drupal_add_js($splash_js, array(
-    'type' => 'inline',
     'scope' => 'header',
     'group' => JS_DEFAULT,
     'weight' => 5,

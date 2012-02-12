@@ -8,51 +8,26 @@
  * admin area. Most of these pages are just forms that use
  * system_settings_form() to store settings for splashify.
  */
-
+ 
 /**
  * "Splashify" settings tab.
  */
 function splashify_admin_main() {
-  return <<<EOD
-  <p>Access the tabs on this page to update the settings for this module.</p>
-  <p>This module was based on the Drupal 6 module <a href="http://drupal.org/project/splash" target="_blank">Splash</a>.
-  Instead of using cookies to determine when the splash page shows up, we use
-  <a href="http://www.jstorage.info/" target="_blank">jStorage</a>. This allows
-  us to not depend on cookies and provides support for other browsers. The big
-  benefit, however, is that this prevents search engines from indexing the
-  splash page in place of the correct page. The idea here is not to trick
-  Google, but to make sure the splash page is not indexed instead of the
-  correct page.</p>
-  <p>Below is a breakdown of the features of this module:</p>
-  <ul>
-    <li><strong>Mobile</strong>: When the <a href="http://drupal.org/project/mobile_tools" target="_blank">Mobile Tools</a>
-    module is installed, allows for settings to be set to create or prevent a
-    splash page on mobile devices. These settings are separate from the desktop
-    settings that can be defined.</li>
-    <li><strong>Search Engine Friendly</strong>: Instead of redirecting the
-    user from PHP, we redirect with JS. This prevents the redirect from
-    happening when search engine crawlers visit the page. And if JS is
-    disabled, the original page shows up and no redirect happens. So your
-    splash pages should not be indexed over the top of the page that should be
-    indexed!</li>
-    <li><strong>Scope</strong>: Allow the splash page to appear on any page of
-    your site. For example, you can have the splash page appear when someone
-    goes to an interior page (but the system prevents the splash page from
-    showing up again when they click another link within your site).</li>
-    <li><strong>Lightbox</strong>: Supports <a href="http://drupal.org/project/colorbox" target="_blank">ColorBox</a>
-    as the lightbox jQuery plugin.</li>
-  </ul>
-  <br />
-  <h2>What do we consider a splash page?</h2>
-  <p>We define a splash page as being content that shows up at a specified
-  interval, at a specified location, one time. If someone goes to a certain
-  page for the first time, we want to make sure the splash content shows up.
-  But if the person is coming from an internal link on the site, we don't want
-  the splash content to show up over and over again (otherwise, the splash page
-  would become a nuisance).</p>
-  <p>We determine how often the splash page should show up by what is defined
-  under the "When" tab.</p>
-EOD;
+  $output = '';
+  $output .= '<p>' . t('Take a look at the !splashify_help. You can also look at the !splashify_project to see a list of features.', array(
+    '!splashify_help' => l(t('Splashify Help Page'), 'admin/help/splashify'),
+    '!splashify_project' => l(t('Splashify Project Page'),
+      'http://drupal.org/sandbox/chrisroane/1423456', array(
+        'attributes' => array(
+          'target' => '_blank',
+        ),
+      )
+    ),
+  )) . '</p>';
+  
+  $output .= '<p>' . t('Use the tabs above to access the settings for this module.') . '</p>';
+  
+  return $output;
 }
 
 /**
@@ -62,7 +37,7 @@ function splashify_admin_when_form() {
   $form = array();
 
   $form['description'] = array(
-    '#markup' => '<p>When should the splash page show up?</p>',
+    '#markup' => '<p>' . t('When should the splash page show up?') . '</p>',
   );
 
   $form['desktop'] = array(
@@ -93,11 +68,21 @@ function splashify_admin_when_form() {
     $disable_mobile = FALSE;
   }
 
+  $mobiletools_link = t('In order to use this feature, you need to have the !mobiltools module enabled.', array(
+    '!mobiltools' => l(t('Mobile Tools'),
+      'http://drupal.org/project/mobile_tools', array(
+        'attributes' => array(
+          'target' => '_blank',
+        ),
+      )
+    ),
+  ));
+
   $form['mobile']['splashify_when_mobile'] = array(
     '#type' => 'checkbox',
-    '#title' => 'Enable Unique Mobile Splash',
+    '#title' => t('Enable Unique Mobile Splash'),
     '#default_value' => variable_get('splashify_when_mobile', 0),
-    '#description' => 'In order to use this feature, you need to have the <a href="http://drupal.org/project/mobile_tools" target="_blank">Mobile Tools</a> module enabled.',
+    '#description' => $mobiletools_link,
     '#disabled' => $disable_mobile,
   );
 
@@ -120,7 +105,7 @@ function splashify_admin_when_form() {
       '#type' => 'checkbox',
       '#title' => 'Test Mobile',
       '#default_value' => variable_get('splashify_when_mobile_test', 0),
-      '#description' => 'Turn this option on to force the mobile settings to take affect so you can test from your desktop browser.',
+      '#description' => t('Turn this option on to force the mobile settings to take affect so you can test from your desktop browser.'),
       '#disabled' => $disable_mobile,
     );
   }
@@ -135,27 +120,11 @@ function splashify_admin_where_form() {
   $form = array();
 
   // Add Javascript to handle the List Pages field.
-  $javascript = <<<EOD
-  jQuery(document).ready(function(){
-    if(jQuery("#edit-splashify-where-desktop-listpages").val() != '') {
-      jQuery("#desktop_listpages").show();
-    }
-
-    jQuery("input[name='splashify_where_desktop_page']").change(function(){
-      if(jQuery('#edit-splashify-where-desktop-page-list').is(':checked')){
-        jQuery("#desktop_listpages").show();
-      } else {
-        jQuery("#desktop_listpages").hide();
-        jQuery("#edit-splashify-where-desktop-listpages").val('');
-      }
-    });
-  });
-EOD;
-
-  drupal_add_js($javascript, array('type' => 'inline'));
-
+  $js_file = drupal_get_path('module', 'splashify') . '/js/spotify_admin_where.js';
+  drupal_add_js($js_file, 'file');
+  
   $form['description'] = array(
-    '#markup' => '<p>Where should the splash page come up?</p>',
+    '#markup' => '<p>' . t('Where should the splash page come up?') . '</p>',
   );
 
   $form['desktop'] = array(
@@ -224,7 +193,7 @@ EOD;
   }
   else {
     $form['mobile']['splashify_what_mobile_mode'] = array(
-      '#markup' => '<p>' . t('In order to specify mobile options, you need to enable the When: Enable Unique Mobile Splash option.') . '</p>',
+      '#markup' => '<p>' . t('In order to specify mobile options, you need to enable the "When: Enable Unique Mobile Splash" option.') . '</p>',
     );
   }
 
@@ -238,7 +207,7 @@ function splashify_admin_what_form() {
   $form = array();
 
   $form['description'] = array(
-    '#markup' => '<p>What should show up for the splash page?</p>',
+    '#markup' => '<p>' . t('What should show up for the splash page?') . '</p>',
   );
 
   $form['desktop'] = array(
@@ -299,7 +268,7 @@ function splashify_admin_what_form() {
   }
   else {
     $form['mobile']['splashify_what_mobile_mode'] = array(
-      '#markup' => '<p>' . t('In order to specify mobile options, you need to enable the When: Enable Unique Mobile Splash option.') . '</p>',
+      '#markup' => '<p>' . t('In order to specify mobile options, you need to enable the "When: Enable Unique Mobile Splash" option.') . '</p>',
     );
   }
 
@@ -313,7 +282,7 @@ function splashify_admin_how_form() {
   $form = array();
 
   $form['description'] = array(
-    '#markup' => '<p>How should the splash page come up?</p>',
+    '#markup' => '<p>' . t('How should the splash page come up?') . '</p>',
   );
 
   // Specify the display mode options for the splash page.
@@ -326,7 +295,7 @@ function splashify_admin_how_form() {
     $splashify_how_mode_options['lightbox'] = t('Open in a Lightbox (colorbox)');
   }
   else {
-    $colorbox_warning = t("In order to access the lightbox option, you need to have the !colorbox module installed.", array(
+    $colorbox_warning = t('In order to access the lightbox option, you need to have the !colorbox module installed.', array(
       '!colorbox' => l(t('Colorbox'),
         'http://drupal.org/project/colorbox', array(
           'attributes' => array(
@@ -336,7 +305,7 @@ function splashify_admin_how_form() {
       ),
     ));
 
-    drupal_set_message(filter_xss($colorbox_warning), 'warning');
+    drupal_set_message($colorbox_warning, 'warning');
   }
 
   $form['desktop'] = array(
@@ -405,7 +374,7 @@ function splashify_admin_how_form() {
   }
   else {
     $form['mobile']['splashify_how_mobile_mode'] = array(
-      '#markup' => '<p>' . t('In order to specify mobile options, you need to enable the When: Enable Unique Mobile Splash option.') . '</p>',
+      '#markup' => '<p>' . t('In order to specify mobile options, you need to enable the "When: Enable Unique Mobile Splash" option.') . '</p>',
     );
   }
 
