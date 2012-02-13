@@ -19,7 +19,7 @@ function splashify_init() {
 
   // Make sure the jStorage library is installed.
   if (!$library['installed']) {
-    drupal_set_message('In order for Splashify to work, the jStorage library needs to be installed. See the README.txt file for more information.', 'error');
+    drupal_set_message(t('In order for Splashify to work, the jStorage library needs to be installed. See the README.txt file for more information.'), 'error');
     return;
   }
 
@@ -111,7 +111,7 @@ function splashify_init() {
       $splash_display = TRUE;
     }
   }
-  
+
   // If we shouldn't display the splash, end the code here.
   if (!$splash_display) {
     return;
@@ -123,8 +123,6 @@ function splashify_init() {
    *
    * At this point, we know that $splash_display == TRUE.
    */
-
-  // Determine the time values.
 
   // Controls when the jStorage variable should expire next. In other words,
   // when should the splash page show up again?
@@ -303,9 +301,9 @@ function splashify_display_splashtext() {
  * is a mobile request or not.
  *
  * @return array
- *     Returns an associate array with the following keys: when_frequency,
- *     when_mobile_test, where_page, where_listpages, what_mode, what_content,
- *     what_content_value, how_mode, and how_size.
+ *   Returns an associate array with the following keys: when_frequency,
+ *   when_mobile_test, where_page, where_listpages, what_mode, what_content,
+ *   what_content_value, how_mode, and how_size.
  */
 function _splashify_get_config() {
   // This controls whether mobile is enabled or not.

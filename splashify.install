@@ -7,7 +7,7 @@
 
 /**
  * Implements hook_requirements().
- * 
+ *
  * Make sure the jStorage library is installed on the site.
  */
 function splashify_requirements($phase) {
@@ -46,7 +46,7 @@ function splashify_requirements($phase) {
 
   return $requirements;
 }
- 
+
 /**
  * Implements hook_uninstall().
  *

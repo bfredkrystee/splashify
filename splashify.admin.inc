@@ -8,7 +8,7 @@
  * admin area. Most of these pages are just forms that use
  * system_settings_form() to store settings for splashify.
  */
- 
+
 /**
  * "Splashify" settings tab.
  */
@@ -24,9 +24,9 @@ function splashify_admin_main() {
       )
     ),
   )) . '</p>';
-  
+
   $output .= '<p>' . t('Use the tabs above to access the settings for this module.') . '</p>';
-  
+
   return $output;
 }
 
@@ -122,7 +122,7 @@ function splashify_admin_where_form() {
   // Add Javascript to handle the List Pages field.
   $js_file = drupal_get_path('module', 'splashify') . '/js/spotify_admin_where.js';
   drupal_add_js($js_file, 'file');
-  
+
   $form['description'] = array(
     '#markup' => '<p>' . t('Where should the splash page come up?') . '</p>',
   );
