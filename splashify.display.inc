@@ -15,13 +15,13 @@
  */
 function splashify_init() {
   global $base_url;
-  
+
   // Require the Libraries module before going forward.
   if (!module_exists('libraries')) {
     drupal_set_message(t('Splashify: You need to have the Libraries module installed and enabled.'), 'error');
     return;
   }
-  
+
   // Make sure the jStorage library is installed.
   $library = libraries_load('jstorage', 'minified');
   if (!$library['installed']) {
