@@ -70,26 +70,20 @@ function splashify_admin_how_form($form, &$form_state) {
     $how_desktop_mode_set = variable_get('splashify_how_desktop_mode', '');
   }
 
+  $form['desktop']['mode_value']['begin'] = array('#markup' => '<div id="how-mode-desktop-size">', );
+
   // If they specified the redirect option, we want to hide the window size
   // text field.  
-  if ($how_desktop_mode_set == 'redirect'){
-    $form['desktop']['splashify_how_desktop_size'] = array(
-      '#type' => 'hidden',
-      '#prefix' => '<div id="how-mode-desktop-size">',
-      '#suffix' => '</div>',
-      '#value' => '',
-    );
-  }
-  else {
-    $form['desktop']['splashify_how_desktop_size'] = array(
+  if ($how_desktop_mode_set != 'redirect') {
+    $form['desktop']['mode_value']['splashify_how_desktop_size'] = array(
       '#type' => 'textfield',
-      '#prefix' => '<div id="how-mode-desktop-size">',
-      '#suffix' => '</div>',
       '#title' => t('Window/Box size'),
       '#default_value' => variable_get('splashify_how_desktop_size', ''),
       '#description' => t('Size (<code>WIDTHxHEIGHT</code>, e.g. 400x300) of the Window or Lightbox.'),
     );
   }
+
+  $form['desktop']['mode_value']['end'] = array('#markup' => '</div>', );
 
   $form['mobile'] = array(
     '#type' => 'fieldset',
@@ -104,25 +98,12 @@ function splashify_admin_how_form($form, &$form_state) {
       '#title' => t('Splash Display Mode'),
       '#options' => $splashify_how_mode_options,
       '#default_value' => variable_get('splashify_how_mobile_mode', 'redirect'),
-      '#description' => t('How should we load the splash page? Redirect, open in a new window or open in a lightbox. The disabled option prevents the splash from appearing.'),
-    );
+      '#description' => t('How should we load the splash page? Note: Redirect is currently the only option.'),
 
-    if (variable_get('splashify_how_mobile_mode', '') == 'redirect') {
-      // If they specified the redirect option, we want to hide the window
-      // size text field.
-      $form['mobile']['splashify_how_mobile_size'] = array(
-        '#type' => 'hidden',
-        '#value' => '',
-      );
-    }
-    else {
-      $form['mobile']['splashify_how_mobile_size'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Window/Box size'),
-        '#default_value' => variable_get('splashify_how_mobile_size', ''),
-        '#description' => t('Size (<code>WIDTHxHEIGHT</code>, e.g. 400x300) of the Window or Lightbox.'),
-      );
-    }
+      // For the time being, the only option we are allowing for mobile
+      // devices is "redirect".
+      '#disabled' => TRUE,
+    );
   }
   else {
     $form['mobile']['splashify_how_mobile_mode'] = array(
@@ -137,5 +118,5 @@ function splashify_admin_how_form($form, &$form_state) {
  * Ajax callback for the desktop mode dropdown.
  */
 function ajax_splashify_how_desktop_mode_callback($form, &$form_state) {
-  return $form['desktop']['splashify_how_desktop_size'];
+  return $form['desktop']['mode_value'];
 }
