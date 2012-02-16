@@ -46,14 +46,8 @@ function splashify_admin_when_form($form, &$form_state) {
     $disable_mobile = FALSE;
   }
 
-  $mobiletools_link = t('In order to use this feature, you need to have the !mobiltools module enabled.', array(
-    '!mobiltools' => l(t('Mobile Tools'),
-      'http://drupal.org/project/mobile_tools', array(
-        'attributes' => array(
-          'target' => '_blank',
-        ),
-      )
-    ),
+  $mobiletools_link = t('In order to use this feature, you need to have the <a href="@mobiltools" target="_blank">Mobile Tools</a> module enabled.', array(
+    '@mobiltools' => 'http://drupal.org/project/mobile_tools',
   ));
 
   $form['mobile']['splashify_when_mobile'] = array(
@@ -98,7 +92,7 @@ function splashify_admin_when_form($form, &$form_state) {
 
     $form['mobile']['options']['splashify_when_mobile_test'] = array(
       '#type' => 'checkbox',
-      '#title' => 'Test Mobile',
+      '#title' => t('Test Mobile'),
       '#default_value' => variable_get('splashify_when_mobile_test', 0),
       '#description' => t('Turn this option on to force the mobile settings to take affect so you can test from your desktop browser.'),
     );

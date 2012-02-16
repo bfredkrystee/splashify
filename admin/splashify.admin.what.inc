@@ -68,7 +68,7 @@ function splashify_admin_what_form($form, &$form_state) {
     );
 
     // If the template mode is selected, allow them to set a page title value.
-    if($what_desktop_mode_set == 'template') {
+    if ($what_desktop_mode_set == 'template') {
       $form['desktop']['mode_value']['splashify_what_desktop_pagetitle'] = array(
         '#type' => 'textfield',
         '#title' => t('Page Title'),
@@ -86,11 +86,9 @@ function splashify_admin_what_form($form, &$form_state) {
     // Display a textarea field
     $form['desktop']['mode_value']['splashify_what_desktop_content'] = array(
       '#type' => 'textarea',
-      '#prefix' => '<div id="what-mode-desktop-value">',
-      '#suffix' => '</div>',
       '#title' => t('Paths or Url Values'),
       '#default_value' => $splashify_what_desktop_content,
-      '#description' => t('Enter the site paths or URLs (one on each line) to use.  To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
+      '#description' => t('Enter the site paths or URLs (one on each line) to use. To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
     );
   }
 
@@ -152,10 +150,9 @@ function splashify_admin_what_form($form, &$form_state) {
       );
 
       // If the template mode is selected, allow them to set a page title value.
-      if($what_mobile_mode_set == 'template') {
+      if ($what_mobile_mode_set == 'template') {
         $form['mobile']['mode_value']['splashify_what_mobile_pagetitle'] = array(
           '#type' => 'textfield',
-          '#suffix' => '</div>',
           '#title' => t('Page Title'),
           '#default_value' => variable_get('splashify_what_mobile_pagetitle', ''),
         );
@@ -171,11 +168,9 @@ function splashify_admin_what_form($form, &$form_state) {
       // Display a textarea field
       $form['mobile']['mode_value']['splashify_what_mobile_content'] = array(
         '#type' => 'textarea',
-        '#prefix' => '<div id="what-mode-desktop-value">',
-        '#suffix' => '</div>',
         '#title' => t('Paths or Url Values'),
         '#default_value' => $splashify_what_mobile_content,
-        '#description' => t('Enter the site paths or URLs (one on each line) to use.  To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
+        '#description' => t('Enter the site paths or URLs (one on each line) to use. To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
       );
     }
 

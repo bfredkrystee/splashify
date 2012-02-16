@@ -292,7 +292,7 @@ function splashify_display_splashtext() {
 
   if ($what_mode == 'template') {
     // Display what they entered in the field in the site template.
-    if(!empty($what_content_title)) {
+    if (!empty($what_content_title)) {
       drupal_set_title($what_content_title);
     }
 
@@ -361,13 +361,16 @@ function _splashify_get_config() {
     $how_size = variable_get('splashify_how_desktop_size', '');
   }
 
+  // This is a textarea field, so make sure this value is safe.
+  $where_listpages = check_plain($where_listpages);
+
   if (is_array($what_content)) {
     // We are dealing with a text_format field.
-    $what_content_value = $what_content['value'];
+    $what_content_value = filter_xss($what_content['value']);
   }
-  else if (isset($what_content)) {
+  elseif (isset($what_content)) {
     // We are dealing with a textarea field.
-    $what_content_value = $what_content;
+    $what_content_value = check_plain($what_content);
   }
   else {
     $what_content_value = '';

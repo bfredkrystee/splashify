@@ -28,14 +28,8 @@ function splashify_admin_how_form($form, &$form_state) {
     $splashify_how_mode_options['lightbox'] = t('Open in a Lightbox (colorbox)');
   }
   else {
-    $colorbox_warning = t('In order to access the lightbox option, you need to have the !colorbox module installed.', array(
-      '!colorbox' => l(t('Colorbox'),
-        'http://drupal.org/project/colorbox', array(
-          'attributes' => array(
-            'target' => '_blank',
-          ),
-        )
-      ),
+    $colorbox_warning = t('In order to access the lightbox option, you need to have the <a href="@colorbox" target="_blank">Colorbox</a> module installed.', array(
+      '@colorbox' => 'http://drupal.org/project/colorbox',
     ));
 
     drupal_set_message($colorbox_warning, 'warning');
@@ -73,7 +67,7 @@ function splashify_admin_how_form($form, &$form_state) {
   $form['desktop']['mode_value']['begin'] = array('#markup' => '<div id="how-mode-desktop-size">', );
 
   // If they specified the redirect option, we want to hide the window size
-  // text field.  
+  // text field.
   if ($how_desktop_mode_set != 'redirect') {
     $form['desktop']['mode_value']['splashify_how_desktop_size'] = array(
       '#type' => 'textfield',

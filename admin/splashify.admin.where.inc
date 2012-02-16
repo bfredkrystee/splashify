@@ -51,7 +51,7 @@ function splashify_admin_where_form($form, &$form_state) {
 
   // If they specified the redirect option, we want to hide the window size
   // text field.
-  if ($where_desktop_list_set == 'list'){
+  if ($where_desktop_list_set == 'list') {
     $form['desktop']['options']['splashify_where_desktop_listpages'] = array(
       '#type' => 'textarea',
       '#title' => t('List Pages'),
@@ -93,7 +93,7 @@ function splashify_admin_where_form($form, &$form_state) {
 
     $form['mobile']['options']['begin'] = array('#markup' => '<div id="where-mobile-page-value">', );
 
-    if ($where_mobile_list_set == 'list'){
+    if ($where_mobile_list_set == 'list') {
       $form['mobile']['options']['splashify_where_mobile_listpages'] = array(
         '#type' => 'textarea',
         '#title' => t('List Pages'),
