@@ -280,17 +280,22 @@ function splashify_init() {
 function splashify_display_splashtext() {
   $config = _splashify_get_config();
 
-  $when_frequency     = $config['when_frequency'];
-  $where_page         = $config['where_page'];
-  $where_listpages    = $config['where_listpages'];
-  $what_mode          = $config['what_mode'];
-  $what_content       = $config['what_content'];
+  $when_frequency = $config['when_frequency'];
+  $where_page = $config['where_page'];
+  $where_listpages = $config['where_listpages'];
+  $what_mode = $config['what_mode'];
+  $what_content = $config['what_content'];
   $what_content_value = $config['what_content_value'];
-  $how_mode           = $config['how_mode'];
-  $how_size           = $config['how_size'];
+  $what_content_title = $config['what_content_title'];
+  $how_mode = $config['how_mode'];
+  $how_size = $config['how_size'];
 
   if ($what_mode == 'template') {
     // Display what they entered in the field in the site template.
+    if(!empty($what_content_title)) {
+      drupal_set_title($what_content_title);
+    }
+
     return $what_content_value;
   }
   elseif ($what_mode == 'fullscreen') {
@@ -334,30 +339,36 @@ function _splashify_get_config() {
       $do_mobile = TRUE;
 
       // Get the mobile admin settings.
-      $when_frequency  = variable_get('splashify_when_mobile_frequency', 'never');
-      $where_page      = variable_get('splashify_where_mobile_page', 'home');
+      $when_frequency = variable_get('splashify_when_mobile_frequency', 'never');
+      $where_page = variable_get('splashify_where_mobile_page', 'home');
       $where_listpages = variable_get('splashify_where_mobile_listpages', '');
-      $what_mode       = variable_get('splashify_what_mobile_mode', 'random');
-      $what_content    = variable_get('splashify_what_mobile_content', '');
-      $how_mode        = variable_get('splashify_how_mobile_mode', 'redirect');
-      $how_size        = variable_get('splashify_how_mobile_size', '');
+      $what_mode = variable_get('splashify_what_mobile_mode', 'random');
+      $what_content = variable_get('splashify_what_mobile_content', '');
+      $what_content_title = '';
+      $how_mode = variable_get('splashify_how_mobile_mode', 'redirect');
+      $how_size = variable_get('splashify_how_mobile_size', '');
     }
   }
 
   if (!$do_mobile) {
     // Get the desktop admin settings.
-    $when_frequency  = variable_get('splashify_when_desktop_frequency', 'never');
-    $where_page      = variable_get('splashify_where_desktop_page', 'home');
+    $when_frequency = variable_get('splashify_when_desktop_frequency', 'never');
+    $where_page = variable_get('splashify_where_desktop_page', 'home');
     $where_listpages = variable_get('splashify_where_desktop_listpages', '');
-    $what_mode       = variable_get('splashify_what_desktop_mode', 'random');
-    $what_content    = variable_get('splashify_what_desktop_content', '');
-    $how_mode        = variable_get('splashify_how_desktop_mode', 'redirect');
-    $how_size        = variable_get('splashify_how_desktop_size', '');
+    $what_mode = variable_get('splashify_what_desktop_mode', 'random');
+    $what_content = variable_get('splashify_what_desktop_content', '');
+    $what_content_title = variable_get('splashify_what_desktop_pagetitle', '');
+    $how_mode = variable_get('splashify_how_desktop_mode', 'redirect');
+    $how_size = variable_get('splashify_how_desktop_size', '');
   }
 
-  // $what_content is a text_format field. Get the value.
   if (is_array($what_content)) {
+    // We are dealing with a text_format field.
     $what_content_value = $what_content['value'];
+  }
+  else if (isset($what_content)) {
+    // We are dealing with a textarea field.
+    $what_content_value = $what_content;
   }
   else {
     $what_content_value = '';
@@ -371,6 +382,7 @@ function _splashify_get_config() {
     'what_mode' => $what_mode,
     'what_content' => $what_content,
     'what_content_value' => $what_content_value,
+    'what_content_title' => $what_content_title,
     'how_mode' => $how_mode,
     'how_size' => $how_size,
   );
