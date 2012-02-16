@@ -43,14 +43,14 @@ function splashify_init() {
 
   $config = _splashify_get_config();
 
-  $when_frequency     = $config['when_frequency'];
-  $where_page         = $config['where_page'];
-  $where_listpages    = $config['where_listpages'];
-  $what_mode          = $config['what_mode'];
-  $what_content       = $config['what_content'];
+  $when_frequency = $config['when_frequency'];
+  $where_page = $config['where_page'];
+  $where_listpages = $config['where_listpages'];
+  $what_mode = $config['what_mode'];
+  $what_content = $config['what_content'];
   $what_content_value = $config['what_content_value'];
-  $how_mode           = $config['how_mode'];
-  $how_size           = $config['how_size'];
+  $how_mode = $config['how_mode'];
+  $how_size = $config['how_size'];
 
 
   /*
@@ -343,7 +343,7 @@ function _splashify_get_config() {
       $where_listpages = variable_get('splashify_where_mobile_listpages', '');
       $what_mode = variable_get('splashify_what_mobile_mode', 'random');
       $what_content = variable_get('splashify_what_mobile_content', '');
-      $what_content_title = '';
+      $what_content_title = variable_get('splashify_what_mobile_pagetitle', '');
       $how_mode = variable_get('splashify_how_mobile_mode', 'redirect');
       $how_size = variable_get('splashify_how_mobile_size', '');
     }

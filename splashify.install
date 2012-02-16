@@ -70,6 +70,7 @@ function splashify_uninstall() {
   variable_del('splashify_where_mobile_listpages');
   variable_del('splashify_what_mobile_mode');
   variable_del('splashify_what_mobile_content');
+  variable_del('splashify_what_mobile_pagetitle');
   variable_del('splashify_how_mobile_mode');
   variable_del('splashify_how_mobile_size');
 }

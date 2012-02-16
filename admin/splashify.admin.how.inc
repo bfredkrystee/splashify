@@ -57,7 +57,7 @@ function splashify_admin_how_form($form, &$form_state) {
       'callback' => 'ajax_splashify_how_desktop_mode_callback',
       'wrapper' => 'how-mode-desktop-size',
       'method' => 'replace',
-      'effect' => 'fade',
+      'effect' => 'slide',
     ),
   );
 
