@@ -14,10 +14,6 @@
 function splashify_admin_where_form($form, &$form_state) {
   $form = array();
 
-  // Add Javascript to handle the List Pages field.
-  //$js_file = drupal_get_path('module', 'splashify') . '/js/spotify_admin_where.js';
-  //drupal_add_js($js_file, 'file');
-
   $form['description'] = array(
     '#markup' => '<p>' . t('Where should the splash page come up?') . '</p>',
   );
