@@ -326,8 +326,7 @@ function _splashify_get_config() {
 
   // If this admin setting is true, force the system to use the mobile
   // settings.
-  $when_mobile_test = variable_get('splashify_when_mobile_test', 0);
-  $force_mobile = ($when_mobile_test == 0) ? FALSE : TRUE;
+  $force_mobile = variable_get('splashify_when_mobile_test', FALSE);
 
   if (!empty($is_mobile_enabled) && module_exists('mobile_tools')) {
 
@@ -376,7 +375,7 @@ function _splashify_get_config() {
 
   return array(
     'when_frequency' => $when_frequency,
-    'when_mobile_test' => $when_mobile_test,
+    'when_mobile_test' => $force_mobile,
     'where_page' => $where_page,
     'where_listpages' => $where_listpages,
     'what_mode' => $what_mode,
