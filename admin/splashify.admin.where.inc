@@ -11,12 +11,12 @@
  /**
  * "Where" settings tab.
  */
-function splashify_admin_where_form() {
+function splashify_admin_where_form($form, &$form_state) {
   $form = array();
 
   // Add Javascript to handle the List Pages field.
-  $js_file = drupal_get_path('module', 'splashify') . '/js/spotify_admin_where.js';
-  drupal_add_js($js_file, 'file');
+  //$js_file = drupal_get_path('module', 'splashify') . '/js/spotify_admin_where.js';
+  //drupal_add_js($js_file, 'file');
 
   $form['description'] = array(
     '#markup' => '<p>' . t('Where should the splash page come up?') . '</p>',
@@ -29,20 +29,48 @@ function splashify_admin_where_form() {
 
   $page_options = array('home' => t('Front Page'), 'all' => t('All Pages'), 'list' => t('List Pages'));
   $form['desktop']['splashify_where_desktop_page'] = array(
-    '#type' => 'radios',
+    '#type' => 'select',
     '#title' => t('Specify where the splash page should show up:'),
     '#default_value' => variable_get('splashify_where_desktop_page', 'home'),
     '#options' => $page_options,
+    '#description' => t('Define where the splash page should show up.'),
+    '#ajax' => array(
+      'callback' => 'ajax_splashify_where_desktop_page_callback',
+      'wrapper' => 'where-desktop-page-value',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
   );
 
-  $form['desktop']['splashify_where_desktop_listpages'] = array(
-    '#prefix' => '<div id="desktop_listpages" style="display:none">',
-    '#suffix' => '</div>',
-    '#type' => 'textarea',
-    '#title' => t('List Pages'),
-    '#default_value' => variable_get('splashify_where_desktop_listpages', ''),
-    '#description' => t('Enter the paths of the pages where you want the splash to show up (one per line). Do not use the alias for the page. Example: node/12'),
-  );
+  // Set a variable that is either defined by the selection from the ajax
+  // radio buttons, or a previously saved value.
+  if (isset($form_state['values']['splashify_where_desktop_page'])) {
+    $where_desktop_list_set = $form_state['values']['splashify_where_desktop_page'];
+  }
+  else {
+    $where_desktop_list_set = variable_get('splashify_where_desktop_page', '');
+  }
+
+  // If they specified the redirect option, we want to hide the window size
+  // text field.
+  if ($where_desktop_list_set != 'list'){
+    $form['desktop']['splashify_where_desktop_listpages'] = array(
+      '#type' => 'hidden',
+      '#prefix' => '<div id="where-desktop-page-value"',
+      '#suffix' => '</div>',
+      '#value' => '',
+    );
+  }
+  else {
+    $form['desktop']['splashify_where_desktop_listpages'] = array(
+      '#type' => 'textarea',
+      '#prefix' => '<div id="where-desktop-page-value"',
+      '#suffix' => '</div>',
+      '#title' => t('List Pages'),
+      '#default_value' => variable_get('splashify_where_desktop_listpages', ''),
+      '#description' => t('Enter the paths of the pages where you want the splash to show up (one per line). Do not use the alias for the page. Example: node/12'),
+    );
+  }
 
   $form['mobile'] = array(
     '#type' => 'fieldset',
@@ -93,4 +121,11 @@ EOD;
   }
 
   return system_settings_form($form);
+}
+
+/**
+ * Ajax callback for the "which page" radio buttons.
+ */
+function ajax_splashify_where_desktop_page_callback($form, &$form_state) {
+  return $form['desktop']['splashify_where_desktop_listpages'];
 }

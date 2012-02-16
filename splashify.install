@@ -59,6 +59,7 @@ function splashify_uninstall() {
   variable_del('splashify_where_desktop_listpages');
   variable_del('splashify_what_desktop_mode');
   variable_del('splashify_what_desktop_content');
+  variable_del('splashify_what_desktop_pagetitle');
   variable_del('splashify_how_desktop_mode');
   variable_del('splashify_how_desktop_size');
 
