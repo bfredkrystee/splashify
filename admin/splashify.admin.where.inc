@@ -23,7 +23,12 @@ function splashify_admin_where_form($form, &$form_state) {
     '#title' => t('Desktop Settings'),
   );
 
-  $page_options = array('home' => t('Front Page'), 'all' => t('All Pages'), 'list' => t('List Pages'));
+  $page_options = array(
+    'home' => t('Front Page'), 
+    'all' => t('All Pages'), 
+    'list' => t('List Pages')
+  );
+  
   $form['desktop']['splashify_where_desktop_page'] = array(
     '#type' => 'select',
     '#title' => t('Specify where the splash page should show up:'),
@@ -123,9 +128,11 @@ function splashify_admin_where_form_submit($form, &$form_state) {
     variable_set('splashify_where_desktop_listpages', '');
   }
 
-  if ($form_state['values']['splashify_where_mobile_page']  != 'list') {
-    // Unset the listpages variable (mobile), if the list pages option is not set.
-    variable_set('splashify_where_mobile_listpages', '');
+  if (isset($form_state['values']['splashify_where_mobile_page'])) {
+    if ($form_state['values']['splashify_where_mobile_page']  != 'list') {
+      // Unset the listpages variable (mobile), if the list pages option is not set.
+      variable_set('splashify_where_mobile_listpages', '');
+    }
   }
 }
 

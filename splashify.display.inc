@@ -16,18 +16,8 @@
 function splashify_init() {
   global $base_url;
 
-  // Require the Libraries module before going forward.
-  if (!module_exists('libraries')) {
-    drupal_set_message(t('Splashify: You need to have the Libraries module installed and enabled.'), 'error');
-    return;
-  }
-
-  // Make sure the jStorage library is installed.
+  // Load the jStorage library.
   $library = libraries_load('jstorage', 'minified');
-  if (!$library['installed']) {
-    drupal_set_message(t('In order for Splashify to work, the jStorage library needs to be installed. See the README.txt file for more information.'), 'error');
-    return;
-  }
 
   // If this is the cron script or drush, do not run the splashify code.
   $drush_check = (function_exists('drush_verify_cli') && call_user_func('drush_verify_cli')) ? TRUE : FALSE;
@@ -65,27 +55,31 @@ function splashify_init() {
   }
 
   $splash_correct_page = FALSE;
-  if ($where_page == 'all') {
-    // Display on all pages.
-    $splash_correct_page = TRUE;
-  }
-  elseif ($where_page == 'home') {
-    // Display on the home page.
-    if ($_GET['q'] == drupal_get_normal_path(variable_get('site_frontpage', 'node'))) {
+  switch ($where_page) {
+    case 'all':
+      // Display on all pages.
       $splash_correct_page = TRUE;
-    }
-  }
-  elseif ($where_page == 'list') {
-    // Display the splash on the provided list of pages. Loop through the
-    // paths.
-    $list_paths = preg_split('/[\n\r]+/', $where_listpages);
-    foreach ($list_paths as $list_path) {
-      $list_path = trim($list_path);
-      if ($list_path == $_GET['q']) {
+      break;
+  
+    case 'home':
+      // Display on the home page.
+      if ($_GET['q'] == drupal_get_normal_path(variable_get('site_frontpage', 'node'))) {
         $splash_correct_page = TRUE;
-        break;
       }
-    }
+      break;
+  
+    case 'list':
+      // Display the splash on the provided list of pages. Loop through the
+      // paths.
+      $list_paths = preg_split('/[\n\r]+/', $where_listpages);
+      foreach ($list_paths as $list_path) {
+        $list_path = trim($list_path);
+        if ($list_path == $_GET['q']) {
+          $splash_correct_page = TRUE;
+          break;
+        }
+      }
+      break;
   }
 
   /*
@@ -141,26 +135,31 @@ function splashify_init() {
   // This variable is a way to always show the splash in the JS.
   $js_splash_always = FALSE;
 
-  // Once.
-  if ($when_frequency == 'once') {
-    // Set to expire in one year.
-    $js_expiretime = time() + (365 * 24 * 60 * 60);
+  if ($_GET['splash'] == 'on') {
+    $when_frequency = 'always';
   }
-  // Every Day.
-  elseif ($when_frequency == 'daily') {
-    // Set to expire in 24 hours.
-    $js_expiretime = time() + (24 * 60 * 60);
-  }
-  // Next Week.
-  elseif ($when_frequency == 'weekly') {
-    // Set to expire in 7 days.
-    $js_expiretime = time() + (7 * 24 * 60 * 60);
-  }
-  // Never Expire.
-  elseif ($when_frequency == 'always' || $_GET['splash'] == 'on') {
-    // This should make the splash always show up.
-    $js_expiretime = time();
-    $js_splash_always = TRUE;
+  
+  switch ($when_frequency) {
+    case 'once':
+      // Set to expire in one year.
+      $js_expiretime = time() + (365 * 24 * 60 * 60);
+      break;
+  
+    case 'daily':
+      // Set to expire in 24 hours.
+      $js_expiretime = time() + (24 * 60 * 60);
+      break;
+  
+    case 'weekly':
+      // Set to expire in 7 days.
+      $js_expiretime = time() + (7 * 24 * 60 * 60);
+      break;
+  
+    case 'always':
+      // This should make the splash always show up.
+      $js_expiretime = time();
+      $js_splash_always = TRUE;
+      break;
   }
 
   // If we are working with a url, we need to specify that url value here.
@@ -191,14 +190,14 @@ function splashify_init() {
       $js_mode_settings['urls'] = array();
       $js_mode_settings['total_urls'] = count($paths);
       foreach ($paths as $path) {
-        $js_mode_settings['urls'][] = url(drupal_strip_dangerous_protocols(trim($path)));
+        $js_mode_settings['urls'][] = url(trim($path));
       }
     }
     elseif ($what_mode == 'random') {
       $next_index = array_rand($paths);
 
       // Define the action url.
-      $js_mode_settings['url'] = url(drupal_strip_dangerous_protocols(trim($paths[$next_index])));
+      $js_mode_settings['url'] = url(trim($paths[$next_index]));
     }
   }
 
