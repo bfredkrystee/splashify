@@ -24,11 +24,11 @@ function splashify_admin_where_form($form, &$form_state) {
   );
 
   $page_options = array(
-    'home' => t('Front Page'), 
-    'all' => t('All Pages'), 
+    'home' => t('Front Page'),
+    'all' => t('All Pages'),
     'list' => t('List Pages')
   );
-  
+
   $form['desktop']['splashify_where_desktop_page'] = array(
     '#type' => 'select',
     '#title' => t('Specify where the splash page should show up:'),

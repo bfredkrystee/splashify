@@ -60,14 +60,14 @@ function splashify_init() {
       // Display on all pages.
       $splash_correct_page = TRUE;
       break;
-  
+
     case 'home':
       // Display on the home page.
       if ($_GET['q'] == drupal_get_normal_path(variable_get('site_frontpage', 'node'))) {
         $splash_correct_page = TRUE;
       }
       break;
-  
+
     case 'list':
       // Display the splash on the provided list of pages. Loop through the
       // paths.
@@ -86,7 +86,7 @@ function splashify_init() {
    * Goes through the main server side checks to see if we should show the
    * splash page.
    */
-  
+
   if (empty($what_content_value)) {
     // The What: Content field is not specified.
     $splash_display = FALSE;
@@ -111,7 +111,7 @@ function splashify_init() {
       $splash_display = TRUE;
     }
   }
-  
+
   // If we shouldn't display the splash, end the code here.
   if (!$splash_display) {
     return;
@@ -137,23 +137,23 @@ function splashify_init() {
   if ($_GET['splash'] == 'on') {
     $when_frequency = 'always';
   }
-  
+
   switch ($when_frequency) {
     case 'once':
       // Set to expire in one year.
       $js_expiretime = time() + (365 * 24 * 60 * 60);
       break;
-  
+
     case 'daily':
       // Set to expire in 24 hours.
       $js_expiretime = time() + (24 * 60 * 60);
       break;
-  
+
     case 'weekly':
       // Set to expire in 7 days.
       $js_expiretime = time() + (7 * 24 * 60 * 60);
       break;
-  
+
     case 'always':
       // This should make the splash always show up.
       $js_expiretime = time();
