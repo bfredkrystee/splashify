@@ -1,4 +1,19 @@
 
+2012-02-17
+-----------
+Fixed an issue with the sequential option when using the lightbox. It was
+hitting the JS code in the drupal.behaviours attach twice. Wrapped all of
+the JS code in a .load to prevent this from happening.
+
+Did some testing with caching the JS and testing to see if modifying the
+drupal cache settings break the splash page. Discovered that setting "Cache
+pages for anonymous users" would break the splash functionality. But
+aggregating the JS code did not break the splash page.
+
+2012-02-16
+-----------
+Refactored the admin area to use AJAX for showing certain fields.
+
 2012-02-12
 -----------
 Issue #1425392 by klausi: Re-worked the JS and applied some major changes

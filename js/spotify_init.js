@@ -2,35 +2,34 @@
 
   Drupal.behaviors.splashify = {
     attach: function (context, settings){
+      $(window).load(function(){
+        var splash = $.jStorage.get("splash");
+        var nowtimeSeconds = settings.splashify.js_nowtime;
+        var splashalways = settings.splashify.js_splash_always;
+        if(!splash || splash < nowtimeSeconds || splashalways=='1'){
+          // Set when the splash variable should expire.
+          $.jStorage.set("splash", settings.splashify.js_expiretime);
 
-      var splash = $.jStorage.get("splash");
-      var nowtimeSeconds = settings.splashify.js_nowtime;
-      var splashalways = settings.splashify.js_splash_always;
-      if(!splash || splash < nowtimeSeconds || splashalways=='1'){
-        // Set when the splash variable should expire.
-        $.jStorage.set("splash", settings.splashify.js_expiretime);
+          // If we are displaying each splash page in sequence, we need to
+          // determine the next url.
+          if(settings.splashify.js_mode_settings.urls){
+            var new_url_index = 0;
+            var last_url = $.jStorage.get('splashlasturl', '');
+            var what_urls = settings.splashify.js_mode_settings.urls;
+            var last_url_index = what_urls.indexOf(last_url);
+            if(last_url_index > -1 && last_url_index+1 < settings.splashify.js_mode_settings.total_urls){
+              new_url_index = last_url_index + 1;
+            }
+            var url = what_urls[new_url_index];
+            $.jStorage.set('splashlasturl', url);
 
-        // If we are displaying each splash page in sequence, we need to
-        // determine the next url.
-        if(settings.splashify.js_mode_settings.urls){
-          var new_url_index = 0;
-          var last_url = $.jStorage.get('splashlasturl', '');
-          var what_urls = settings.splashify.js_mode_settings.urls;
-          var last_url_index = what_urls.indexOf(last_url);
-          if(last_url_index > -1 && last_url_index+1 < settings.splashify.js_mode_settings.total_urls){
-            new_url_index = last_url_index + 1;
+            // We have the correct url, now set the main url value.
+            settings.splashify.js_mode_settings.url = url;
           }
-          var url = what_urls[new_url_index];
-          $.jStorage.set('splashlasturl', url);
 
-          // We have the correct url, now set the main url value.
-          settings.splashify.js_mode_settings.url = url;
-        }
-
-        // Do the splash action.
-        if(settings.splashify.js_mode == 'colorbox'){
-          // Open a ColorBox
-          $(window).load(function(){
+          // Do the splash action.
+          if(settings.splashify.js_mode == 'colorbox'){
+            // Open a ColorBox
             $.colorbox({
               transition:'elastic',
               iframe:'true',
@@ -38,18 +37,15 @@
               width:settings.splashify.js_mode_settings.size_width,
               height:settings.splashify.js_mode_settings.size_height
             });
-          });
-        } else if(settings.splashify.js_mode == 'redirect'){
-          // Redirect
-          window.location.replace(settings.splashify.js_mode_settings.url);
-        } else if(settings.splashify.js_mode == 'window'){
-          // Open a popup window
-          $(window).load(function(){
+          } else if(settings.splashify.js_mode == 'redirect'){
+            // Redirect
+            window.location.replace(settings.splashify.js_mode_settings.url);
+          } else if(settings.splashify.js_mode == 'window'){
+            // Open a popup window
             window.open(settings.splashify.js_mode_settings.url, 'splash', settings.splashify.js_mode_settings.size);
-          });
+          }
         }
-      }
-
+      });
     }
   };
 

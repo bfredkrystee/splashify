@@ -86,7 +86,7 @@ function splashify_init() {
    * Goes through the main server side checks to see if we should show the
    * splash page.
    */
-
+  
   if (empty($what_content_value)) {
     // The What: Content field is not specified.
     $splash_display = FALSE;
@@ -111,12 +111,11 @@ function splashify_init() {
       $splash_display = TRUE;
     }
   }
-
+  
   // If we shouldn't display the splash, end the code here.
   if (!$splash_display) {
     return;
   }
-
 
   /*
    * Step #3: Display the Splash Page
@@ -170,8 +169,7 @@ function splashify_init() {
     $js_mode_settings['url'] = 'splash';
   }
   elseif ($what_mode == 'sequence' || $what_mode == 'random') {
-    // We are working with url values in the "What: Content" field.
-    $paths = preg_split('/[\n\r]+/', $what_content_value);
+    $what_paths = preg_split('/[\n\r]+/', $what_content_value);
     if ($what_mode == 'sequence') {
       /*
        * Since we are using jStorage to store the last splash page that was
@@ -188,22 +186,21 @@ function splashify_init() {
 
       // This holds all of the url values in the correct order.
       $js_mode_settings['urls'] = array();
-      $js_mode_settings['total_urls'] = count($paths);
-      foreach ($paths as $path) {
+      $js_mode_settings['total_urls'] = count($what_paths);
+      foreach ($what_paths as $path) {
         $js_mode_settings['urls'][] = url(trim($path));
       }
     }
     elseif ($what_mode == 'random') {
-      $next_index = array_rand($paths);
+      $next_index = array_rand($what_paths);
 
       // Define the action url.
-      $js_mode_settings['url'] = url(trim($paths[$next_index]));
+      $js_mode_settings['url'] = url(trim($what_paths[$next_index]));
     }
   }
 
   // Define the last remaining JS variables we need to send.
   $size_action = $how_size ? explode('x', $how_size) : FALSE;
-  $js_action = '';
   $js_mode = '';
   if ($how_mode == 'redirect') {
     // Redirect to a different url.
@@ -237,6 +234,7 @@ function splashify_init() {
     return;
   }
 
+
   /*
    * Finally: Include the JS that puts it all together!
    *
@@ -251,10 +249,10 @@ function splashify_init() {
     'js_nowtime' => $js_nowtime,
     'js_splash_always' => $js_splash_always ? '1' : '0',
     'js_expiretime' => $js_expiretime,
-    'js_action' => $js_action,
     'js_mode' => $js_mode,
     'js_mode_settings' => $js_mode_settings,
   );
+
   drupal_add_js(array('splashify' => $js_settings), 'setting');
 
   // Include the main JS file that does the heavy lifting.
@@ -264,7 +262,7 @@ function splashify_init() {
     'scope' => 'header',
     'group' => JS_DEFAULT,
     'weight' => 5,
-    'cache' => FALSE,
+    'cache' => TRUE,
   ));
 }
 
