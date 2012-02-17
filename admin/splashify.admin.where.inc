@@ -8,7 +8,7 @@
  * on the website.
  */
 
- /**
+/**
  * "Where" settings tab.
  */
 function splashify_admin_where_form($form, &$form_state) {
@@ -26,7 +26,7 @@ function splashify_admin_where_form($form, &$form_state) {
   $page_options = array(
     'home' => t('Front Page'),
     'all' => t('All Pages'),
-    'list' => t('List Pages')
+    'list' => t('List Pages'),
   );
 
   $form['desktop']['splashify_where_desktop_page'] = array(
@@ -36,7 +36,7 @@ function splashify_admin_where_form($form, &$form_state) {
     '#options' => $page_options,
     '#description' => t('Define where the splash page should show up.'),
     '#ajax' => array(
-      'callback' => 'ajax_splashify_where_desktop_page_callback',
+      'callback' => 'splashify_ajax_where_desktop_page_callback',
       'wrapper' => 'where-desktop-page-value',
       'method' => 'replace',
       'effect' => 'slide',
@@ -52,7 +52,7 @@ function splashify_admin_where_form($form, &$form_state) {
     $where_desktop_list_set = variable_get('splashify_where_desktop_page', '');
   }
 
-  $form['desktop']['options']['begin'] = array('#markup' => '<div id="where-desktop-page-value">', );
+  $form['desktop']['options']['begin'] = array('#markup' => '<div id="where-desktop-page-value">');
 
   // If they specified the redirect option, we want to hide the window size
   // text field.
@@ -65,7 +65,7 @@ function splashify_admin_where_form($form, &$form_state) {
     );
   }
 
-  $form['desktop']['options']['end'] = array('#markup' => '</div>', );
+  $form['desktop']['options']['end'] = array('#markup' => '</div>');
 
   $form['mobile'] = array(
     '#type' => 'fieldset',
@@ -80,7 +80,7 @@ function splashify_admin_where_form($form, &$form_state) {
       '#default_value' => variable_get('splashify_where_mobile_page', 'home'),
       '#options' => $page_options,
       '#ajax' => array(
-        'callback' => 'ajax_splashify_where_mobile_page_callback',
+        'callback' => 'splashify_ajax_where_mobile_page_callback',
         'wrapper' => 'where-mobile-page-value',
         'method' => 'replace',
         'effect' => 'slide',
@@ -96,7 +96,7 @@ function splashify_admin_where_form($form, &$form_state) {
       $where_mobile_list_set = variable_get('splashify_where_mobile_page', '');
     }
 
-    $form['mobile']['options']['begin'] = array('#markup' => '<div id="where-mobile-page-value">', );
+    $form['mobile']['options']['begin'] = array('#markup' => '<div id="where-mobile-page-value">');
 
     if ($where_mobile_list_set == 'list') {
       $form['mobile']['options']['splashify_where_mobile_listpages'] = array(
@@ -107,7 +107,7 @@ function splashify_admin_where_form($form, &$form_state) {
       );
     }
 
-    $form['mobile']['options']['end'] = array('#markup' => '</div>', );
+    $form['mobile']['options']['end'] = array('#markup' => '</div>');
   }
   else {
     $form['mobile']['splashify_what_mobile_mode'] = array(
@@ -123,14 +123,16 @@ function splashify_admin_where_form($form, &$form_state) {
  * Implements hook_form_submit().
  */
 function splashify_admin_where_form_submit($form, &$form_state) {
-  if ($form_state['values']['splashify_where_desktop_page']  != 'list') {
-    // Unset the listpages variable (desktop), if the list pages option is not set.
+  if ($form_state['values']['splashify_where_desktop_page'] != 'list') {
+    // Unset the listpages variable (desktop), if the list pages option is not
+    // set.
     variable_set('splashify_where_desktop_listpages', '');
   }
 
   if (isset($form_state['values']['splashify_where_mobile_page'])) {
-    if ($form_state['values']['splashify_where_mobile_page']  != 'list') {
-      // Unset the listpages variable (mobile), if the list pages option is not set.
+    if ($form_state['values']['splashify_where_mobile_page'] != 'list') {
+      // Unset the listpages variable (mobile), if the list pages option is not
+      // set.
       variable_set('splashify_where_mobile_listpages', '');
     }
   }
@@ -139,13 +141,13 @@ function splashify_admin_where_form_submit($form, &$form_state) {
 /**
  * Ajax callback for the "which page" select for desktop.
  */
-function ajax_splashify_where_desktop_page_callback($form, &$form_state) {
+function splashify_ajax_where_desktop_page_callback($form, &$form_state) {
   return $form['desktop']['options'];
 }
 
 /**
  * Ajax callback for the "which page" select for mobile devices.
  */
-function ajax_splashify_where_mobile_page_callback($form, &$form_state) {
+function splashify_ajax_where_mobile_page_callback($form, &$form_state) {
   return $form['mobile']['options'];
 }

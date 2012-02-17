@@ -35,7 +35,7 @@ function splashify_admin_what_form($form, &$form_state) {
     '#default_value' => variable_get('splashify_what_desktop_mode', 'random'),
     '#description' => t('Determines how the content field below will be used with the splash page.'),
     '#ajax' => array(
-      'callback' => 'ajax_splashify_what_desktop_mode_callback',
+      'callback' => 'splashify_ajax_what_desktop_mode_callback',
       'wrapper' => 'what-mode-desktop-value',
       'method' => 'replace',
       'effect' => 'fade',
@@ -53,7 +53,7 @@ function splashify_admin_what_form($form, &$form_state) {
 
   $splashify_what_desktop_content = variable_get('splashify_what_desktop_content', '');
 
-  $form['desktop']['mode_value']['begin'] = array('#markup' => '<div id="what-mode-desktop-value">', );
+  $form['desktop']['mode_value']['begin'] = array('#markup' => '<div id="what-mode-desktop-value">');
 
   // If they specified the template or fullscreen option, we want to hide the
   // window size text field.
@@ -83,7 +83,7 @@ function splashify_admin_what_form($form, &$form_state) {
       $splashify_what_desktop_content = '';
     }
 
-    // Display a textarea field
+    // Display a textarea field.
     $form['desktop']['mode_value']['splashify_what_desktop_content'] = array(
       '#type' => 'textarea',
       '#title' => t('Paths or Url Values'),
@@ -92,7 +92,7 @@ function splashify_admin_what_form($form, &$form_state) {
     );
   }
 
-  $form['desktop']['mode_value']['end'] = array('#markup' => '</div>', );
+  $form['desktop']['mode_value']['end'] = array('#markup' => '</div>');
 
 
   /*
@@ -118,7 +118,7 @@ function splashify_admin_what_form($form, &$form_state) {
       '#default_value' => variable_get('splashify_what_mobile_mode', 'random'),
       '#description' => t('Determines how the content field below will be used with the splash page.'),
       '#ajax' => array(
-        'callback' => 'ajax_splashify_what_mobile_mode_callback',
+        'callback' => 'splashify_ajax_what_mobile_mode_callback',
         'wrapper' => 'what-mode-mobile-value',
         'method' => 'replace',
         'effect' => 'fade',
@@ -136,7 +136,7 @@ function splashify_admin_what_form($form, &$form_state) {
 
     $splashify_what_mobile_content = variable_get('splashify_what_mobile_content', '');
 
-    $form['mobile']['mode_value']['begin'] = array('#markup' => '<div id="what-mode-mobile-value">', );
+    $form['mobile']['mode_value']['begin'] = array('#markup' => '<div id="what-mode-mobile-value">');
 
     // If they specified the template or fullscreen option, we want to hide the
     // window size text field.
@@ -165,7 +165,7 @@ function splashify_admin_what_form($form, &$form_state) {
         $splashify_what_desktop_content = '';
       }
 
-      // Display a textarea field
+      // Display a textarea field.
       $form['mobile']['mode_value']['splashify_what_mobile_content'] = array(
         '#type' => 'textarea',
         '#title' => t('Paths or Url Values'),
@@ -174,7 +174,7 @@ function splashify_admin_what_form($form, &$form_state) {
       );
     }
 
-    $form['mobile']['mode_value']['end'] = array('#markup' => '</div>', );
+    $form['mobile']['mode_value']['end'] = array('#markup' => '</div>');
 
   }
   else {
@@ -203,7 +203,7 @@ function splashify_admin_what_form_submit($form, &$form_state) {
  * The $form array element that is returned is the updated field that should
  * be displayed.
  */
-function ajax_splashify_what_desktop_mode_callback($form, &$form_state) {
+function splashify_ajax_what_desktop_mode_callback($form, &$form_state) {
   return $form['desktop']['mode_value'];
 }
 
@@ -213,6 +213,6 @@ function ajax_splashify_what_desktop_mode_callback($form, &$form_state) {
  * The $form array element that is returned is the updated field that should
  * be displayed.
  */
-function ajax_splashify_what_mobile_mode_callback($form, &$form_state) {
+function splashify_ajax_what_mobile_mode_callback($form, &$form_state) {
   return $form['mobile']['mode_value'];
 }

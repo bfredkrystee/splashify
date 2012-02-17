@@ -57,7 +57,7 @@ function splashify_admin_when_form($form, &$form_state) {
     '#description' => $mobiletools_link,
     '#disabled' => $disable_mobile,
     '#ajax' => array(
-      'callback' => 'ajax_splashify_when_mobile_callback',
+      'callback' => 'splashify_ajax_when_mobile_callback',
       'wrapper' => 'when-mobile-settings',
       'method' => 'replace',
       'effect' => 'slide',
@@ -73,7 +73,7 @@ function splashify_admin_when_form($form, &$form_state) {
     $when_mobile_set = variable_get('splashify_when_mobile', 0);
   }
 
-  $form['mobile']['options']['begin'] = array('#markup' => '<div id="when-mobile-settings">', );
+  $form['mobile']['options']['begin'] = array('#markup' => '<div id="when-mobile-settings">');
 
   // If the mobile splash is enabled, display the mobile options.
   if ($when_mobile_set == 1) {
@@ -98,7 +98,7 @@ function splashify_admin_when_form($form, &$form_state) {
     );
   }
 
-  $form['mobile']['options']['end'] = array('#markup' => '</div>', );
+  $form['mobile']['options']['end'] = array('#markup' => '</div>');
 
   $form['#submit'][] = 'splashify_admin_when_form_submit';
   return system_settings_form($form);
@@ -118,6 +118,6 @@ function splashify_admin_when_form_submit($form, &$form_state) {
 /**
  * Ajax callback for the "enable mobile" checkbox.
  */
-function ajax_splashify_when_mobile_callback($form, &$form_state) {
+function splashify_ajax_when_mobile_callback($form, &$form_state) {
   return $form['mobile']['options'];
 }

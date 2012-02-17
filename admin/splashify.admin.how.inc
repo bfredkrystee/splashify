@@ -48,7 +48,7 @@ function splashify_admin_how_form($form, &$form_state) {
     '#default_value' => variable_get('splashify_how_desktop_mode', 'redirect'),
     '#description' => t('Determines how the splash page should show up. If you want to use the lightbox option, you need to have the Colorbox module installed.'),
     '#ajax' => array(
-      'callback' => 'ajax_splashify_how_desktop_mode_callback',
+      'callback' => 'splashify_ajax_how_desktop_mode_callback',
       'wrapper' => 'how-mode-desktop-size',
       'method' => 'replace',
       'effect' => 'slide',
@@ -64,7 +64,7 @@ function splashify_admin_how_form($form, &$form_state) {
     $how_desktop_mode_set = variable_get('splashify_how_desktop_mode', '');
   }
 
-  $form['desktop']['mode_value']['begin'] = array('#markup' => '<div id="how-mode-desktop-size">', );
+  $form['desktop']['mode_value']['begin'] = array('#markup' => '<div id="how-mode-desktop-size">');
 
   // If they specified the redirect option, we want to hide the window size
   // text field.
@@ -77,7 +77,7 @@ function splashify_admin_how_form($form, &$form_state) {
     );
   }
 
-  $form['desktop']['mode_value']['end'] = array('#markup' => '</div>', );
+  $form['desktop']['mode_value']['end'] = array('#markup' => '</div>');
 
   $form['mobile'] = array(
     '#type' => 'fieldset',
@@ -111,6 +111,6 @@ function splashify_admin_how_form($form, &$form_state) {
 /**
  * Ajax callback for the desktop mode dropdown.
  */
-function ajax_splashify_how_desktop_mode_callback($form, &$form_state) {
+function splashify_ajax_how_desktop_mode_callback($form, &$form_state) {
   return $form['desktop']['mode_value'];
 }
