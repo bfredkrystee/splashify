@@ -88,7 +88,7 @@ function splashify_admin_what_form($form, &$form_state) {
       '#type' => 'textarea',
       '#title' => t('Paths or Url Values'),
       '#default_value' => $splashify_what_desktop_content,
-      '#description' => t('Enter the site paths or URLs (one on each line) to use. To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
+      '#description' => t('Enter the site paths or URLs (one on each line) to use. You can use either the drupal source path, or the alias. <br />To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
     );
   }
 
@@ -170,7 +170,7 @@ function splashify_admin_what_form($form, &$form_state) {
         '#type' => 'textarea',
         '#title' => t('Paths or Url Values'),
         '#default_value' => $splashify_what_mobile_content,
-        '#description' => t('Enter the site paths or URLs (one on each line) to use. To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
+        '#description' => t('Enter the site paths or URLs (one on each line) to use. You can use either the drupal source path, or the alias. <br />To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
       );
     }
 
@@ -183,8 +183,25 @@ function splashify_admin_what_form($form, &$form_state) {
     );
   }
 
+  $form['#validate'][] = 'splashify_admin_what_form_validate';
   $form['#submit'][] = 'splashify_admin_what_form_submit';
   return system_settings_form($form);
+}
+
+/**
+ * Implements hook_form_validate().
+ */
+function splashify_admin_what_form_validate($form, &$form_state) {
+  // If they entered paths, make sure the path values are valid.
+  $desktop_mode = $form_state['values']['splashify_what_desktop_mode'];
+  if ($desktop_mode == 'random' || $desktop_mode == 'sequence') {
+    splashify_what_paths_check('splashify_what_desktop_content', $form_state['values']['splashify_what_desktop_content']);
+  }
+
+  $mobile_mode = $form_state['values']['splashify_what_mobile_mode'];
+  if ($mobile_mode == 'random' || $mobile_mode == 'sequence') {
+    splashify_what_paths_check('splashify_what_mobile_content', $form_state['values']['splashify_what_mobile_content']);
+  }
 }
 
 /**
@@ -215,4 +232,42 @@ function splashify_ajax_what_desktop_mode_callback($form, &$form_state) {
  */
 function splashify_ajax_what_mobile_mode_callback($form, &$form_state) {
   return $form['mobile']['mode_value'];
+}
+
+/**
+ * Validate the what:paths field.
+ *
+ * We put this in a function so it can handle both the desktop and mobile
+ * settings. This assumes that each path in $paths is separated by a new line
+ * character. We also assume $paths cannot be blank.
+ */
+function splashify_what_paths_check($field, $paths) {
+  if (empty($paths)) {
+    form_set_error($field, t('You must enter at least one path.'));
+    return;
+  }
+
+  // Make sure each path is valid.
+  $what_paths = preg_split('/[\n\r]+/', $paths);
+  $errors = array();
+  foreach ($what_paths as $path) {
+    // If this path is an alias, we know this is a valid path.
+    if (drupal_lookup_path('source', $path)) {
+      continue;
+    }
+
+    // If this path is a source url, we know this is a valid path.
+    if (drupal_lookup_path('alias', $path)) {
+      continue;
+    }
+
+    // This path is not an alias or the source url.
+    $errors[] .= t('The path "@path" is not valid.', array('@path' => $path));;
+  }
+
+  // Since there could be multiple errors for this one field, we want to
+  // break each error into a separate line.
+  if (count($errors) > 0) {
+    form_set_error($field, implode('<br />', $errors));
+  }
 }

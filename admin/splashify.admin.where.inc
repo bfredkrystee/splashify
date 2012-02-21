@@ -61,7 +61,7 @@ function splashify_admin_where_form($form, &$form_state) {
       '#type' => 'textarea',
       '#title' => t('List Pages'),
       '#default_value' => variable_get('splashify_where_desktop_listpages', ''),
-      '#description' => t('Enter the paths of the pages where you want the splash to show up (one per line). Do not use the alias for the page. Example: node/12'),
+      '#description' => t('Enter the paths of the pages where you want the splash page to show up (one per line).<br />The path needs to be the original source url and NOT the alias for the page. Example: node/12'),
     );
   }
 
@@ -103,7 +103,7 @@ function splashify_admin_where_form($form, &$form_state) {
         '#type' => 'textarea',
         '#title' => t('List Pages'),
         '#default_value' => variable_get('splashify_where_mobile_listpages', ''),
-        '#description' => t('Enter the paths of the pages where you want the splash to show up (one per line). Do not use the alias for the page. Example: node/12'),
+        '#description' => t('Enter the paths of the pages where you want the splash page to show up (one per line).<br />The path needs to be the original source url and NOT the alias for the page. Example: node/12'),
       );
     }
 
@@ -115,8 +115,23 @@ function splashify_admin_where_form($form, &$form_state) {
     );
   }
 
+  $form['#validate'][] = 'splashify_admin_where_form_validate';
   $form['#submit'][] = 'splashify_admin_where_form_submit';
   return system_settings_form($form);
+}
+
+/**
+ * Implements hook_form_validate().
+ */
+function splashify_admin_where_form_validate($form, &$form_state) {
+  // If they entered paths, make sure the path values are valid.
+  if ($form_state['values']['splashify_where_desktop_page'] == 'list') {
+    splashify_where_paths_check('splashify_where_desktop_listpages', $form_state['values']['splashify_where_desktop_listpages']);
+  }
+
+  if ($form_state['values']['splashify_where_mobile_page'] == 'list') {
+    splashify_where_paths_check('splashify_where_mobile_listpages', $form_state['values']['splashify_where_mobile_listpages']);
+  }
 }
 
 /**
@@ -150,4 +165,31 @@ function splashify_ajax_where_desktop_page_callback($form, &$form_state) {
  */
 function splashify_ajax_where_mobile_page_callback($form, &$form_state) {
   return $form['mobile']['options'];
+}
+
+/**
+ * Validate the where:list:paths field.
+ *
+ * We put this in a function so it can handle both the desktop and mobile
+ * settings. This assumes that each path in $paths is separated by a new line
+ * character.
+ */
+function splashify_where_paths_check($field, $paths) {
+  $what_paths = preg_split('/[\n\r]+/', $paths);
+  $errors = array();
+  foreach ($what_paths as $path) {
+    // If this path is a source url, we know this is a valid path.
+    if (drupal_lookup_path('alias', $path)) {
+      continue;
+    }
+
+    // This path is not an alias or the source url.
+    $errors[] .= t('The path "@path" is not a valid source page. This path cannot be an alias.', array('@path' => $path));
+  }
+
+  // Since there could be multiple errors for this one field, we want to
+  // break each error into a separate line.
+  if (count($errors) > 0) {
+    form_set_error($field, implode('<br />', $errors));
+  }
 }
