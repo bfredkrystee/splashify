@@ -1,2 +1,1 @@
-- Test on actual mobile device.
-- Test in multiple browsers.
+- Test in multiple mobile devices.
