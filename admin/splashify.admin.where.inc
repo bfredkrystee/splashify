@@ -129,8 +129,10 @@ function splashify_admin_where_form_validate($form, &$form_state) {
     splashify_where_paths_check('splashify_where_desktop_listpages', $form_state['values']['splashify_where_desktop_listpages']);
   }
 
-  if ($form_state['values']['splashify_where_mobile_page'] == 'list') {
-    splashify_where_paths_check('splashify_where_mobile_listpages', $form_state['values']['splashify_where_mobile_listpages']);
+  if (isset($form_state['values']['splashify_where_mobile_page'])) {
+    if ($form_state['values']['splashify_where_mobile_page'] == 'list') {
+      splashify_where_paths_check('splashify_where_mobile_listpages', $form_state['values']['splashify_where_mobile_listpages']);
+    }
   }
 }
 

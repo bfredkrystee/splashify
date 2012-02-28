@@ -198,9 +198,11 @@ function splashify_admin_what_form_validate($form, &$form_state) {
     splashify_what_paths_check('splashify_what_desktop_content', $form_state['values']['splashify_what_desktop_content']);
   }
 
-  $mobile_mode = $form_state['values']['splashify_what_mobile_mode'];
-  if ($mobile_mode == 'random' || $mobile_mode == 'sequence') {
-    splashify_what_paths_check('splashify_what_mobile_content', $form_state['values']['splashify_what_mobile_content']);
+  if (isset($form_state['values']['splashify_what_mobile_mode'])) {
+    $mobile_mode = $form_state['values']['splashify_what_mobile_mode'];
+    if ($mobile_mode == 'random' || $mobile_mode == 'sequence') {
+      splashify_what_paths_check('splashify_what_mobile_content', $form_state['values']['splashify_what_mobile_content']);
+    }
   }
 }
 

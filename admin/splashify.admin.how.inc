@@ -95,7 +95,8 @@ function splashify_admin_how_form($form, &$form_state) {
       '#description' => t('How should we load the splash page? Note: Redirect is currently the only option.'),
 
       // For the time being, the only option we are allowing for mobile
-      // devices is "redirect".
+      // devices is "redirect". We display this so that it is obvious the
+      // method that is used.
       '#disabled' => TRUE,
     );
   }

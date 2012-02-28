@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Handles installation and uninstalling Splashify.
+ * Handles installing, uninstalling and the requirements for Splashify.
  */
 
 /**
@@ -64,6 +64,7 @@ function splashify_uninstall() {
   variable_del('splashify_how_desktop_size');
 
   // Mobile variables.
+  variable_del('splashify_when_mobile');;
   variable_del('splashify_when_mobile_test');
   variable_del('splashify_when_mobile_frequency');
   variable_del('splashify_where_mobile_page');
@@ -72,5 +73,4 @@ function splashify_uninstall() {
   variable_del('splashify_what_mobile_content');
   variable_del('splashify_what_mobile_pagetitle');
   variable_del('splashify_how_mobile_mode');
-  variable_del('splashify_how_mobile_size');
 }

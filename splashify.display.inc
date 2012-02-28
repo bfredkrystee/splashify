@@ -98,6 +98,9 @@ function splashify_init() {
   elseif ($_GET['splash'] == 'on') {
     // Special case for forcing the splash page to show up.
     $splash_display = TRUE;
+
+    // Modify this value to force the splash to show up in this case.
+    $when_frequency = 'always';
   }
   elseif ($splash_correct_page) {
     // We need to show the splash page on this page. Do one last check.
@@ -117,10 +120,11 @@ function splashify_init() {
     return;
   }
 
+
   /*
    * Step #3: Display the Splash Page
    *
-   * At this point, we know that $splash_display == TRUE.
+   * At this point, we know that we should display the splash page.
    */
 
   // Controls when the jStorage variable should expire next. In other words,
@@ -133,10 +137,6 @@ function splashify_init() {
 
   // This variable is a way to always show the splash in the JS.
   $js_splash_always = FALSE;
-
-  if ($_GET['splash'] == 'on') {
-    $when_frequency = 'always';
-  }
 
   switch ($when_frequency) {
     case 'once':
@@ -155,7 +155,7 @@ function splashify_init() {
       break;
 
     case 'always':
-      // This should make the splash always show up.
+      // This should make the splash always show up on the next page load.
       $js_expiretime = time();
       $js_splash_always = TRUE;
       break;
@@ -181,9 +181,6 @@ function splashify_init() {
       // We don't use this value in this case, so set it to empty.
       $js_mode_settings['url'] = '';
 
-      // Create the JS array of url values.
-      $path_count = 0;
-
       // This holds all of the url values in the correct order.
       $js_mode_settings['urls'] = array();
       $js_mode_settings['total_urls'] = count($what_paths);
@@ -202,36 +199,46 @@ function splashify_init() {
   // Define the last remaining JS variables we need to send.
   $size_action = $how_size ? explode('x', $how_size) : FALSE;
   $js_mode = '';
-  if ($how_mode == 'redirect') {
-    // Redirect to a different url.
-    $js_mode = 'redirect';
-  }
-  elseif ($how_mode == 'window') {
-    // Open up a popup window.
-    $js_mode = 'window';
-    $js_mode_settings['size'] = $size_action ? 'width=' . $size_action[0] . ',height=' . $size_action[1] : '';
-  }
-  elseif ($how_mode == 'lightbox' && module_exists('colorbox')) {
-    // Display a ColorBox.
-    $js_mode = 'colorbox';
+  switch ($how_mode) {
+    case 'redirect':
+      // Redirect to a different url.
+      $js_mode = 'redirect';
+      break;
 
-    // Get the size of the lightbox.
-    if (count($size_action) > 1) {
-      $colorbox_width = $size_action[0];
-      $colorbox_height = $size_action[1];
-    }
-    else {
-      // Default size settings for the colorbox.
-      $colorbox_width = 800;
-      $colorbox_height = 600;
-    }
+    case 'window':
+      // Open up a popup window.
+      $js_mode = 'window';
+      $js_mode_settings['size'] = $size_action ? 'width=' . $size_action[0] . ',height=' . $size_action[1] : '';
+      break;
 
-    $js_mode_settings['size_width'] = $colorbox_width;
-    $js_mode_settings['size_height'] = $colorbox_height;
-  }
-  else {
-    // Do nothing! This is a fail safe.
-    return;
+    case 'lightbox':
+      if (module_exists('colorbox')) {
+        // Display a ColorBox.
+        $js_mode = 'colorbox';
+
+        // Get the size of the lightbox.
+        if (count($size_action) > 1) {
+          $colorbox_width = $size_action[0];
+          $colorbox_height = $size_action[1];
+        }
+        else {
+          // Default size settings for the colorbox.
+          $colorbox_width = 800;
+          $colorbox_height = 600;
+        }
+
+        $js_mode_settings['size_width'] = $colorbox_width;
+        $js_mode_settings['size_height'] = $colorbox_height;
+      }
+      else {
+        return;
+      }
+
+      break;
+
+    default:
+      // Do nothing! This is a fail safe.
+      return;
   }
 
 
@@ -342,7 +349,9 @@ function _splashify_get_config() {
       $what_content = variable_get('splashify_what_mobile_content', '');
       $what_content_title = variable_get('splashify_what_mobile_pagetitle', '');
       $how_mode = variable_get('splashify_how_mobile_mode', 'redirect');
-      $how_size = variable_get('splashify_how_mobile_size', '');
+
+      // This is no longer an option for the mobile settings.
+      $how_size = '';
     }
   }
 
