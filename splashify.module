@@ -85,9 +85,9 @@ function splashify_menu() {
 }
 
 /**
- * Implements hook_permissions().
+ * Implements hook_permission().
  */
-function splashify_permissions() {
+function splashify_permission() {
   return array(
     'access splashify admin' => array(
       'title' => t('Administer Splashify'),
