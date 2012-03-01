@@ -189,7 +189,7 @@ function splashify_admin_what_form($form, &$form_state) {
 }
 
 /**
- * Implements hook_form_validate().
+ * Implements form validation handler.
  */
 function splashify_admin_what_form_validate($form, &$form_state) {
   // If they entered paths, make sure the path values are valid.
@@ -207,7 +207,7 @@ function splashify_admin_what_form_validate($form, &$form_state) {
 }
 
 /**
- * Implements hook_form_submit().
+ * Implements form submit handler.
  */
 function splashify_admin_what_form_submit($form, &$form_state) {
   // Clear out the title value if we aren't using the template option.

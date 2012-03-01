@@ -105,7 +105,7 @@ function splashify_admin_when_form($form, &$form_state) {
 }
 
 /**
- * Implements hook_form_submit().
+ * Implements form submit handler.
  */
 function splashify_admin_when_form_submit($form, &$form_state) {
   if ($form_state['values']['splashify_when_mobile'] != 1) {

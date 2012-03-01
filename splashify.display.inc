@@ -305,7 +305,7 @@ function splashify_display_splashtext() {
   elseif ($what_mode == 'fullscreen') {
     // Display what they entered in the field as a full page.
     echo $what_content_value;
-    exit;
+    drupal_exit();
   }
 }
 

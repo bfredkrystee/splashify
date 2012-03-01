@@ -121,7 +121,7 @@ function splashify_admin_where_form($form, &$form_state) {
 }
 
 /**
- * Implements hook_form_validate().
+ * Implements form validation handler.
  */
 function splashify_admin_where_form_validate($form, &$form_state) {
   // If they entered paths, make sure the path values are valid.
@@ -137,7 +137,7 @@ function splashify_admin_where_form_validate($form, &$form_state) {
 }
 
 /**
- * Implements hook_form_submit().
+ * Implements form submit handler.
  */
 function splashify_admin_where_form_submit($form, &$form_state) {
   if ($form_state['values']['splashify_where_desktop_page'] != 'list') {
