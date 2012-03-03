@@ -47,6 +47,10 @@ function splashify_init() {
    * Step #2: Should we display the splash page?
    */
 
+  if ($when_frequency == 'never') {
+    return;
+  }
+
   // Default to not showing the splash page.
   $splash_display = FALSE;
 
