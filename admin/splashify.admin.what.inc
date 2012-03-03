@@ -263,6 +263,11 @@ function splashify_what_paths_check($field, $paths) {
       continue;
     }
 
+    // Now check if this is a url value.
+    if (substr($path, 0, 7) == 'http://') {
+      continue;
+    }
+
     // This path is not an alias or the source url.
     $errors[] .= t('The path "@path" is not valid.', array('@path' => $path));;
   }
