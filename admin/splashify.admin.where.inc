@@ -181,7 +181,7 @@ function splashify_where_paths_check($field, $paths) {
   $errors = array();
   foreach ($what_paths as $path) {
     // If this path is a source url, we know this is a valid path.
-    if (drupal_lookup_path('alias', $path)) {
+    if (drupal_valid_path($path)) {
       continue;
     }
 
