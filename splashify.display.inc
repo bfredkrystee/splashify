@@ -272,7 +272,6 @@ function splashify_init() {
     'type' => 'file',
     'scope' => 'header',
     'group' => JS_DEFAULT,
-    'weight' => 5,
     'cache' => TRUE,
   ));
 }
