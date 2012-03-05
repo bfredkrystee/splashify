@@ -27,6 +27,7 @@ function splashify_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('splashify_admin_when_form'),
     'title' => 'Splashify',
+    'description' => t('Configuration area for the Splashify system.'),
     'file' => 'admin/splashify.admin.when.inc',
     'type' => MENU_NORMAL_ITEM,
     'access arguments' => array('access splashify admin'),
