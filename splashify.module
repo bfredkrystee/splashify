@@ -24,21 +24,13 @@ function splashify_menu() {
 
   // Define the admin area.
   $items['admin/config/system/splashify'] = array(
-    'page callback' => 'splashify_admin_main',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('splashify_admin_when_form'),
     'title' => 'Splashify',
-    'description' => 'Access settings for displaying a splash page on your site.',
-    'file' => 'admin/splashify.admin.main.inc',
+    'file' => 'admin/splashify.admin.when.inc',
     'type' => MENU_NORMAL_ITEM,
     'access arguments' => array('access splashify admin'),
-  );
-
-  $items['admin/config/system/splashify/info'] = array(
-    'page callback' => 'splashify_admin_main',
-    'title' => 'Splashify',
-    'file' => 'admin/splashify.admin.main.inc',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'access arguments' => array('access splashify admin'),
-    'weight' => 4,
+    'weight' => 6,
   );
 
   $items['admin/config/system/splashify/when'] = array(
@@ -46,7 +38,7 @@ function splashify_menu() {
     'page arguments' => array('splashify_admin_when_form'),
     'title' => 'When',
     'file' => 'admin/splashify.admin.when.inc',
-    'type' => MENU_LOCAL_TASK,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
     'access arguments' => array('access splashify admin'),
     'weight' => 6,
   );
