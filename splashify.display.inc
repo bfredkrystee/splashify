@@ -170,7 +170,7 @@ function splashify_init() {
   $js_mode_settings = array();
   if ($what_mode == 'template' || $what_mode == 'fullscreen') {
     // We need to redirect to the /splash page. Define the action url.
-    $js_mode_settings['url'] = 'splash';
+    $js_mode_settings['url'] = url('splash');
   }
   elseif ($what_mode == 'sequence' || $what_mode == 'random') {
     $what_paths = preg_split('/[\n\r]+/', $what_content_value);
