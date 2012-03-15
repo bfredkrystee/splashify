@@ -266,12 +266,17 @@ function splashify_init() {
 
   drupal_add_js(array('splashify' => $js_settings), 'setting');
 
+  drupal_add_js(drupal_get_path('module', 'splashify') . '/js/jquery.json-2.3.min.js', array(
+    'group' => JS_LIBRARY,
+    'cache' => TRUE,
+  ));
+
   // Include the main JS file that does the heavy lifting.
   $js_spotify_int = drupal_get_path('module', 'splashify') . '/js/spotify_init.js';
   drupal_add_js($js_spotify_int, array(
     'type' => 'file',
     'scope' => 'header',
-    'group' => JS_DEFAULT,
+    'group' => JS_THEME,
     'cache' => TRUE,
   ));
 }
