@@ -107,6 +107,7 @@ function splashify_init() {
     $when_frequency = 'always';
   }
   elseif ($splash_correct_page) {
+
     // We need to show the splash page on this page. Do one last check.
     $parsed_url = parse_url($base_url);
     if (stristr($_SERVER['HTTP_REFERER'], $parsed_url['host'])) {
@@ -118,6 +119,7 @@ function splashify_init() {
       // We passed all of the tests...display the splash page!
       $splash_display = TRUE;
     }
+
   }
 
   // If we shouldn't display the splash, end the code here.
