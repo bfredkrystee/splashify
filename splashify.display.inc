@@ -108,7 +108,8 @@ function splashify_init() {
   }
   elseif ($splash_correct_page) {
     // We need to show the splash page on this page. Do one last check.
-    if (($parsed_url = parse_url($base_url)) && stristr($_SERVER['HTTP_REFERER'], $parsed_url['host'])) {
+    $parsed_url = parse_url($base_url);
+    if (stristr($_SERVER['HTTP_REFERER'], $parsed_url['host'])) {
       // This page was loaded from an internal page. Do not show the splash
       // page.
       $splash_display = FALSE;
@@ -123,7 +124,6 @@ function splashify_init() {
   if (!$splash_display) {
     return;
   }
-
 
   /*
    * Step #3: Display the Splash Page
@@ -264,7 +264,10 @@ function splashify_init() {
     'js_mode_settings' => $js_mode_settings,
   );
 
-  drupal_add_js(array('splashify' => $js_settings), 'setting');
+  drupal_add_js(array('splashify' => $js_settings), array(
+    'type' => 'setting',
+    'cache' => FALSE,
+  ));
 
   drupal_add_js(drupal_get_path('module', 'splashify') . '/js/jquery.json-2.3.min.js', array(
     'group' => JS_LIBRARY,
@@ -272,8 +275,8 @@ function splashify_init() {
   ));
 
   // Include the main JS file that does the heavy lifting.
-  $js_spotify_int = drupal_get_path('module', 'splashify') . '/js/spotify_init.js';
-  drupal_add_js($js_spotify_int, array(
+  $js_splashify_int = drupal_get_path('module', 'splashify') . '/js/splashify_init.js';
+  drupal_add_js($js_splashify_int, array(
     'type' => 'file',
     'scope' => 'header',
     'group' => JS_THEME,
