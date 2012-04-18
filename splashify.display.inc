@@ -385,7 +385,7 @@ function _splashify_get_config() {
 
   if (is_array($what_content)) {
     // We are dealing with a text_format field.
-    $what_content_value = filter_xss($what_content['value']);
+    $what_content_value = check_markup($what_content['value'], $what_content['format']);
   }
   elseif (isset($what_content)) {
     // We are dealing with a textarea field.
