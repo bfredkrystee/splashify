@@ -253,6 +253,11 @@ function splashify_what_paths_check($field, $paths) {
   $what_paths = preg_split('/[\n\r]+/', $paths);
   $errors = array();
   foreach ($what_paths as $path) {
+    // If this is a valid Drupal path.
+    if (drupal_valid_path($path)) {
+      continue;
+    }
+
     // If this path is an alias, we know this is a valid path.
     if (drupal_lookup_path('source', $path)) {
       continue;
