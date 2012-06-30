@@ -77,6 +77,15 @@ function splashify_admin_how_form($form, &$form_state) {
     );
   }
 
+  // Add colorbox iframe setting option.
+  if ($how_desktop_mode_set == 'lightbox') {
+    $form['desktop']['mode_value']['splashify_how_desktop_lightbox_iframe_option'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Use iFrame for lightbox'),
+      '#default_value' => variable_get('splashify_how_desktop_lightbox_iframe_option', TRUE),
+    );
+  }
+
   $form['desktop']['mode_value']['end'] = array('#markup' => '</div>');
 
   $form['mobile'] = array(

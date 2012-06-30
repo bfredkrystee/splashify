@@ -41,7 +41,7 @@ function splashify_pageapi($api) {
   $what_content_value = $config['what_content_value'];
   $how_mode = $config['how_mode'];
   $how_size = $config['how_size'];
-
+  $iframe_option = $config['iframe_option'];
 
   /*
    * Step #2: Should we display the splash page?
@@ -235,6 +235,7 @@ function splashify_pageapi($api) {
 
         $js_mode_settings['size_width'] = $colorbox_width;
         $js_mode_settings['size_height'] = $colorbox_height;
+        $js_mode_settings['iframe_option'] = $iframe_option;
       }
       else {
         return;
@@ -365,6 +366,7 @@ function _splashify_get_config() {
 
       // This is no longer an option for the mobile settings.
       $how_size = '';
+      $iframe_option = '';
     }
   }
 
@@ -378,6 +380,7 @@ function _splashify_get_config() {
     $what_content_title = variable_get('splashify_what_desktop_pagetitle', '');
     $how_mode = variable_get('splashify_how_desktop_mode', 'redirect');
     $how_size = variable_get('splashify_how_desktop_size', '');
+    $iframe_option = variable_get('splashify_how_desktop_lightbox_iframe_option', TRUE);
   }
 
   // This is a textarea field, so make sure this value is safe.
@@ -406,5 +409,6 @@ function _splashify_get_config() {
     'what_content_title' => $what_content_title,
     'how_mode' => $how_mode,
     'how_size' => $how_size,
+    'iframe_option' => $iframe_option,
   );
 }

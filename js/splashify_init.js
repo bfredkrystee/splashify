@@ -32,7 +32,7 @@
             // Open a ColorBox
             $.colorbox({
               transition:'elastic',
-              iframe:'true',
+              iframe:settings.splashify.js_mode_settings.iframe_option,
               href:settings.splashify.js_mode_settings.url,
               width:settings.splashify.js_mode_settings.size_width,
               height:settings.splashify.js_mode_settings.size_height
