@@ -9,11 +9,11 @@
  */
 
 /**
- * Implements hook_init().
+ * Implements hook_pageapi(). See the pageapi module.
  *
  * Generates the JS for the redirect, lightbox or popup window.
  */
-function splashify_init() {
+function splashify_pageapi($api) {
   global $base_url;
 
   // Load the jStorage library.

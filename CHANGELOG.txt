@@ -1,4 +1,9 @@
 
+2012-06-30
+-----------
+Added a new dependency using the pageapi. This module provides a hook that
+allows splashify to work, regardless of the cache settings used on the site.
+
 2012-02-17
 -----------
 Fixed an issue with the sequential option when using the lightbox. It was
