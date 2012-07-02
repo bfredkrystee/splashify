@@ -18,6 +18,12 @@ function splashify_admin_when_form($form, &$form_state) {
     '#markup' => '<p>' . t('When should the splash page show up? This is also where the main mobile option is defined.') . '</p>',
   );
 
+  $form['splashify_when_anonymous'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Only show to anonymous users.'),
+    '#default_value' => variable_get('splashify_when_anonymous', FALSE),
+  );
+
   $form['desktop'] = array(
     '#type' => 'fieldset',
     '#title' => t('Desktop Settings'),

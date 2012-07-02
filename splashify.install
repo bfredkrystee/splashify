@@ -53,6 +53,8 @@ function splashify_requirements($phase) {
  * Deletes all of the variables this module creates via variable_set().
  */
 function splashify_uninstall() {
+  variable_del('splashify_when_anonymous');
+
   // Desktop variables.
   variable_del('splashify_when_desktop_frequency');
   variable_del('splashify_where_desktop_page');

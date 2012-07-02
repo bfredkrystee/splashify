@@ -14,6 +14,7 @@
  * Generates the JS for the redirect, lightbox or popup window.
  */
 function splashify_pageapi($api) {
+  global $user;
   global $base_url;
 
   // Load the jStorage library.
@@ -33,6 +34,7 @@ function splashify_pageapi($api) {
 
   $config = _splashify_get_config();
 
+  $only_anonymous = $config['only_anonymous'];
   $when_frequency = $config['when_frequency'];
   $where_page = $config['where_page'];
   $where_listpages = $config['where_listpages'];
@@ -46,6 +48,9 @@ function splashify_pageapi($api) {
   /*
    * Step #2: Should we display the splash page?
    */
+  if ($only_anonymous && $user->uid > 0) {
+    return;
+  }
 
   if ($when_frequency == 'never') {
     return;
@@ -383,6 +388,8 @@ function _splashify_get_config() {
     $iframe_option = variable_get('splashify_how_desktop_lightbox_iframe_option', TRUE);
   }
 
+  $only_anonymous = variable_get('splashify_when_anonymous', FALSE);
+
   // This is a textarea field, so make sure this value is safe.
   $where_listpages = check_plain($where_listpages);
 
@@ -399,6 +406,7 @@ function _splashify_get_config() {
   }
 
   return array(
+    'only_anonymous' => $only_anonymous,
     'when_frequency' => $when_frequency,
     'when_mobile_test' => $force_mobile,
     'where_page' => $where_page,
