@@ -67,6 +67,12 @@ function splashify_admin_where_form($form, &$form_state) {
 
   $form['desktop']['options']['end'] = array('#markup' => '</div>');
 
+  $form['desktop']['splashify_where_desktop_opposite'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show the splash page on every page except for the option selected above.'),
+    '#default_value' => variable_get('splashify_where_desktop_opposite', FALSE),
+  );
+
   $form['mobile'] = array(
     '#type' => 'fieldset',
     '#title' => t('Mobile Settings'),
@@ -108,12 +114,20 @@ function splashify_admin_where_form($form, &$form_state) {
     }
 
     $form['mobile']['options']['end'] = array('#markup' => '</div>');
+
+    $form['mobile']['splashify_where_mobile_opposite'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Show the splash page on every page except for the option selected above.'),
+      '#default_value' => variable_get('splashify_where_mobile_opposite', FALSE),
+    );
+
   }
   else {
     $form['mobile']['splashify_what_mobile_mode'] = array(
       '#markup' => '<p>' . t('In order to specify mobile options, you need to enable the "When: Enable Unique Mobile Splash" option.') . '</p>',
     );
   }
+
 
   $form['#validate'][] = 'splashify_admin_where_form_validate';
   $form['#submit'][] = 'splashify_admin_where_form_submit';
@@ -132,6 +146,20 @@ function splashify_admin_where_form_validate($form, &$form_state) {
   if (isset($form_state['values']['splashify_where_mobile_page'])) {
     if ($form_state['values']['splashify_where_mobile_page'] == 'list') {
       splashify_where_paths_check('splashify_where_mobile_listpages', $form_state['values']['splashify_where_mobile_listpages']);
+    }
+  }
+
+  // If they have the opposite option checked, the "All" option should not be
+  // selected.
+  if (isset($form_state['values']['splashify_where_desktop_opposite'])) {
+    if ($form_state['values']['splashify_where_desktop_page'] == 'all' && $form_state['values']['splashify_where_desktop_opposite']) {
+      form_set_error('splashify_where_desktop_page', 'The "All" option cannot be selected when checking the "Opposite" option.');
+    }
+  }
+
+  if (isset($form_state['values']['splashify_where_mobile_opposite'])) {
+    if ($form_state['values']['splashify_where_mobile_page'] == 'all' && $form_state['values']['splashify_where_mobile_opposite']) {
+      form_set_error('splashify_where_mobile_page', 'The "All" option cannot be selected when checking the "Opposite" option.');
     }
   }
 }

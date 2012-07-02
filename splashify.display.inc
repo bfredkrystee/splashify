@@ -38,6 +38,7 @@ function splashify_pageapi($api) {
   $when_frequency = $config['when_frequency'];
   $where_page = $config['where_page'];
   $where_listpages = $config['where_listpages'];
+  $where_opposite = $config['where_opposite'];
   $what_mode = $config['what_mode'];
   $what_content = $config['what_content'];
   $what_content_value = $config['what_content_value'];
@@ -71,22 +72,50 @@ function splashify_pageapi($api) {
       break;
 
     case 'home':
-      // Display on the home page.
-      if ($_GET['q'] == drupal_get_normal_path(variable_get('site_frontpage', 'node'))) {
-        $splash_correct_page = TRUE;
+      $home_page = drupal_get_normal_path(variable_get('site_frontpage', 'node'));
+      if ($where_opposite) {
+        if ($_GET['q'] != $home_page) {
+          // Display on every page except the home page.
+          $splash_correct_page = TRUE;
+        }
+      }
+      else {
+        if ($_GET['q'] == $home_page) {
+          // Display on the home page.
+          $splash_correct_page = TRUE;
+        }
       }
       break;
 
     case 'list':
-      // Display the splash on the provided list of pages. Loop through the
-      // paths.
       $list_paths = preg_split('/[\n\r]+/', $where_listpages);
-      foreach ($list_paths as $list_path) {
-        $list_path = trim($list_path);
-        if ($list_path == $_GET['q']) {
-          $splash_correct_page = TRUE;
-          break;
+      if ($where_opposite) {
+
+        // Display the splash on every page except the following pages.
+        $splash_correct_page = TRUE;
+        foreach ($list_paths as $list_path) {
+          $list_path = trim($list_path);
+          if ($list_path == $_GET['q']) {
+            $splash_correct_page = FALSE;
+            break;
+          }
         }
+
+      }
+      else {
+
+        // Display the splash on the provided list of pages. Loop through the
+        // paths.
+        foreach ($list_paths as $list_path) {
+          $list_path = trim($list_path);
+          if ($list_path != $_GET['q'] && $where_opposite) {
+          }
+          else if ($list_path == $_GET['q']) {
+            $splash_correct_page = TRUE;
+            break;
+          }
+        }
+
       }
       break;
   }
@@ -364,6 +393,7 @@ function _splashify_get_config() {
       $when_frequency = variable_get('splashify_when_mobile_frequency', 'never');
       $where_page = variable_get('splashify_where_mobile_page', 'home');
       $where_listpages = variable_get('splashify_where_mobile_listpages', '');
+      $where_opposite = variable_get('splashify_where_mobile_opposite', FALSE);
       $what_mode = variable_get('splashify_what_mobile_mode', 'random');
       $what_content = variable_get('splashify_what_mobile_content', '');
       $what_content_title = variable_get('splashify_what_mobile_pagetitle', '');
@@ -380,6 +410,7 @@ function _splashify_get_config() {
     $when_frequency = variable_get('splashify_when_desktop_frequency', 'never');
     $where_page = variable_get('splashify_where_desktop_page', 'home');
     $where_listpages = variable_get('splashify_where_desktop_listpages', '');
+    $where_opposite = variable_get('splashify_where_desktop_opposite', FALSE);
     $what_mode = variable_get('splashify_what_desktop_mode', 'random');
     $what_content = variable_get('splashify_what_desktop_content', '');
     $what_content_title = variable_get('splashify_what_desktop_pagetitle', '');
@@ -411,6 +442,7 @@ function _splashify_get_config() {
     'when_mobile_test' => $force_mobile,
     'where_page' => $where_page,
     'where_listpages' => $where_listpages,
+    'where_opposite' => $where_opposite,
     'what_mode' => $what_mode,
     'what_content' => $what_content,
     'what_content_value' => $what_content_value,

@@ -59,6 +59,7 @@ function splashify_uninstall() {
   variable_del('splashify_when_desktop_frequency');
   variable_del('splashify_where_desktop_page');
   variable_del('splashify_where_desktop_listpages');
+  variable_del('splashify_where_desktop_opposite');
   variable_del('splashify_what_desktop_mode');
   variable_del('splashify_what_desktop_content');
   variable_del('splashify_what_desktop_pagetitle');
@@ -72,6 +73,7 @@ function splashify_uninstall() {
   variable_del('splashify_when_mobile_frequency');
   variable_del('splashify_where_mobile_page');
   variable_del('splashify_where_mobile_listpages');
+  variable_del('splashify_where_mobile_opposite');
   variable_del('splashify_what_mobile_mode');
   variable_del('splashify_what_mobile_content');
   variable_del('splashify_what_mobile_pagetitle');

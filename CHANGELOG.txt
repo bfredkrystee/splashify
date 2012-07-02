@@ -1,4 +1,10 @@
 
+2012-07-02
+-----------
+Created a "Show only to anonymous users" option on the When tab. Also added
+an option on the Where tab that allows you to specify the pages where the
+splash page should not show up.
+
 2012-06-30
 -----------
 Added a new dependency using the pageapi. This module provides a hook that

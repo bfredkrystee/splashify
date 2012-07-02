@@ -48,6 +48,9 @@ Link: /config/system/splashify
 Go to "Configuration" -> "System" -> "Splashify" to find all the configuration
 options.
 
+If you are using the mobile options, you need to make sure to configure all
+of the mobile settings on each tab for the mobile splash to work properly.
+
 
 3.0 PROBLEMS OR FEATURE REQUESTS
 ---------------------------------
