@@ -4,4 +4,3 @@ core = 7.x
 configure = admin/config/system/splashify
 
 dependencies[] = libraries (2.x)
-dependencies[] = pageapi

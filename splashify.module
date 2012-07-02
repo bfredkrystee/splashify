@@ -168,3 +168,4 @@ function splashify_help($path, $arg) {
       return $output;
   }
 }
+

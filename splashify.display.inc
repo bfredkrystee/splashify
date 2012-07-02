@@ -9,11 +9,11 @@
  */
 
 /**
- * Implements hook_pageapi(). See the pageapi module.
+ * Implements hook_init().
  *
  * Generates the JS for the redirect, lightbox or popup window.
  */
-function splashify_pageapi($api) {
+function splashify_init() {
   global $user;
   global $base_url;
 
@@ -45,6 +45,7 @@ function splashify_pageapi($api) {
   $how_mode = $config['how_mode'];
   $how_size = $config['how_size'];
   $iframe_option = $config['iframe_option'];
+
 
   /*
    * Step #2: Should we display the splash page?
