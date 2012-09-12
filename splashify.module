@@ -102,9 +102,10 @@ function splashify_libraries_info() {
     // Not exactly sure if this is the correct way in doing this, since we
     // don't require a specific version.
     'version callback' => '_splashify_jstorage_version',
-    'version arguments' => array('1'),
+    'version arguments' => array('1','2'),
     'versions' => array(
       '1' => array(),
+      '2' => array(),
     ),
     'files' => array(
       'js' => array(
