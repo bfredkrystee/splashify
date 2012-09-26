@@ -179,6 +179,8 @@ function splashify_init() {
     $js_mode_settings['url'] = url('splash');
   }
   elseif ($what_mode == 'sequence' || $what_mode == 'random') {
+    // Remove any markup that may be leftover from a previous input format
+    $what_content_value = strip_tags($what_content_value);
     $what_paths = preg_split('/[\n\r]+/', $what_content_value);
     if ($what_mode == 'sequence') {
       /*
