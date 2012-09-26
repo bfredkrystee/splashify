@@ -311,7 +311,7 @@ function splashify_display_splashtext() {
   }
   elseif ($what_mode == 'fullscreen') {
     // Display what they entered in the field as a full page.
-    print $what_content_value;
+    return $what_content_value;
     // drupal_exit();
   }
 }
