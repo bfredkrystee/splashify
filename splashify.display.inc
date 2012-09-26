@@ -280,8 +280,8 @@ function splashify_init() {
   drupal_add_js(drupal_get_path('module', 'splashify') . '/js/jquery.json-2.3.min.js', 'module', 'header', FALSE, TRUE);
 
   // Include the main JS file that does the heavy lifting.
-  $js_spotify_init = drupal_get_path('module', 'splashify') . '/js/spotify_init.js';
-  drupal_add_js($js_spotify_init, 'theme', 'header', FALSE, TRUE);
+  $js_splashify = drupal_get_path('module', 'splashify') . '/js/splashify.js';
+  drupal_add_js($js_splashify, 'theme', 'header', FALSE, TRUE);
 }
 
 /**
