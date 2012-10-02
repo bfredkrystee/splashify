@@ -384,7 +384,10 @@ function _splashify_get_config() {
 
   if (isset($what_content)) {
     // We are dealing with a textarea field.
-    $what_content_value = check_markup($what_content, $what_content_format);
+    // Do not check for access to the input format, as doing so might result in
+    // unexpected behavior when anons visit the page.
+    $check_access = FALSE;
+    $what_content_value = check_markup($what_content, $what_content_format, $check_access);
   }
   else {
     $what_content_value = '';
