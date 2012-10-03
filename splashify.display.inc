@@ -183,8 +183,10 @@ function splashify_init() {
     $js_mode_settings['html'] = $what_content_value;
   }
   elseif ($what_mode == 'sequence' || $what_mode == 'random') {
-    // Remove any markup that may be leftover from a previous input format
-    $what_content_value = strip_tags($what_content_value);
+    // Remove any markup that may be leftover from a previous input format.
+    // Trim so that we're not left with an extra '/', which can cause an
+    // infinite loop on redirects.
+    $what_content_value = trim(strip_tags($what_content_value));
     $what_paths = preg_split('/[\n\r]+/', $what_content_value);
     if ($what_mode == 'sequence') {
       /*
