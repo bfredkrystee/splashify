@@ -317,8 +317,8 @@ function splashify_display_splashtext() {
   }
   elseif ($what_mode == 'fullscreen') {
     // Display what they entered in the field as a full page.
-    return $what_content_value;
-    // drupal_exit();
+    print $what_content_value;
+    exit(); // drupal_exit() is only for D7
   }
 }
 
