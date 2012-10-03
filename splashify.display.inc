@@ -174,13 +174,13 @@ function splashify_init() {
   // If we are working with a url, we need to specify that url value here.
   $url = '';
   $js_mode_settings = array();
-  if ($what_mode == 'template') {
+  if ($what_mode == 'template' || $what_mode == 'fullscreen') {
     // We need to redirect to the /splash page. Define the action url.
     $js_mode_settings['url'] = url('splash');
-  }
-  elseif ($what_mode == 'fullscreen') {
+    if ($what_mode == 'fullscreen') {
     // Display HTML without the site template. Set the HTML variable.
     $js_mode_settings['html'] = $what_content_value;
+  }
   }
   elseif ($what_mode == 'sequence' || $what_mode == 'random') {
     // Remove any markup that may be leftover from a previous input format.
