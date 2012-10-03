@@ -178,9 +178,9 @@ function splashify_init() {
     // We need to redirect to the /splash page. Define the action url.
     $js_mode_settings['url'] = url('splash');
     if ($what_mode == 'fullscreen') {
-    // Display HTML without the site template. Set the HTML variable.
-    $js_mode_settings['html'] = $what_content_value;
-  }
+      // Display HTML without the site template. Set the HTML variable.
+      $js_mode_settings['html'] = $what_content_value;
+    }
   }
   elseif ($what_mode == 'sequence' || $what_mode == 'random') {
     // Remove any markup that may be leftover from a previous input format.
