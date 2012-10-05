@@ -136,6 +136,7 @@ function splashify_admin_what_form(&$form_state) {
     }
 
     $splashify_what_mobile_content = variable_get('splashify_what_mobile_content', '');
+    $splashify_what_mobile_content_format = variable_get('splashify_what_mobile_content_format', 1);
 
     $form['mobile']['mode_value']['begin'] = array('#markup' => '<div id="what-mode-mobile-value">');
 
@@ -145,10 +146,10 @@ function splashify_admin_what_form(&$form_state) {
       $form['mobile']['mode_value']['splashify_what_mobile_content'] = array(
         '#type' => 'textarea',
         '#title' => t('Content'),
-        '#default_value' => (is_array($splashify_what_mobile_content)) ? $splashify_what_mobile_content['value'] : '',
-        '#format' => (is_array($splashify_what_mobile_content)) ? $splashify_what_mobile_content['format'] : '',
+        '#default_value' => $splashify_what_mobile_content ? $splashify_what_mobile_content : '',
         '#description' => t('Text to show or paths/URLs (one on each line) to use.  To open a non-Drupal path, use an absolute URL, i.e. http://example.com/splash.html'),
       );
+      $form['mobile']['mode_value']['splashify_what_mobile_content_filter'] = filter_form($splashify_what_mobile_content_format, NULL, array('splashify_what_mobile_content_filter'));
 
       // If the template mode is selected, allow them to set a page title value.
       if ($what_mobile_mode_set == 'template') {
@@ -162,8 +163,8 @@ function splashify_admin_what_form(&$form_state) {
     else {
       // If this value is an array, the mode was changed and we want to empty
       // out the value.
-      if (is_array($splashify_what_desktop_content)) {
-        $splashify_what_desktop_content = '';
+      if (is_array($splashify_what_mobile_content)) {
+        $splashify_what_mobile_content = '';
       }
 
       // Display a textarea field.
@@ -215,8 +216,14 @@ function splashify_admin_what_form_submit($form, &$form_state) {
   if ($form_state['values']['splashify_what_desktop_mode'] != 'template') {
     variable_set('splashify_what_desktop_pagetitle', '');
   }
+  if ($form_state['values']['splashify_what_mobile_mode'] != 'template') {
+    variable_set('splashify_what_mobile_pagetitle', '');
+  }
   if ($form_state['values']['format']) {
     variable_set('splashify_what_desktop_content_format', $form_state['values']['format']);
+  }
+  if ($form_state['values']['splashify_what_mobile_content_filter']) {
+    variable_set('splashify_what_mobile_content_format', $form_state['values']['splashify_what_mobile_content_filter']);
   }
 }
 
@@ -272,7 +279,7 @@ function splashify_what_paths_check($field, $paths) {
     if ($scheme == 'http' || $scheme == 'https') {
       continue;
     }
-    
+
     // Finally, check for unaliased internal paths, like "node/4"
     if (menu_valid_path(array('link_path' => $path))) {
       continue;
