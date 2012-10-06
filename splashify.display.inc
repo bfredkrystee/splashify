@@ -360,6 +360,7 @@ function _splashify_get_config() {
       $where_listpages = variable_get('splashify_where_mobile_listpages', '');
       $what_mode = variable_get('splashify_what_mobile_mode', 'random');
       $what_content = variable_get('splashify_what_mobile_content', '');
+      $what_content_format = variable_get('splashify_what_mobile_content_format', 'FILTER_FORMAT_DEFAULT');
       $what_content_title = variable_get('splashify_what_mobile_pagetitle', '');
       $how_mode = variable_get('splashify_how_mobile_mode', 'redirect');
 
