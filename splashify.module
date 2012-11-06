@@ -15,7 +15,7 @@ function splashify_menu() {
 
   // If they specify What: Enter Text or What: Text Full Screen, this is the
   // page that will come up.
-  $items['splash'] = array(
+  $items['splashify-splash'] = array(
     'title' => 'Splash',
     'page callback' => 'splashify_display_splashtext',
     'access arguments' => array('access content'),

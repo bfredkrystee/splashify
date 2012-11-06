@@ -204,8 +204,8 @@ function splashify_init() {
   $url = '';
   $js_mode_settings = array();
   if ($what_mode == 'template' || $what_mode == 'fullscreen') {
-    // We need to redirect to the /splash page. Define the action url.
-    $js_mode_settings['url'] = url('splash');
+    // We need to redirect to the /splashify-splash page. Define the action url.
+    $js_mode_settings['url'] = url('splashify-splash');
   }
   elseif ($what_mode == 'sequence' || $what_mode == 'random') {
     $what_paths = preg_split('/[\n\r]+/', $what_content_value);
