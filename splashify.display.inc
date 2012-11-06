@@ -17,6 +17,11 @@ function splashify_init() {
   global $user;
   global $base_url;
 
+  drupal_add_js(drupal_get_path('module', 'splashify') . '/js/jquery.json-2.3.min.js', array(
+    'group' => JS_LIBRARY,
+    'cache' => TRUE,
+  ));
+
   // Load the jStorage library.
   $library = libraries_load('jstorage', 'minified');
 
@@ -297,11 +302,6 @@ function splashify_init() {
   drupal_add_js(array('splashify' => $js_settings), array(
     'type' => 'setting',
     'cache' => FALSE,
-  ));
-
-  drupal_add_js(drupal_get_path('module', 'splashify') . '/js/jquery.json-2.3.min.js', array(
-    'group' => JS_LIBRARY,
-    'cache' => TRUE,
   ));
 
   // Include the main JS file that does the heavy lifting.
