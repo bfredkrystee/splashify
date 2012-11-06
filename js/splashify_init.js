@@ -3,12 +3,22 @@
   Drupal.behaviors.splashify = {
     attach: function (context, settings){
       $(window).load(function(){
+        var show = 1;
+        var referrer = document.referrer + '';
+        var hostname = window.location.hostname + '';
+        if (referrer.search(hostname) != -1) {
+          // This page was loaded from an internal page. Do not show splash.
+          show = 0;
+        }
         var splash = $.jStorage.get("splash");
-        var nowtimeSeconds = settings.splashify.js_nowtime;
+        var expireAfter = settings.splashify.js_expire_after;
+        var now = new Date();
+        var nowtimeSeconds = now.getTime() / 1000;
+
         var splashalways = settings.splashify.js_splash_always;
-        if(!splash || splash < nowtimeSeconds || splashalways=='1'){
+        if(show == 1 && (!splash || splash < nowtimeSeconds || splashalways=='1')){
           // Set when the splash variable should expire.
-          $.jStorage.set("splash", settings.splashify.js_expiretime);
+          $.jStorage.set("splash", nowtimeSeconds + expireAfter);
 
           // If we are displaying each splash page in sequence, we need to
           // determine the next url.

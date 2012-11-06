@@ -145,15 +145,8 @@ function splashify_init() {
 
     // We need to show the splash page on this page. Do one last check.
     $parsed_url = parse_url($base_url);
-    if (stristr($_SERVER['HTTP_REFERER'], $parsed_url['host'])) {
-      // This page was loaded from an internal page. Do not show the splash
-      // page.
-      $splash_display = FALSE;
-    }
-    else {
-      // We passed all of the tests...display the splash page!
-      $splash_display = TRUE;
-    }
+    // We passed all of the tests...display the splash page!
+    $splash_display = TRUE;
 
   }
 
@@ -295,9 +288,8 @@ function splashify_init() {
 
   // Make our splash settings variables available to our JavaScript.
   $js_settings = array(
-    'js_nowtime' => $js_nowtime,
     'js_splash_always' => $js_splash_always ? '1' : '0',
-    'js_expiretime' => $js_expiretime,
+    'js_expire_after' => $js_expiretime - $js_nowtime,
     'js_mode' => $js_mode,
     'js_mode_settings' => $js_mode_settings,
   );
