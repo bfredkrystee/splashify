@@ -33,7 +33,6 @@ function splashify_init() {
     return;
   }
 
-
   /*
    * Step #1: Retrieve the admin settings.
    */
@@ -46,12 +45,10 @@ function splashify_init() {
   $where_listpages = $config['where_listpages'];
   $where_opposite = $config['where_opposite'];
   $what_mode = $config['what_mode'];
-  $what_content = $config['what_content'];
   $what_content_value = $config['what_content_value'];
   $how_mode = $config['how_mode'];
   $how_size = $config['how_size'];
   $iframe_option = $config['iframe_option'];
-
 
   /*
    * Step #2: Should we display the splash page?
@@ -148,12 +145,10 @@ function splashify_init() {
     $when_frequency = 'always';
   }
   elseif ($splash_correct_page) {
-
     // We need to show the splash page on this page. Do one last check.
     $parsed_url = parse_url($base_url);
     // We passed all of the tests...display the splash page!
     $splash_display = TRUE;
-
   }
 
   // If we shouldn't display the splash, end the code here.
@@ -201,38 +196,27 @@ function splashify_init() {
       break;
   }
 
-  // If we are working with a url, we need to specify that url value here.
-  $url = '';
+  // Deal with the mode settings.
   $js_mode_settings = array();
+  $js_mode_settings['mode'] = $what_mode;
+  $js_mode_settings['system_splash'] = '';
+  $js_mode_settings['urls'] = '';
+
   if ($what_mode == 'template' || $what_mode == 'fullscreen') {
-    // We need to redirect to the /splashify-splash page. Define the action url.
-    $js_mode_settings['url'] = url('splashify-splash');
+    // We need to redirect to the System generated splash page. Define the
+    // action url. This variable tells the JS that we only are dealing with one
+    // url.
+    $js_mode_settings['system_splash'] = url('splashify-splash');
   }
   elseif ($what_mode == 'sequence' || $what_mode == 'random') {
+    // Split up the textarea field by lines.
     $what_paths = preg_split('/[\n\r]+/', $what_content_value);
-    if ($what_mode == 'sequence') {
-      /*
-       * Since we are using jStorage to store the last splash page that was
-       * displayed, we need to create an array of the sequential url's and
-       * figure out which is the next url to display (based on the previous
-       * url)...all through JS.
-       */
 
-      // We don't use this value in this case, so set it to empty.
-      $js_mode_settings['url'] = '';
-
-      // This holds all of the url values in the correct order.
-      $js_mode_settings['urls'] = array();
-      $js_mode_settings['total_urls'] = count($what_paths);
-      foreach ($what_paths as $path) {
-        $js_mode_settings['urls'][] = url(trim($path));
-      }
-    }
-    elseif ($what_mode == 'random') {
-      $next_index = array_rand($what_paths);
-
-      // Define the action url.
-      $js_mode_settings['url'] = url(trim($what_paths[$next_index]));
+    // This holds all of the url values in the entered order.
+    $js_mode_settings['urls'] = array();
+    $js_mode_settings['total_urls'] = count($what_paths);
+    foreach ($what_paths as $path) {
+      $js_mode_settings['urls'][] = url(trim($path));
     }
   }
 
@@ -326,15 +310,9 @@ function splashify_init() {
 function splashify_display_splashtext() {
   $config = _splashify_get_config();
 
-  $when_frequency = $config['when_frequency'];
-  $where_page = $config['where_page'];
-  $where_listpages = $config['where_listpages'];
   $what_mode = $config['what_mode'];
-  $what_content = $config['what_content'];
   $what_content_value = $config['what_content_value'];
   $what_content_title = $config['what_content_title'];
-  $how_mode = $config['how_mode'];
-  $how_size = $config['how_size'];
 
   if ($what_mode == 'template') {
     // Display what they entered in the field in the site template.
