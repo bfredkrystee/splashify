@@ -350,12 +350,12 @@ function _splashify_get_config() {
   // settings.
   $force_mobile = variable_get('splashify_when_mobile_test', FALSE);
 
-  if (!empty($is_mobile_enabled) && module_exists('mobile_tools')) {
+  if (!empty($is_mobile_enabled)) {
 
     // Is this a mobile request?
-    module_load_include('module', 'mobile_tools');
-    $mobile = mobile_tools_is_mobile_device();
-    if ($mobile['type'] != 'desktop' || $force_mobile) {
+    require_once 'mobile_detect/Mobile_Detect.php';
+    $detect = new Mobile_Detect();
+    if ($detect->isMobile() || $force_mobile) {
       // This is a mobile request!
       $do_mobile = TRUE;
 

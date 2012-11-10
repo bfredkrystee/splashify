@@ -1,10 +1,16 @@
 
-2012-11-09
+2012-11-10
 -----------
 With the help of the community, refactored the JS to allow for anonymous
 page caching. This allows the system to be fully functional with this
 setting turned on. This also improved the speed of the JavaScript. Did
 extensive testing in all browsers.
+
+I also removed the Mobile_Tools dependency for setting mobile options. Instead
+I include a copy of the lightweight Mobile Detect library
+(http://code.google.com/p/php-mobile-detect/). We are just using it to detect
+whether the user is on a mobile device. I implemented this after I discovered
+the latest Mobile Tools broke the module.
 
 2012-07-02
 -----------

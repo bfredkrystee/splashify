@@ -66,7 +66,7 @@ issue: http://drupal.org/project/issues/splashify
 
 4.0 TODO
 --------
-- Need to do in depth mobile browser testing.
+- Need to do more in depth mobile browser testing.
 
 
 LAST UPDATED

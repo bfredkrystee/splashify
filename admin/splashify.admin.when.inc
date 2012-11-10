@@ -47,21 +47,11 @@ function splashify_admin_when_form($form, &$form_state) {
     '#title' => t('Mobile Settings'),
   );
 
-  $disable_mobile = TRUE;
-  if (module_exists('mobile_tools')) {
-    $disable_mobile = FALSE;
-  }
-
-  $mobiletools_link = t('In order to use this feature, you need to have the <a href="@mobiltools" target="_blank">Mobile Tools</a> module enabled.', array(
-    '@mobiltools' => 'http://drupal.org/project/mobile_tools',
-  ));
-
   $form['mobile']['splashify_when_mobile'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable Unique Mobile Splash'),
     '#default_value' => variable_get('splashify_when_mobile', 0),
-    '#description' => $mobiletools_link,
-    '#disabled' => $disable_mobile,
+    '#disabled' => FALSE,
     '#ajax' => array(
       'callback' => 'splashify_ajax_when_mobile_callback',
       'wrapper' => 'when-mobile-settings',
