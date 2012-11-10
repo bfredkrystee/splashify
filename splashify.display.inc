@@ -371,7 +371,6 @@ function _splashify_get_config() {
 
       // This is no longer an option for the mobile settings.
       $how_size = '';
-      $iframe_option = '';
     }
   }
 

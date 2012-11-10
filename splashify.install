@@ -65,7 +65,6 @@ function splashify_uninstall() {
   variable_del('splashify_what_desktop_pagetitle');
   variable_del('splashify_how_desktop_mode');
   variable_del('splashify_how_desktop_size');
-  variable_del('splashify_how_desktop_lightbox_iframe_option');
 
   // Mobile variables.
   variable_del('splashify_when_mobile');;
