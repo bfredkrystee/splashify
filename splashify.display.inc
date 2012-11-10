@@ -48,7 +48,6 @@ function splashify_init() {
   $what_content_value = $config['what_content_value'];
   $how_mode = $config['how_mode'];
   $how_size = $config['how_size'];
-  $iframe_option = $config['iframe_option'];
 
   /*
    * Step #2: Should we display the splash page?
@@ -253,7 +252,6 @@ function splashify_init() {
 
         $js_mode_settings['size_width'] = $colorbox_width;
         $js_mode_settings['size_height'] = $colorbox_height;
-        $js_mode_settings['iframe_option'] = $iframe_option;
       }
       else {
         return;
@@ -286,7 +284,7 @@ function splashify_init() {
 
   drupal_add_js(array('splashify' => $js_settings), array(
     'type' => 'setting',
-    'cache' => FALSE,
+    'cache' => TRUE,
   ));
 
   // Include the main JS file that does the heavy lifting.
@@ -388,7 +386,6 @@ function _splashify_get_config() {
     $what_content_title = variable_get('splashify_what_desktop_pagetitle', '');
     $how_mode = variable_get('splashify_how_desktop_mode', 'redirect');
     $how_size = variable_get('splashify_how_desktop_size', '');
-    $iframe_option = variable_get('splashify_how_desktop_lightbox_iframe_option', TRUE);
   }
 
   $only_anonymous = variable_get('splashify_when_anonymous', FALSE);
@@ -421,6 +418,5 @@ function _splashify_get_config() {
     'what_content_title' => $what_content_title,
     'how_mode' => $how_mode,
     'how_size' => $how_size,
-    'iframe_option' => $iframe_option,
   );
 }

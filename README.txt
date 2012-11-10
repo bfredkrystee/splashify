@@ -23,6 +23,9 @@ The main focus of this module is the following:
 list of splash pages show up in a specified order, display the specified
 text/html in the site template or display the text/html full screen.
 
+All of the features of this module have been confirmed to work in FF, Chrome,
+Safari and IE7 through IE9.
+
 
 2.0 INSTALLATION
 -----------------
@@ -36,11 +39,14 @@ Below is a direct link to download the zip file.
 Link: https://github.com/andris9/jStorage/zipball/master
 
 2. Download and enable the latest version of the Splashify module.
-Link: http://drupal.org/sandbox/chrisroane/1423456
+Link: http://drupal.org/project/splashify
 
 3. Configure the module. If the system can't find the jStorage library, it will
 display an error.
 Link: /config/system/splashify
+
+4. Verify there are no splashify errors on the Status report page
+(admin/reports/status).
 
 
 2.1 CONFIGURATION
@@ -55,12 +61,17 @@ of the mobile settings on each tab for the mobile splash to work properly.
 3.0 PROBLEMS OR FEATURE REQUESTS
 ---------------------------------
 First make sure an issue doesn't already exist. If it doesn't, create a new
-issue: http://drupal.org/node/add/project-issue/1423456
+issue: http://drupal.org/project/issues/splashify
+
+
+4.0 TODO
+--------
+- Need to do in depth mobile browser testing.
 
 
 LAST UPDATED
 -------------
-02/10/2012
+09/09/2012
 
 
 SPONSORS

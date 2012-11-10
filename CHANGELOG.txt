@@ -1,4 +1,11 @@
 
+2012-11-09
+-----------
+With the help of the community, refactored the JS to allow for anonymous
+page caching. This allows the system to be fully functional with this
+setting turned on. This also improved the speed of the JavaScript. Did
+extensive testing in all browsers.
+
 2012-07-02
 -----------
 Created a "Show only to anonymous users" option on the When tab. Also added
