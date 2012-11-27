@@ -12,18 +12,11 @@ jQuery(document).ready(function($) {
   var hostname = window.location.hostname + '';
   var splash = $.jStorage.get("splash", 0);
   var splashalways = Drupal.settings.splashify.js_splash_always;
+  var what_urls = Drupal.settings.splashify.js_mode_settings.urls;
 
-  if (referrer.search(hostname) != -1) {
-    // This page was loaded from an internal page. Do not show splash.
+  // If we are on a splash page or if coming from a link on the site, stop!
+  if (referrer.search(hostname) != -1 || what_urls.indexOf(window.location.pathname) > -1) {
     showpage();
-    return;
-  }
-
-  var onsplash = $.getUrlVar('splash');
-  if (onsplash) {
-    // This person is viewing the splash page.
-    showpage();
-    $.jStorage.set("splash", nowtimeSeconds);
     return;
   }
 
@@ -37,7 +30,6 @@ jQuery(document).ready(function($) {
   if(displaysplash){
     var expireAfter = Drupal.settings.splashify.js_expire_after;
     var last_url = $.jStorage.get('splashlasturl', '');
-    var what_urls = Drupal.settings.splashify.js_mode_settings.urls;
     var url = '';
 
     // Set when the splash variable should expire next.
@@ -62,7 +54,6 @@ jQuery(document).ready(function($) {
     }
 
     $.jStorage.set('splashlasturl', url);
-    url = url + '?splash=1';
 
     // Display the splash page.
     if(jsmode == 'redirect'){
@@ -91,21 +82,3 @@ function showpage() {
 function hidepage() {
   jQuery('html').hide();
 }
-
-// Allows us to extract parameters from the url.
-jQuery.extend({
-  getUrlVars: function(){
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++)
-    {
-      hash = hashes[i].split('=');
-      vars.push(hash[0]);
-      vars[hash[0]] = hash[1];
-    }
-    return vars;
-  },
-  getUrlVar: function(name){
-    return jQuery.getUrlVars()[name];
-  }
-});
