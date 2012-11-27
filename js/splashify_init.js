@@ -1,26 +1,47 @@
 jQuery(document).ready(function($) {
-  var splash = $.jStorage.get("splash", 0);
-  var splashalways = Drupal.settings.splashify.js_splash_always;
+  var jsmode = Drupal.settings.splashify.js_mode;
+
+  // Prevents a flicker before the splash page shows up.
+  if (jsmode == 'redirect') {
+    hidepage();
+  }
+
   var now = new Date();
   var nowtimeSeconds = now.getTime() / 1000;
-
   var referrer = document.referrer + '';
   var hostname = window.location.hostname + '';
+  var splash = $.jStorage.get("splash", 0);
+  var splashalways = Drupal.settings.splashify.js_splash_always;
+
   if (referrer.search(hostname) != -1) {
     // This page was loaded from an internal page. Do not show splash.
+    showpage();
     return;
   }
 
+  var onsplash = $.getUrlVar('splash');
+  if (onsplash) {
+    // This person is viewing the splash page.
+    showpage();
+    $.jStorage.set("splash", nowtimeSeconds);
+    return;
+  }
+
+  // Determine if we should display the splash page.
+  var displaysplash = false;
+  if (!splash || splash < nowtimeSeconds || splashalways=='1') {
+    displaysplash = true;
+  }
+
   // Display the splash page?
-  if(!splash || splash < nowtimeSeconds || splashalways=='1'){
+  if(displaysplash){
     var expireAfter = Drupal.settings.splashify.js_expire_after;
     var last_url = $.jStorage.get('splashlasturl', '');
     var what_urls = Drupal.settings.splashify.js_mode_settings.urls;
+    var url = '';
 
     // Set when the splash variable should expire next.
     $.jStorage.set("splash", nowtimeSeconds + expireAfter);
-
-    var url = '';
 
     // Determine the url we are working with, which is based on the mode.
     if(Drupal.settings.splashify.js_mode_settings.system_splash != ''){
@@ -41,12 +62,13 @@ jQuery(document).ready(function($) {
     }
 
     $.jStorage.set('splashlasturl', url);
+    url = url + '?splash=1';
 
     // Display the splash page.
-    if(Drupal.settings.splashify.js_mode == 'redirect'){
+    if(jsmode == 'redirect'){
       // Redirect.
       window.location.replace(url);
-    } else if(Drupal.settings.splashify.js_mode == 'colorbox'){
+    } else if(jsmode == 'colorbox'){
       // Open a ColorBox.
       $.colorbox({
         transition:'elastic',
@@ -55,9 +77,35 @@ jQuery(document).ready(function($) {
         width:Drupal.settings.splashify.js_mode_settings.size_width,
         height:Drupal.settings.splashify.js_mode_settings.size_height
       });
-    } else if(Drupal.settings.splashify.js_mode == 'window'){
+    } else if(jsmode == 'window'){
       // Open a popup window.
       window.open(url, 'splash', Drupal.settings.splashify.js_mode_settings.size);
     }
+  }
+});
+
+function showpage() {
+  jQuery('html').show();
+}
+
+function hidepage() {
+  jQuery('html').hide();
+}
+
+// Allows us to extract parameters from the url.
+jQuery.extend({
+  getUrlVars: function(){
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+      hash = hashes[i].split('=');
+      vars.push(hash[0]);
+      vars[hash[0]] = hash[1];
+    }
+    return vars;
+  },
+  getUrlVar: function(name){
+    return jQuery.getUrlVars()[name];
   }
 });

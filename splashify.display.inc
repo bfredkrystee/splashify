@@ -285,6 +285,8 @@ function splashify_init() {
   drupal_add_js(array('splashify' => $js_settings), array(
     'type' => 'setting',
     'cache' => TRUE,
+    'weight' => -100,
+    'every_page' => TRUE,
   ));
 
   // Include the main JS file that does the heavy lifting.
@@ -294,6 +296,8 @@ function splashify_init() {
     'scope' => 'header',
     'group' => JS_THEME,
     'cache' => TRUE,
+    'weight' => -99,
+    'every_page' => TRUE,
   ));
 }
 
