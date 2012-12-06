@@ -291,7 +291,7 @@ function splashify_init() {
   ));
 
   // Include the main JS file that does the heavy lifting.
-  $js_splashify_int = drupal_get_path('module', 'splashify') . '/js/splashify_init.js';
+  $js_splashify_int = drupal_get_path('module', 'splashify') . '/js/splashify_init_min.js';
   drupal_add_js($js_splashify_int, array(
     'type' => 'file',
     'scope' => 'header',
