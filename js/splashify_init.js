@@ -13,9 +13,12 @@ jQuery(document).ready(function($) {
   var splash = $.jStorage.get("splash", 0);
   var splashalways = Drupal.settings.splashify.js_splash_always;
   var what_urls = Drupal.settings.splashify.js_mode_settings.urls;
+  var referrer_check = Drupal.settings.splashify.js_disable_referrer_check;
 
-  // If we are on a splash page or if coming from a link on the site, stop!
-  if (referrer.search(hostname) != -1 || what_urls.indexOf(window.location.pathname) > -1) {
+  // Stop the splash page from show up if on the splash page. Also prevent
+  // the splash from showing up from internal links (dependent on the
+  // referrer check settings).
+  if ((referrer.search(hostname) != -1 && !referrer_check) || jQuery.inArray(window.location.pathname, what_urls) > -1) {
     showpage();
     return;
   }

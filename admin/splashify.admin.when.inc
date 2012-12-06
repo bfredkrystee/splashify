@@ -24,6 +24,15 @@ function splashify_admin_when_form($form, &$form_state) {
     '#default_value' => variable_get('splashify_when_anonymous', FALSE),
   );
 
+  // Add control to disable referrer check
+  // @see splashify_init.js
+  $form['disable_referrer_check'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Disable referrer check'),
+    '#default_value' => variable_get('disable_referrer_check', 0),
+    '#description' => t('Show splash even when page was loaded from an internal page.'),
+  );
+
   $form['desktop'] = array(
     '#type' => 'fieldset',
     '#title' => t('Desktop Settings'),

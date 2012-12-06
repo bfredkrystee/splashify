@@ -280,6 +280,7 @@ function splashify_init() {
     'js_expire_after' => $js_expiretime - $js_nowtime,
     'js_mode' => $js_mode,
     'js_mode_settings' => $js_mode_settings,
+    'js_disable_referrer_check' => variable_get('disable_referrer_check', 0),
   );
 
   drupal_add_js(array('splashify' => $js_settings), array(
