@@ -347,6 +347,14 @@ function _splashify_get_config() {
   // This controls whether mobile is enabled or not.
   $is_mobile_enabled = variable_get('splashify_when_mobile', 0);
 
+  if ($is_mobile_enabled) {
+    // Verify the Mobile Detect library is installed.
+    $mobile_detect = libraries_load('Mobile_Detect');
+    if (!$mobile_detect['installed'] || !file_exists(DRUPAL_ROOT . '/' . $mobile_detect['library path'] . '/Mobile_Detect.php')) {
+      $is_mobile_enabled = 0;
+    }
+  }
+
   // This controls whether or not we should use the mobile settings for this
   // request.
   $do_mobile = FALSE;
@@ -358,7 +366,6 @@ function _splashify_get_config() {
   if (!empty($is_mobile_enabled)) {
 
     // Is this a mobile request?
-    require_once 'mobile_detect/Mobile_Detect.php';
     $detect = new Mobile_Detect();
     if ($detect->isMobile() || $force_mobile) {
       // This is a mobile request!

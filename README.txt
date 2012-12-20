@@ -29,8 +29,8 @@ Safari and IE7 through IE9.
 
 2.0 INSTALLATION
 -----------------
-1. Download and enable the "Libraries" Drupal module. A version of 2.0 or
-higher is required.
+1. Download and enable the "Libraries" Drupal module. Version 2.0 or higher is
+required.
 Link: http://drupal.org/project/libraries
 
 2. Download the jStorage library. You will want to put the files either in
@@ -38,14 +38,22 @@ Link: http://drupal.org/project/libraries
 Below is a direct link to download the zip file.
 Link: https://github.com/andris9/jStorage/zipball/master
 
-2. Download and enable the latest version of the Splashify module.
+3. If you want to enable options for mobile devices, you will need to add
+the Mobile Detect library files: http://mobiledetect.net/
+
+You can put the files into any of the following directories:
+/sites/all/libraries/Mobile_Detect/
+/sites/default/libraries/Mobile_Detect/
+/sites/[YOUR_DOMAIN.COM]/libraries/Mobile_Detect/
+
+4. Download and enable the latest version of the Splashify module.
 Link: http://drupal.org/project/splashify
 
-3. Configure the module. If the system can't find the jStorage library, it will
+5. Configure the module. If the system can't find the jStorage library, it will
 display an error.
 Link: /config/system/splashify
 
-4. Verify there are no splashify errors on the Status report page
+6. Verify there are no splashify errors on the Status report page
 (admin/reports/status).
 
 
@@ -57,6 +65,19 @@ options.
 If you are using the mobile options, you need to make sure to configure all
 of the mobile settings on each tab for the mobile splash to work properly.
 
+2.2 MOBILE SPLASH
+------------------
+In order to use the mobile splash options, the system must be able to find the
+Mobile_Detect.php file from the Mobile Detect library:
+http://mobiledetect.net/
+
+Below are a few options in where you can put the file:
+/sites/all/libraries/Mobile_Detect/Mobile_Detect.php
+/sites/default/libraries/Mobile_Detect/Mobile_Detect.php
+/sites/[YOUR_DOMAIN.COM]/libraries/Mobile_Detect/Mobile_Detect.php
+
+One this file is there, you should see the Mobile settings appear on the When
+tab of the Splashify config area: /admin/config/system/splashify
 
 3.0 PROBLEMS OR FEATURE REQUESTS
 ---------------------------------

@@ -1,4 +1,13 @@
 
+2012-12-20
+-----------
+Took out the manual integration of the Mobile Detect library and used the
+libraries module instead (similar to what we are doing with the jStorage
+library).
+
+This would createa a fatal error when using the mobile_switch module, which
+also uses the Mobile Detect library. This makes the dependency transparent.
+
 2012-11-10
 -----------
 With the help of the community, refactored the JS to allow for anonymous

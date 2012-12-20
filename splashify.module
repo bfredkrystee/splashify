@@ -94,13 +94,12 @@ function splashify_permission() {
  */
 function splashify_libraries_info() {
   $libraries = array();
+
+  // jStorage
   $libraries['jstorage'] = array(
     'name' => 'jStorage library',
     'vendor url' => 'http://www.jstorage.info/',
     'download url' => 'https://github.com/andris9/jStorage/zipball/master',
-
-    // Not exactly sure if this is the correct way in doing this, since we
-    // don't require a specific version.
     'version callback' => '_splashify_jstorage_version',
     'version arguments' => array('1','2'),
     'versions' => array(
@@ -123,6 +122,29 @@ function splashify_libraries_info() {
         'variant arguments' => array(),
       ),
     ),
+  );
+
+  // Mobile Detect
+  $libraries['Mobile_Detect'] = array(
+    'name' => 'Mobile Detect',
+    'vendor url' => 'http://mobiledetect.net',
+    'download url' => 'https://raw.github.com/serbanghita/Mobile-Detect/master/Mobile_Detect.php',
+    'version arguments' => array(
+      'file' => 'Mobile_Detect.php',
+      'pattern' => '@version\s+([0-9a-zA-Z\.-]+)@',
+      'lines' => 200,
+      'cols' => 30
+    ),
+    'files' => array(
+      'php' => array('Mobile_Detect.php')
+    ),
+    'versions' => array(
+      '2' => array(
+        'files' => array(
+          'php' => array('Mobile_Detect.php')
+        )
+      )
+    )
   );
 
   return $libraries;

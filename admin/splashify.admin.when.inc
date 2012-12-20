@@ -56,54 +56,60 @@ function splashify_admin_when_form($form, &$form_state) {
     '#title' => t('Mobile Settings'),
   );
 
-  $form['mobile']['splashify_when_mobile'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable Unique Mobile Splash'),
-    '#default_value' => variable_get('splashify_when_mobile', 0),
-    '#disabled' => FALSE,
-    '#ajax' => array(
-      'callback' => 'splashify_ajax_when_mobile_callback',
-      'wrapper' => 'when-mobile-settings',
-      'method' => 'replace',
-      'effect' => 'slide',
-    ),
-  );
-
-  // Set a variable that is either defined by the ajax checkbox, or a
-  // previously saved value.
-  if (isset($form_state['values']['splashify_when_mobile'])) {
-    $when_mobile_set = $form_state['values']['splashify_when_mobile'];
-  }
-  else {
-    $when_mobile_set = variable_get('splashify_when_mobile', 0);
-  }
-
-  $form['mobile']['options']['begin'] = array('#markup' => '<div id="when-mobile-settings">');
-
-  // If the mobile splash is enabled, display the mobile options.
-  if ($when_mobile_set == 1) {
-    $form['mobile']['options']['splashify_when_mobile_frequency'] = array(
-      '#type' => 'select',
-      '#title' => t('How often should mobile visitors see the mobile splash page?'),
-      '#default_value' => variable_get('splashify_when_mobile_frequency', 'never'),
-      '#options' => array(
-        'never' => t('Never (off)'),
-        'always' => t('Always'),
-        'once' => t('Once'),
-        'daily' => t('Daily'),
-        'weekly' => t('Weekly'),
+  $mobile_detect = libraries_load('Mobile_Detect');
+  if ($mobile_detect['installed']) {
+    $form['mobile']['splashify_when_mobile'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable Unique Mobile Splash'),
+      '#default_value' => variable_get('splashify_when_mobile', 0),
+      '#disabled' => FALSE,
+      '#ajax' => array(
+        'callback' => 'splashify_ajax_when_mobile_callback',
+        'wrapper' => 'when-mobile-settings',
+        'method' => 'replace',
+        'effect' => 'slide',
       ),
     );
 
-    $form['mobile']['options']['splashify_when_mobile_test'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Test Mobile'),
-      '#default_value' => variable_get('splashify_when_mobile_test', 0),
-      '#description' => t('Turn this option on to force the mobile settings to take affect so you can test from your desktop browser.'),
-    );
-  }
+    // Set a variable that is either defined by the ajax checkbox, or a
+    // previously saved value.
+    if (isset($form_state['values']['splashify_when_mobile'])) {
+      $when_mobile_set = $form_state['values']['splashify_when_mobile'];
+    }
+    else {
+      $when_mobile_set = variable_get('splashify_when_mobile', 0);
+    }
 
-  $form['mobile']['options']['end'] = array('#markup' => '</div>');
+    $form['mobile']['options']['begin'] = array('#markup' => '<div id="when-mobile-settings">');
+
+    // If the mobile splash is enabled, display the mobile options.
+    if ($when_mobile_set == 1) {
+      $form['mobile']['options']['splashify_when_mobile_frequency'] = array(
+        '#type' => 'select',
+        '#title' => t('How often should mobile visitors see the mobile splash page?'),
+        '#default_value' => variable_get('splashify_when_mobile_frequency', 'never'),
+        '#options' => array(
+          'never' => t('Never (off)'),
+          'always' => t('Always'),
+          'once' => t('Once'),
+          'daily' => t('Daily'),
+          'weekly' => t('Weekly'),
+        ),
+      );
+
+      $form['mobile']['options']['splashify_when_mobile_test'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Test Mobile'),
+        '#default_value' => variable_get('splashify_when_mobile_test', 0),
+        '#description' => t('Turn this option on to force the mobile settings to take affect so you can test from your desktop browser.'),
+      );
+    }
+
+    $form['mobile']['options']['end'] = array('#markup' => '</div>');
+  }
+  else {
+    $form['mobile']['description'] = array('#markup' => t('In order to enable the mobile splash, you need to have the Mobile Detect library installed. <a href="@download" target="_blank">Download the library</a> and put the files into /sites/all/libraries/Mobile_Detect/ .', array('@download' => 'http://mobiledetect.net/')));
+  }
 
   $form['#submit'][] = 'splashify_admin_when_form_submit';
   return system_settings_form($form);
