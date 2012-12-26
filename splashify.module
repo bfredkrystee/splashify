@@ -73,15 +73,10 @@ function splashify_menu() {
 }
 
 /**
- * Implements hook_permission().
+ * Implements hook_perm().
  */
-function splashify_permission() {
-  return array(
-    'access splashify admin' => array(
-      'title' => t('Administer Splashify'),
-      'description' => t('Access the admin area for the splashify module.'),
-    ),
-  );
+function splashify_perm() {
+  return array('access splashify admin');
 }
 
 /**
