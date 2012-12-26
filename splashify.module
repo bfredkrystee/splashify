@@ -23,7 +23,7 @@ function splashify_menu() {
   );
 
   // Define the admin area.
-  $items['admin/config/system/splashify'] = array(
+  $items['admin/settings/splashify'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('splashify_admin_when_form'),
     'title' => 'Splashify',
@@ -31,47 +31,42 @@ function splashify_menu() {
     'file' => 'admin/splashify.admin.when.inc',
     'type' => MENU_NORMAL_ITEM,
     'access arguments' => array('access splashify admin'),
-    'weight' => 6,
   );
 
-  $items['admin/config/system/splashify/when'] = array(
+  $items['admin/settings/splashify/when'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('splashify_admin_when_form'),
     'title' => 'When',
     'file' => 'admin/splashify.admin.when.inc',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'access arguments' => array('access splashify admin'),
-    'weight' => 6,
   );
 
-  $items['admin/config/system/splashify/where'] = array(
+  $items['admin/settings/splashify/where'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('splashify_admin_where_form'),
     'title' => 'Where',
     'file' => 'admin/splashify.admin.where.inc',
     'type' => MENU_LOCAL_TASK,
     'access arguments' => array('access splashify admin'),
-    'weight' => 8,
   );
 
-  $items['admin/config/system/splashify/what'] = array(
+  $items['admin/settings/splashify/what'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('splashify_admin_what_form'),
     'title' => 'What',
     'file' => 'admin/splashify.admin.what.inc',
     'type' => MENU_LOCAL_TASK,
     'access arguments' => array('access splashify admin'),
-    'weight' => 10,
   );
 
-  $items['admin/config/system/splashify/how'] = array(
+  $items['admin/settings/splashify/how'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('splashify_admin_how_form'),
     'title' => 'How',
     'file' => 'admin/splashify.admin.how.inc',
     'type' => MENU_LOCAL_TASK,
     'access arguments' => array('access splashify admin'),
-    'weight' => 12,
   );
 
   return $items;
