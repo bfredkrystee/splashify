@@ -128,6 +128,11 @@ function splashify_admin_where_form_submit($form, &$form_state) {
  * character.
  */
 function splashify_where_paths_check($field, $paths) {
+  if (empty($paths)) {
+    form_set_error($field, t('You must enter at least one path.'));
+    return;
+  }
+
   $what_paths = preg_split('/[\n\r]+/', $paths);
   $errors = array();
   foreach ($what_paths as $path) {
