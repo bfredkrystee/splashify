@@ -26,7 +26,6 @@ function splashify_admin_where_form(&$form_state) {
   $page_options = array(
     'home' => t('Front Page'),
     'all' => t('All Pages'),
-    'list' => t('List Pages'),
   );
 
   $form['desktop']['splashify_where_desktop_page'] = array(
@@ -35,12 +34,6 @@ function splashify_admin_where_form(&$form_state) {
     '#default_value' => variable_get('splashify_where_desktop_page', 'home'),
     '#options' => $page_options,
     '#description' => t('Define where the splash page should show up.'),
-    '#ajax' => array(
-      'callback' => 'splashify_ajax_where_desktop_page_callback',
-      'wrapper' => 'where-desktop-page-value',
-      'method' => 'replace',
-      'effect' => 'slide',
-    ),
   );
 
   // Set a variable that is either defined by the selection from the ajax
@@ -51,21 +44,6 @@ function splashify_admin_where_form(&$form_state) {
   else {
     $where_desktop_list_set = variable_get('splashify_where_desktop_page', '');
   }
-
-  $form['desktop']['options']['begin'] = array('#markup' => '<div id="where-desktop-page-value">');
-
-  // If they specified the redirect option, we want to hide the window size
-  // text field.
-  if ($where_desktop_list_set == 'list') {
-    $form['desktop']['options']['splashify_where_desktop_listpages'] = array(
-      '#type' => 'textarea',
-      '#title' => t('List Pages'),
-      '#default_value' => variable_get('splashify_where_desktop_listpages', ''),
-      '#description' => t('Enter the paths of the pages where you want the splash page to show up (one per line).<br />The path needs to be the original source url and NOT the alias for the page. Example: node/12'),
-    );
-  }
-
-  $form['desktop']['options']['end'] = array('#markup' => '</div>');
 
   $form['mobile'] = array(
     '#type' => 'fieldset',
@@ -95,19 +73,6 @@ function splashify_admin_where_form(&$form_state) {
     else {
       $where_mobile_list_set = variable_get('splashify_where_mobile_page', '');
     }
-
-    $form['mobile']['options']['begin'] = array('#markup' => '<div id="where-mobile-page-value">');
-
-    if ($where_mobile_list_set == 'list') {
-      $form['mobile']['options']['splashify_where_mobile_listpages'] = array(
-        '#type' => 'textarea',
-        '#title' => t('List Pages'),
-        '#default_value' => variable_get('splashify_where_mobile_listpages', ''),
-        '#description' => t('Enter the paths of the pages where you want the splash page to show up (one per line).<br />The path needs to be the original source url and NOT the alias for the page. Example: node/12'),
-      );
-    }
-
-    $form['mobile']['options']['end'] = array('#markup' => '</div>');
   }
   else {
     $form['mobile']['splashify_what_mobile_mode'] = array(
@@ -153,20 +118,6 @@ function splashify_admin_where_form_submit($form, &$form_state) {
       variable_set('splashify_where_mobile_listpages', '');
     }
   }
-}
-
-/**
- * Ajax callback for the "which page" select for desktop.
- */
-function splashify_ajax_where_desktop_page_callback($form, &$form_state) {
-  return $form['desktop']['options'];
-}
-
-/**
- * Ajax callback for the "which page" select for mobile devices.
- */
-function splashify_ajax_where_mobile_page_callback($form, &$form_state) {
-  return $form['mobile']['options'];
 }
 
 /**
