@@ -75,6 +75,8 @@ jQuery(document).ready(function($) {
       // Open a popup window.
       window.open(url, 'splash', Drupal.settings.splashify.js_mode_settings.size);
     }
+  } else if(jsmode == 'redirect') {
+      showpage();
   }
 });
 
