@@ -71,6 +71,7 @@ function splashify_requirements($phase) {
  */
 function splashify_uninstall() {
   variable_del('splashify_when_anonymous');
+  variable_del('disable_referrer_check');
 
   // Desktop variables.
   variable_del('splashify_when_desktop_frequency');
