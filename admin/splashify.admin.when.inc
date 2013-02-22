@@ -20,7 +20,7 @@ function splashify_admin_when_form($form, &$form_state) {
 
   $form['splashify_when_anonymous'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Only show to anonymous users.'),
+    '#title' => t('Only show to Anonymous users'),
     '#default_value' => variable_get('splashify_when_anonymous', FALSE),
   );
 
@@ -30,7 +30,7 @@ function splashify_admin_when_form($form, &$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Disable referrer check'),
     '#default_value' => variable_get('disable_referrer_check', 0),
-    '#description' => t('Show splash even when page was loaded from an internal page.'),
+    '#description' => t('Show splash page even when page was loaded from an internal page.<br /><strong>WARNING:</strong> Be very careful with this setting when you use the Always option and have the splash page displayed on every page! This would prevent you from accessing the admin.'),
   );
 
   $form['desktop'] = array(
