@@ -119,10 +119,12 @@ function splashify_admin_when_form($form, &$form_state) {
  * Implements form submit handler.
  */
 function splashify_admin_when_form_submit($form, &$form_state) {
-  if ($form_state['values']['splashify_when_mobile'] != 1) {
-    // Unset these values, if the mobile option is disabled.
-    variable_set('splashify_when_mobile_frequency', 'never');
-    variable_set('splashify_when_mobile_test', 0);
+  if (isset($form_state['values']['splashify_when_mobile'])) {
+    if ($form_state['values']['splashify_when_mobile'] != 1) {
+      // Unset these values, if the mobile option is disabled.
+      variable_set('splashify_when_mobile_frequency', 'never');
+      variable_set('splashify_when_mobile_test', 0);
+    }
   }
 }
 

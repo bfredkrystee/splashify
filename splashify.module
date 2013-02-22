@@ -129,21 +129,12 @@ function splashify_libraries_info() {
     'name' => 'Mobile Detect',
     'vendor url' => 'http://mobiledetect.net',
     'download url' => 'https://raw.github.com/serbanghita/Mobile-Detect/master/Mobile_Detect.php',
-    'version arguments' => array(
-      'file' => 'Mobile_Detect.php',
-      'pattern' => '@version\s+([0-9a-zA-Z\.-]+)@',
-      'lines' => 200,
-      'cols' => 30
-    ),
+    'version callback' => '_splashify_mobiledetect_version',
     'files' => array(
       'php' => array('Mobile_Detect.php')
     ),
     'versions' => array(
-      '2' => array(
-        'files' => array(
-          'php' => array('Mobile_Detect.php')
-        )
-      )
+      '2' => array(),
     )
   );
 
@@ -155,6 +146,13 @@ function splashify_libraries_info() {
  */
 function _splashify_jstorage_version($library, $version) {
   return $version;
+}
+
+/**
+ * Support version 2 of this library.
+ */
+function _splashify_mobiledetect_version($library, $version) {
+  return 2;
 }
 
 /**
