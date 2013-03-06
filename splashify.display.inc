@@ -14,6 +14,7 @@
  * Generates the JS for the redirect, lightbox or popup window.
  */
 function splashify_init() {
+  return;
   global $user;
   global $base_url;
 
