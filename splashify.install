@@ -20,7 +20,7 @@ function splashify_requirements($phase) {
     $installed = ($library && !empty($library['installed']));
 
     if ($installed) {
-      // Check PHPMailer file integrity.
+      // Check the integrity of the library folder
       $path = DRUPAL_ROOT . '/' . $library['library path'] . '/';
 
       $file_integrity = file_exists($path . 'jstorage.min.js');

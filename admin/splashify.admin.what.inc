@@ -259,12 +259,9 @@ function splashify_what_paths_check($field, $paths) {
     }
 
     // If this path is an alias, we know this is a valid path.
-    if (drupal_lookup_path('source', $path)) {
-      continue;
-    }
-
-    // If this path is a source url, we know this is a valid path.
-    if (drupal_lookup_path('alias', $path)) {
+    // TODO: This ALWAYS returns a string. Need to invalidate somehow.
+    $url = url($path, array('alias' => TRUE));
+    if ($url) {
       continue;
     }
 

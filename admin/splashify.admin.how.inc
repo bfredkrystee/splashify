@@ -68,7 +68,7 @@ function splashify_admin_how_form($form, &$form_state) {
 
   // If they specified the redirect option, we want to hide the window size
   // text field.
-  if ($how_desktop_mode_set != 'redirect') {
+  if ($how_desktop_mode_set != 'redirect' && !empty($how_desktop_mode_set)) {
     $form['desktop']['mode_value']['splashify_how_desktop_size'] = array(
       '#type' => 'textfield',
       '#title' => t('Window/Box size'),

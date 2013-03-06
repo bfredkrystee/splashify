@@ -9,12 +9,11 @@
  */
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  *
  * Generates the JS for the redirect, lightbox or popup window.
  */
-function splashify_init() {
-  return;
+function splashify_page_build() {
   global $user;
   global $base_url;
 
@@ -25,7 +24,8 @@ function splashify_init() {
   ));
 
   // Load the jStorage library.
-  $library = libraries_load('jstorage', 'minified');
+  $library = libraries_load('jstorage');
+  //echo '<pre>'; print_r($library); echo '</pre>'; exit;
 
   // If this is the cron script or drush, do not run the splashify code.
   $drush_check = (function_exists('drush_verify_cli') && call_user_func('drush_verify_cli')) ? TRUE : FALSE;
@@ -76,15 +76,15 @@ function splashify_init() {
       break;
 
     case 'home':
-      $home_page = drupal_get_normal_path(variable_get('site_frontpage', 'node'));
+      $is_home_page = drupal_is_front_page();
       if ($where_opposite) {
-        if ($_GET['q'] != $home_page) {
+        if (!$is_home_page) {
           // Display on every page except the home page.
           $splash_correct_page = TRUE;
         }
       }
       else {
-        if ($_GET['q'] == $home_page) {
+        if ($is_home_page) {
           // Display on the home page.
           $splash_correct_page = TRUE;
         }
@@ -292,7 +292,7 @@ function splashify_init() {
   ));
 
   // Include the main JS file that does the heavy lifting.
-  $js_splashify_int = drupal_get_path('module', 'splashify') . '/js/splashify_init_min.js';
+  $js_splashify_int = drupal_get_path('module', 'splashify') . '/js/splashify_init.js';
   drupal_add_js($js_splashify_int, array(
     'type' => 'file',
     'scope' => 'header',

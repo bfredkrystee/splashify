@@ -98,58 +98,15 @@ function splashify_libraries_info() {
     'name' => 'jStorage library',
     'vendor url' => 'http://www.jstorage.info/',
     'download url' => 'https://github.com/andris9/jStorage/zipball/master',
-
-    // Not exactly sure if this is the correct way in doing this, since we
-    // don't require a specific version.
-    'version callback' => '_splashify_jstorage_version',
-    'version arguments' => array('1','2'),
-    'versions' => array(
-      '1' => array(),
-      '2' => array(),
-    ),
+    'version' => '0.3.2',
     'files' => array(
       'js' => array(
-        'jstorage.js',
-      ),
-    ),
-    'variants' => array(
-      'minified' => array(
-        'files' => array(
-          'js' => array(
-            'jstorage.min.js',
-          ),
-        ),
-        'variant callback' => '_splashify_test_installed',
-        'variant arguments' => array(),
+        'jstorage.min.js',
       ),
     ),
   );
 
   return $libraries;
-}
-
-/**
- * Gets the version of jStorage library.
- */
-function _splashify_jstorage_version($library, $version) {
-  return $version;
-}
-
-/**
- * Detects whether the variant is installed or not.
- *
- * Determines if the JS file exists.
- */
-function _splashify_test_installed($library, $name, $args) {
-  // Make sure the file exists.
-  $path = DRUPAL_ROOT . '/' . $library['library path'] . '/';
-  $file = file_exists($path . 'jstorage.min.js');
-  if (!$file) {
-    return FALSE;
-  }
-  else {
-    return TRUE;
-  }
 }
 
 /**
