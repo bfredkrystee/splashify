@@ -1,4 +1,9 @@
 
+2013-03-11
+-----------
+Updated the version detection code for the Mobile Detect library. Fixed a few
+browser compatibility issues. Launched a full release of the module.
+
 2012-12-20
 -----------
 Took out the manual integration of the Mobile Detect library and used the
