@@ -26,8 +26,7 @@ text/html in the site template or display the text/html full screen.
 
 2.0 INSTALLATION
 -----------------
-1. Download and enable the "Libraries" Drupal module. A version of 2.0 or
-higher is required.
+1. Download and enable the "Libraries" Drupal module.
 Link: http://drupal.org/project/libraries
 
 2. Download the jStorage library. You will want to put the files either in
