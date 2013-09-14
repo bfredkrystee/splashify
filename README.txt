@@ -33,8 +33,14 @@ Safari and IE7 through IE9.
 required.
 Link: http://drupal.org/project/libraries
 
-2. Download the jStorage library. You will want to put the files either in
-/sites/all/libraries/jstorage/ or /sites/[site_name]/libraries/jstorage/ .
+2. Download the jStorage library: https://github.com/andris9/jStorage/zipball/master
+You will want to put the files in one of the following directories:
+/sites/all/libraries/jstorage/
+/sites/[site_name]/libraries/jstorage/
+
+Splashify will be looking for "jstorage.min.js". So it should look something
+like /sites/all/libraries/jstorage/jstorage.min.js
+
 Below is a direct link to download the zip file.
 Link: https://github.com/andris9/jStorage/zipball/master
 
@@ -49,12 +55,12 @@ You can put the files into any of the following directories:
 4. Download and enable the latest version of the Splashify module.
 Link: http://drupal.org/project/splashify
 
-5. Configure the module. If the system can't find the jStorage library, it will
+5. Verify there are no splashify errors on the Status report page
+(admin/reports/status).
+
+6. Configure the module. If the system can't find the jStorage library, it will
 display an error.
 Link: /config/system/splashify
-
-6. Verify there are no splashify errors on the Status report page
-(admin/reports/status).
 
 
 2.1 CONFIGURATION
