@@ -63,8 +63,9 @@ function splashify_init() {
   // Default to not showing the splash page.
   $splash_display = FALSE;
 
-  if (!isset($_GET['splash'])) {
-    $_GET['splash'] = '';
+  $splash_get_var = '';
+  if (isset($_GET['splash'])) {
+    $splash_get_var = $_GET['splash'];
   }
 
   $splash_correct_page = FALSE;
@@ -132,11 +133,11 @@ function splashify_init() {
     // The What: Content field is not specified.
     $splash_display = FALSE;
   }
-  elseif ($_GET['splash'] == 'off') {
+  elseif ($splash_get_var == 'off') {
     // Special case for preventing the splash page from showing up.
     $splash_display = FALSE;
   }
-  elseif ($_GET['splash'] == 'on') {
+  elseif ($splash_get_var == 'on') {
     // Special case for forcing the splash page to show up.
     $splash_display = TRUE;
 
