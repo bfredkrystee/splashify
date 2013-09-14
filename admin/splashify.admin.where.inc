@@ -61,7 +61,7 @@ function splashify_admin_where_form($form, &$form_state) {
       '#type' => 'textarea',
       '#title' => t('List Pages'),
       '#default_value' => variable_get('splashify_where_desktop_listpages', ''),
-      '#description' => t('Enter the paths of the pages where you want the splash page to show up (one per line).<br />The path needs to be the original source url and NOT the alias for the page. Example: node/12'),
+      '#description' => t("Enter the paths of the pages where you want the splash page to appear. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*')),
     );
   }
 
@@ -109,7 +109,7 @@ function splashify_admin_where_form($form, &$form_state) {
         '#type' => 'textarea',
         '#title' => t('List Pages'),
         '#default_value' => variable_get('splashify_where_mobile_listpages', ''),
-        '#description' => t('Enter the paths of the pages where you want the splash page to show up (one per line).<br />The path needs to be the original source url and NOT the alias for the page. Example: node/12'),
+        '#description' => t("Enter the paths of the pages where you want the splash page to appear. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*')),
       );
     }
 
@@ -205,6 +205,8 @@ function splashify_ajax_where_mobile_page_callback($form, &$form_state) {
  * character.
  */
 function splashify_where_paths_check($field, $paths) {
+  return true;
+
   $what_paths = preg_split('/[\n\r]+/', $paths);
   $errors = array();
   foreach ($what_paths as $path) {

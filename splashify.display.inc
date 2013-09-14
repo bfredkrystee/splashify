@@ -92,35 +92,15 @@ function splashify_init() {
       break;
 
     case 'list':
-      $list_paths = preg_split('/[\n\r]+/', $where_listpages);
-      if ($where_opposite) {
-
-        // Display the splash on every page except the following pages.
-        $splash_correct_page = TRUE;
-        foreach ($list_paths as $list_path) {
-          $list_path = trim($list_path);
-          if ($list_path == $_GET['q']) {
-            $splash_correct_page = FALSE;
-            break;
-          }
-        }
-
+      $list_paths = drupal_strtolower($where_listpages);
+      $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
+      $splash_correct_page = drupal_match_path($path, $list_paths);
+      if ($path != $_GET['q']){
+	      $splash_correct_page = $splash_correct_page || drupal_match_path($_GET['q'], $list_paths);
       }
-      else {
 
-        // Display the splash on the provided list of pages. Loop through the
-        // paths.
-        foreach ($list_paths as $list_path) {
-          $list_path = trim($list_path);
-          if ($list_path != $_GET['q'] && $where_opposite) {
-          }
-          else if ($list_path == $_GET['q']) {
-            $splash_correct_page = TRUE;
-            break;
-          }
-        }
+      $splash_correct_page = ($splash_correct_page xor $where_opposite);
 
-      }
       break;
   }
 
