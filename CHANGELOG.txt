@@ -1,4 +1,12 @@
 
+2013-09-14
+-----------
+Fixed the following bugs:
+- The "splash" parameter would show up in urls. This is fixed.
+- With referrers that included the url of the site as a parameter (like in
+Google search results), the JS was thinking it was coming from the current
+site. This should be fixed.
+
 2013-03-11
 -----------
 Updated the version detection code for the Mobile Detect library. Fixed a few
