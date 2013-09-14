@@ -15,6 +15,12 @@ jQuery(document).ready(function($) {
   var what_urls = Drupal.settings.splashify.js_mode_settings.urls;
   var referrer_check = Drupal.settings.splashify.js_disable_referrer_check;
 
+  // This updates the referer string by taking out the url parameter from the
+  // url...which is included from google search results (as an example).
+  if(referrer.indexOf('?') != -1) {
+    referrer = referrer.substr(0,i.indexOf('?'));
+  }
+
   // Stop the splash page from show up if on the splash page. Also prevent
   // the splash from showing up from internal links (dependent on the
   // referrer check settings).
