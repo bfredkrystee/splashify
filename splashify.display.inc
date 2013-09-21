@@ -100,7 +100,6 @@ function splashify_init() {
       }
 
       $splash_correct_page = ($splash_correct_page xor $where_opposite);
-
       break;
   }
 
@@ -402,7 +401,7 @@ function _splashify_get_config() {
     'when_frequency' => $when_frequency,
     'when_mobile_test' => $force_mobile,
     'where_page' => $where_page,
-    'where_listpages' => $where_listpages,
+    'where_listpages' => html_entity_decode($where_listpages),
     'where_opposite' => $where_opposite,
     'what_mode' => $what_mode,
     'what_content' => $what_content,

@@ -61,7 +61,7 @@ function splashify_admin_where_form($form, &$form_state) {
       '#type' => 'textarea',
       '#title' => t('List Pages'),
       '#default_value' => variable_get('splashify_where_desktop_listpages', ''),
-      '#description' => t("Enter the paths of the pages where you want the splash page to appear. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*')),
+      '#description' => t("Enter the paths of the pages where you want the splash page to appear. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
     );
   }
 
@@ -109,7 +109,7 @@ function splashify_admin_where_form($form, &$form_state) {
         '#type' => 'textarea',
         '#title' => t('List Pages'),
         '#default_value' => variable_get('splashify_where_mobile_listpages', ''),
-        '#description' => t("Enter the paths of the pages where you want the splash page to appear. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*')),
+        '#description' => t("Enter the paths of the pages where you want the splash page to appear. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
       );
     }
 
@@ -138,17 +138,6 @@ function splashify_admin_where_form($form, &$form_state) {
  * Implements form validation handler.
  */
 function splashify_admin_where_form_validate($form, &$form_state) {
-  // If they entered paths, make sure the path values are valid.
-  if ($form_state['values']['splashify_where_desktop_page'] == 'list') {
-    splashify_where_paths_check('splashify_where_desktop_listpages', $form_state['values']['splashify_where_desktop_listpages']);
-  }
-
-  if (isset($form_state['values']['splashify_where_mobile_page'])) {
-    if ($form_state['values']['splashify_where_mobile_page'] == 'list') {
-      splashify_where_paths_check('splashify_where_mobile_listpages', $form_state['values']['splashify_where_mobile_listpages']);
-    }
-  }
-
   // If they have the opposite option checked, the "All" option should not be
   // selected.
   if (isset($form_state['values']['splashify_where_desktop_opposite'])) {
