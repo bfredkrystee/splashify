@@ -67,7 +67,7 @@ function splashify_admin_when_form($form, &$form_state) {
       )      
     ),
   );
-  
+
   $form['roles']['splashify_when_roles'] = array (
     '#type' => 'checkbox',
     '#title' => 'Restrict to selected roles',
@@ -157,6 +157,13 @@ function splashify_admin_when_form_submit($form, &$form_state) {
       variable_set('splashify_when_mobile_test', 0);
     }
   }
+
+  if (isset($form_state['values']['splashify_when_anonymous'])) {
+    if ($form_state['values']['splashify_when_anonymous'] == 1) {
+      $form_state['values']['splashify_when_roles'] = FALSE;
+    }
+  }
+
   if ($form_state['values']['splashify_when_roles'] !== 1) {
     variable_set('splashify_when_roles_options', 0);
   }
