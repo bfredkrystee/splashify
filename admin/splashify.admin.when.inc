@@ -12,6 +12,13 @@
  * "When" settings tab.
  */
 function splashify_admin_when_form($form, &$form_state) {
+  $roles = user_roles(TRUE);
+  $form_roles = array();
+  
+  foreach($roles as $v){
+    $form_roles[$v] = $v;
+  }
+  
   $form = array();
 
   $form['description'] = array(
@@ -49,6 +56,30 @@ function splashify_admin_when_form($form, &$form_state) {
       'daily' => t('Daily'),
       'weekly' => t('Weekly'),
     ),
+  );
+  
+  $form['roles'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Display for roles'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="splashify_when_anonymous"]' => array('checked' => FALSE),
+      )      
+    ),
+  );
+  
+  $form['roles']['splashify_when_roles'] = array (
+    '#type' => 'checkbox',
+    '#title' => 'Restrict to selected roles',
+    '#default_value' => variable_get('splashify_when_roles', FALSE),
+  );
+  
+  $form['roles']['splashify_when_roles_options'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Which roles should this apply to'),    
+    '#default_value' => variable_get('splashify_when_roles_options', array('authenticated user')),
+    '#options' => $form_roles,
+    '#description' => t('Select the roles for which it will apply'),
   );
 
   $form['mobile'] = array(
@@ -125,6 +156,9 @@ function splashify_admin_when_form_submit($form, &$form_state) {
       variable_set('splashify_when_mobile_frequency', 'never');
       variable_set('splashify_when_mobile_test', 0);
     }
+  }
+  if ($form_state['values']['splashify_when_roles'] !== 1) {
+    variable_set('splashify_when_roles_options', 0);
   }
 }
 

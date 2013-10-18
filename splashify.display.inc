@@ -59,6 +59,25 @@ function splashify_init() {
   if ($when_frequency == 'never') {
     return;
   }
+  
+  // Set variable whether to show page, default is true
+  $is_role = TRUE;
+  // Check whether use role setting is checked
+  if($config['when_roles']){
+    // If use role setting is checked set variable not to show.
+    $is_role = FALSE;
+    // Check if any roles match and then sat show to true.
+    foreach($user->roles as $v) {
+      if(in_array($v, $config['when_roles_options'])) {
+        $is_role = TRUE;
+      }
+    }
+  }
+  
+  // Check the outcome of above and return if no roles match
+  if (!$is_role) {
+    return;
+  }
 
   // Default to not showing the splash page.
   $splash_display = FALSE;
@@ -324,6 +343,22 @@ function splashify_display_splashtext() {
  *   what_content_value, how_mode, and how_size.
  */
 function _splashify_get_config() {
+  // Control whether user roles are being used or not
+  $when_roles = variable_get('splashify_when_roles', '');
+  
+  // If roles are enabled get the options
+  if($when_roles){
+    $when_roles_options = variable_get('splashify_when_roles_options', '');
+      foreach($when_roles_options as $k => $v) {
+        if ($v === 0) {
+          unset($when_roles_options[$k]);
+        }
+      }
+    }
+  else{
+    $when_roles_options = 0;
+  }
+  
   // This controls whether mobile is enabled or not.
   $is_mobile_enabled = variable_get('splashify_when_mobile', 0);
 
@@ -400,6 +435,8 @@ function _splashify_get_config() {
     'only_anonymous' => $only_anonymous,
     'when_frequency' => $when_frequency,
     'when_mobile_test' => $force_mobile,
+    'when_roles' => $when_roles,
+    'when_roles_options' => $when_roles_options,
     'where_page' => $where_page,
     'where_listpages' => html_entity_decode($where_listpages),
     'where_opposite' => $where_opposite,
