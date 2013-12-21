@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
   // This updates the referer string by taking out the url parameter from the
   // url...which is included from google search results (as an example).
   if(referrer.indexOf('?') != -1) {
-    referrer = referrer.substr(0,i.indexOf('?'));
+    referrer = referrer.substr(0,referrer.indexOf('?'));
   }
 
   // Stop the splash page from show up if on the splash page. Also prevent
