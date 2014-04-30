@@ -17,12 +17,6 @@ function splashify_init() {
   global $user;
   global $base_url;
 
-  // Add the JSON file before jstorage. This is for IE7.
-  drupal_add_js(drupal_get_path('module', 'splashify') . '/js/jquery.json-2.3.min.js', array(
-    'group' => JS_LIBRARY,
-    'cache' => TRUE,
-  ));
-
   // Load the jStorage library.
   $library = libraries_load('jstorage', 'minified');
 
