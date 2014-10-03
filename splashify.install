@@ -21,9 +21,7 @@ function splashify_requirements($phase) {
 
     if ($library_path) {
       // A folder is there, but check that the file actually exists
-      $path = $_SERVER['DOCUMENT_ROOT'] . '/' . $library_path . '/';
-
-      $file_integrity = file_exists($path . 'jstorage.min.js');
+      $file_integrity = file_exists($library_path . '/' . 'jstorage.min.js');
 
       if (!$file_integrity) {
         $requirements['splashify_jstorage_integrity'] = array(
