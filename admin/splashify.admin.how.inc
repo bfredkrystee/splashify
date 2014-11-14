@@ -106,6 +106,38 @@ function splashify_admin_how_form($form, &$form_state) {
     );
   }
 
+  $form['delay'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Splashify Delay'),
+  );
+
+  $form['delay']['mode_value']['begin'] = array('#markup' => '<div id="how-mode-splashify-delay">');
+
+  $form['delay']['mode_value']['splashify_how_long_delay'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Splashify Delay'),
+    '#default_value' => variable_get('splashify_how_long_delay', ''),
+    '#description' => t('Enter how long in milliseconds to wait before Splashify does it\'s thing. Leave blank to use the default.'),
+  );
+
+  $form['delay']['mode_value']['end'] = array('#markup' => '</div>');
+
+  $form['autoclose'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Splashify Autoclose'),
+  );
+
+  $form['autoclose']['mode_value']['begin'] = array('#markup' => '<div id="how-mode-splashify-autoclose">');
+
+  $form['autoclose']['mode_value']['splashify_how_long_before_autoclose'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Splashify Autoclose'),
+    '#default_value' => variable_get('splashify_how_long_before_autoclose', ''),
+    '#description' => t('Enter how long in milliseconds to wait before Splashify autocloses.  Leave blank to disable.'),
+  );
+
+  $form['autoclose']['mode_value']['end'] = array('#markup' => '</div>');
+
   return system_settings_form($form);
 }
 

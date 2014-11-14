@@ -14,6 +14,7 @@ jQuery(document).ready(function($) {
   var splashalways = Drupal.settings.splashify.js_splash_always;
   var what_urls = Drupal.settings.splashify.js_mode_settings.urls;
   var referrer_check = Drupal.settings.splashify.js_disable_referrer_check;
+  var js_mode_settings = Drupal.settings.splashify.js_mode_settings;
 
   // This updates the referer string by taking out the url parameter from the
   // url...which is included from google search results (as an example).
@@ -64,22 +65,44 @@ jQuery(document).ready(function($) {
 
     $.jStorage.set('splashlasturl', url);
 
-    // Display the splash page.
-    if(jsmode == 'redirect'){
-      // Redirect.
-      window.location.replace(url);
-    } else if(jsmode == 'colorbox'){
-      // Open a ColorBox.
-      $.colorbox({
-        transition:'elastic',
-        iframe:true,
-        href:url,
-        width:Drupal.settings.splashify.js_mode_settings.size_width,
-        height:Drupal.settings.splashify.js_mode_settings.size_height
-      });
-    } else if(jsmode == 'window'){
-      // Open a popup window.
-      window.open(url, 'splash', Drupal.settings.splashify.js_mode_settings.size);
+    /**
+     * This function displays the splash.
+     */
+    function open_splash() {
+      // Display the splash page.
+      if(jsmode == 'redirect'){
+        // Redirect.
+        window.location.replace(url);
+      } else if(jsmode == 'colorbox'){
+        // Open a ColorBox.
+        $.colorbox({
+          transition:'elastic',
+          iframe:true,
+          href:url,
+          width:Drupal.settings.splashify.js_mode_settings.size_width,
+          height:Drupal.settings.splashify.js_mode_settings.size_height
+        });
+      } else if(jsmode == 'window'){
+        // Open a popup window.
+        window.open(url, 'splash', Drupal.settings.splashify.js_mode_settings.size);
+      }
+    }
+
+    /**
+     * This function closes the splash.
+     */
+    function close_splash() {
+      $.colorbox.close();
+    }
+
+    if (js_mode_settings.how_delay_enable == 1) {
+      setTimeout(open_splash, js_mode_settings.how_delay);
+    } else {
+      open_splash();
+    }
+
+    if (js_mode_settings.how_autoclose_enable == 1 && jsmode == 'colorbox') {
+      setTimeout(close_splash, js_mode_settings.how_autoclose);
     }
   } else if(jsmode == 'redirect') {
       showpage();

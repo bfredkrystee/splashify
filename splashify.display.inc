@@ -42,6 +42,8 @@ function splashify_init() {
   $what_content_value = $config['what_content_value'];
   $how_mode = $config['how_mode'];
   $how_size = $config['how_size'];
+  $how_delay = (int)$config['how_delay'];
+  $how_autoclose = (int)$config['how_autoclose'];
 
   /*
    * Step #2: Should we display the splash page?
@@ -214,6 +216,11 @@ function splashify_init() {
 
   // Define the last remaining JS variables we need to send.
   $size_action = $how_size ? explode('x', $how_size) : FALSE;
+  $js_mode_settings['how_delay'] = $how_delay;
+  $js_mode_settings['how_delay_enable'] = ($how_delay > 0) ? 1 : 0;
+  $js_mode_settings['how_autoclose'] = $how_autoclose + $how_delay;
+  $js_mode_settings['how_autoclose_enable'] = ($how_autoclose > 0) ? 1 : 0;
+
   $js_mode = '';
   switch ($how_mode) {
     case 'redirect':
@@ -406,6 +413,8 @@ function _splashify_get_config() {
     $what_content_title = variable_get('splashify_what_desktop_pagetitle', '');
     $how_mode = variable_get('splashify_how_desktop_mode', 'redirect');
     $how_size = variable_get('splashify_how_desktop_size', '');
+    $how_delay = variable_get('splashify_how_long_delay', '');
+    $how_autoclose = variable_get('splashify_how_long_before_autoclose', '');
   }
 
   $only_anonymous = variable_get('splashify_when_anonymous', FALSE);
@@ -440,5 +449,7 @@ function _splashify_get_config() {
     'what_content_title' => $what_content_title,
     'how_mode' => $how_mode,
     'how_size' => $how_size,
+    'how_delay' => $how_delay,
+    'how_autoclose' => $how_autoclose,
   );
 }
