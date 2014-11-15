@@ -70,19 +70,32 @@ jQuery(document).ready(function($) {
      */
     function open_splash() {
       // Display the splash page.
-      if(jsmode == 'redirect'){
+      if(jsmode == 'redirect') {
         // Redirect.
         window.location.replace(url);
-      } else if(jsmode == 'colorbox'){
+      } else if(jsmode == 'colorbox') {
         // Open a ColorBox.
-        $.colorbox({
+        var colorbox_options = {
           transition:'elastic',
           iframe:true,
           href:url,
           width:Drupal.settings.splashify.js_mode_settings.size_width,
           height:Drupal.settings.splashify.js_mode_settings.size_height
-        });
-      } else if(jsmode == 'window'){
+        };
+
+        if (url.substring(0, 16) == "_splashify_ajax/") {
+          // Load the ajax node page via AJAX.
+          var colorbox_options = {
+            transition:'elastic',
+            iframe:false,
+            href:url,
+            width:Drupal.settings.splashify.js_mode_settings.size_width,
+            height:Drupal.settings.splashify.js_mode_settings.size_height
+          };
+        }
+
+        $.colorbox(colorbox_options);
+      } else if(jsmode == 'window') {
         // Open a popup window.
         window.open(url, 'splash', Drupal.settings.splashify.js_mode_settings.size);
       }

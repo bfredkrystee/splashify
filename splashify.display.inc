@@ -291,7 +291,7 @@ function splashify_init() {
   ));
 
   // Include the main JS file that does the heavy lifting.
-  $js_splashify_int = drupal_get_path('module', 'splashify') . '/js/splashify_init_min.js';
+  $js_splashify_int = drupal_get_path('module', 'splashify') . '/js/splashify_init.js';
   drupal_add_js($js_splashify_int, array(
     'type' => 'file',
     'scope' => 'header',
@@ -452,4 +452,18 @@ function _splashify_get_config() {
     'how_delay' => $how_delay,
     'how_autoclose' => $how_autoclose,
   );
+}
+
+/**
+ * Outputs a node via AJAX. This will display the full page view mode for a noe.
+ */
+function splashify_display_ajax() {
+  $nid = arg(1);
+  if (!$node = node_load($nid)) {
+    echo 'An error occurred loading this node.';
+    drupal_exit();
+  }
+
+  echo drupal_render(node_view($node, 'full'));
+  drupal_exit();
 }

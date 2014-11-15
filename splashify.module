@@ -22,6 +22,14 @@ function splashify_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  // Load a node via AJAX.
+  $items['_splashify_ajax'] = array(
+    'title' => 'AJAX Splash',
+    'page callback' => 'splashify_display_ajax',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   // Define the admin area.
   $items['admin/config/system/splashify'] = array(
     'page callback' => 'drupal_get_form',
