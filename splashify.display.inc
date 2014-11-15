@@ -91,7 +91,7 @@ function splashify_init() {
       break;
 
     case 'home':
-      $home_page = drupal_get_normal_path(variable_get('site_frontpage', 'node'), $lang_code);
+      $home_page = variable_get('site_frontpage', 'node');
       if ($where_opposite) {
         if ($_GET['q'] != $home_page) {
           // Display on every page except the home page.
