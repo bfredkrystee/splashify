@@ -85,13 +85,7 @@ jQuery(document).ready(function($) {
 
         if (url.substring(0, 16) == "_splashify_ajax/") {
           // Load the ajax node page via AJAX.
-          var colorbox_options = {
-            transition:'elastic',
-            iframe:false,
-            href:url,
-            width:Drupal.settings.splashify.js_mode_settings.size_width,
-            height:Drupal.settings.splashify.js_mode_settings.size_height
-          };
+          colorbox_options.iframe = false;
         }
 
         $.colorbox(colorbox_options);
