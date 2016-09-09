@@ -2,7 +2,9 @@ DRUPAL SPLASHIFY MODULE
 ------------------------
 Maintainers:
   Chris Roane (http://drupal.org/user/1283000)
-Requires - Drupal 7, Library and jStorage (jQuery plugin)
+Contributors:
+  Drudesk (https://www.drupal.org/drudesk)
+Requires - Drupal 8, Library, Field Group and Colorbox.
 License - GPL (see LICENSE)
 
 
@@ -11,16 +13,13 @@ License - GPL (see LICENSE)
 Splashify is a full featured splash page module that is designed to be search
 engine friendly. It is originally based on the Drupal 6 Splash module. It
 allows you to specify a page to be displayed anywhere on your site, using one
-of a few different delivery options (redirect, popup window or ColorBox). The
-module also provides options specific to mobile devices.
+of a few different delivery options (redirect, popup window or ColorBox).
 
 The main focus of this module is the following:
 - Be search engine friendly by redirecting via JavaScript (when applicable).
-- Allow specific options for mobile devices.
 - Allow different ways in delivering the splash page.
 - Use ColorBox for displaying the splash page in a lightbox.
-- You can have the system pick from a random list of splash pages, have a
-list of splash pages show up in a specified order, display the specified
+- You can have a list of splash pages show up in a specified order, display the specified
 text/html in the site template or display the text/html full screen.
 
 All of the features of this module have been confirmed to work in FF, Chrome,
@@ -29,49 +28,35 @@ Safari and IE7 through IE9.
 
 2.0 INSTALLATION
 -----------------
-1. Download and enable the "Libraries" Drupal module. A version of 2.0 or
-higher is required.
+1. Download and enable the "Libraries" Drupal module. 
 Link: http://drupal.org/project/libraries
 
-2. Download the jStorage library. You will want to put the files either in
-/sites/all/libraries/jstorage/ or /sites/[site_name]/libraries/jstorage/ .
-Below is a direct link to download the zip file.
-Link: https://github.com/andris9/jStorage/zipball/master
+2. Download and enable the "Colorbox" Drupal module. 
+Link: http://drupal.org/project/colorbox
 
-2. Download and enable the latest version of the Splashify module.
+3. Download and enable the "Field Group" Drupal module. 
+Link: http://drupal.org/project/field_group
+
+4. Download and enable the latest version of the Splashify module.
 Link: http://drupal.org/project/splashify
 
-3. Configure the module. If the system can't find the jStorage library, it will
-display an error.
-Link: /config/system/splashify
-
-4. Verify there are no splashify errors on the Status report page
+5. Verify there are no splashify errors on the Status report page
 (admin/reports/status).
 
 
 2.1 CONFIGURATION
 ------------------
-Go to "Configuration" -> "System" -> "Splashify" to find all the configuration
-options.
+Go to "Structure" -> "Splashify group entity list" -> "Add Splashify group entity"
+to create group with configuration for splash.
 
-If you are using the mobile options, you need to make sure to configure all
-of the mobile settings on each tab for the mobile splash to work properly.
+Go to "Structure" -> "Splashify entity list" -> "Add Splashify entity"
+to create splash.
 
 
 3.0 PROBLEMS OR FEATURE REQUESTS
 ---------------------------------
 First make sure an issue doesn't already exist. If it doesn't, create a new
 issue: http://drupal.org/project/issues/splashify
-
-
-4.0 TODO
---------
-- Need to do more in depth mobile browser testing.
-
-
-LAST UPDATED
--------------
-09/09/2012
 
 
 SPONSORS

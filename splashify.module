@@ -1,126 +1,29 @@
 <?php
 
 /**
- * @file
- * The main file for the module.
+ * Implements hook_preprocess_HOOK().
  */
+function splashify_preprocess_html(&$variables) {
+  $route = \Drupal::routeMatch()->getRouteObject();
+  $is_admin = \Drupal::service('router.admin_context')->isAdminRoute($route);
 
-require_once 'splashify.display.inc';
+  if ($is_admin) {
+    return;
+  }
 
-/**
- * Implements hook_menu().
- */
-function splashify_menu() {
-  $items = array();
-
-  // If they specify What: Enter Text or What: Text Full Screen, this is the
-  // page that will come up.
-  $items['splashify-splash'] = array(
-    'title' => 'Splash',
-    'page callback' => 'splashify_display_splashtext',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
-
-  // Define the admin area.
-  $items['admin/config/system/splashify'] = array(
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('splashify_admin_when_form'),
-    'title' => 'Splashify',
-    'description' => t('Configuration area for the Splashify system.'),
-    'file' => 'admin/splashify.admin.when.inc',
-    'type' => MENU_NORMAL_ITEM,
-    'access arguments' => array('access splashify admin'),
-    'weight' => 6,
-  );
-
-  $items['admin/config/system/splashify/when'] = array(
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('splashify_admin_when_form'),
-    'title' => 'When',
-    'file' => 'admin/splashify.admin.when.inc',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'access arguments' => array('access splashify admin'),
-    'weight' => 6,
-  );
-
-  $items['admin/config/system/splashify/where'] = array(
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('splashify_admin_where_form'),
-    'title' => 'Where',
-    'file' => 'admin/splashify.admin.where.inc',
-    'type' => MENU_LOCAL_TASK,
-    'access arguments' => array('access splashify admin'),
-    'weight' => 8,
-  );
-
-  $items['admin/config/system/splashify/what'] = array(
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('splashify_admin_what_form'),
-    'title' => 'What',
-    'file' => 'admin/splashify.admin.what.inc',
-    'type' => MENU_LOCAL_TASK,
-    'access arguments' => array('access splashify admin'),
-    'weight' => 10,
-  );
-
-  $items['admin/config/system/splashify/how'] = array(
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('splashify_admin_how_form'),
-    'title' => 'How',
-    'file' => 'admin/splashify.admin.how.inc',
-    'type' => MENU_LOCAL_TASK,
-    'access arguments' => array('access splashify admin'),
-    'weight' => 12,
-  );
-
-  return $items;
-}
-
-/**
- * Implements hook_permission().
- */
-function splashify_permission() {
-  return array(
-    'access splashify admin' => array(
-      'title' => t('Administer Splashify'),
-      'description' => t('Access the admin area for the splashify module.'),
-    ),
-  );
-}
-
-/**
- * Implements hook_libraries_info().
- */
-function splashify_libraries_info() {
-  $libraries = array();
-  $libraries['jstorage'] = array(
-    'name' => 'jStorage library',
-    'vendor url' => 'http://www.jstorage.info/',
-    'download url' => 'https://github.com/andris9/jStorage/zipball/master',
-    'version' => '0.3.2',
-    'files' => array(
-      'js' => array(
-        'jstorage.min.js',
-      ),
-    ),
-  );
-
-  return $libraries;
-}
-
-/**
- * Implements hook_help().
- */
-function splashify_help($path, $arg) {
-  switch ($path) {
-    case 'admin/help#splashify':
-      $output = '';
-      $output .= '<h3>' . t('Splashify Help') . '</h3>';
-      $output .= '<h4>' . t('What do we consider a splash page?') . '</h4>';
-      $output .= '<p>' . t("We define a splash page as being content that shows up at a specified interval, at a specified location, one time. If someone goes to a certain page for the first time, we want to make sure the splash content shows up. But if the person is coming from an internal link on the site, we don't want the splash content to show up over and over again (otherwise, the splash page would become a nuisance).") . '</p>';
-      $output .= '<p>' . t('We determine how often the splash page should show up by what is defined under the "When" tab.') . '</p>';
-      return $output;
+  $splash = \Drupal::service('splashify.injection')->getAttach();
+  if (!empty($splash)) {
+    array_unshift($variables['page_top'], $splash);
   }
 }
 
+/**
+ * Implements hook_theme().
+ */
+function splashify_theme($existing, $type, $theme, $path) {
+  return [
+    'splashify' => [
+      'variables' => ['splashify_content' => NULL],
+    ],
+  ];
+}
