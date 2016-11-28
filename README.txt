@@ -19,8 +19,8 @@ The main focus of this module is the following:
 - Be search engine friendly by redirecting via JavaScript (when applicable).
 - Allow different ways in delivering the splash page.
 - Use ColorBox for displaying the splash page in a lightbox.
-- You can have a list of splash pages show up in a specified order, display the specified
-text/html in the site template or display the text/html full screen.
+- You can have a list of splash pages show up in a specified order, display the
+specified text/html in the site template or display the text/html full screen.
 
 All of the features of this module have been confirmed to work in FF, Chrome,
 Safari and IE7 through IE9.
@@ -51,6 +51,9 @@ to create group with configuration for splash.
 
 Go to "Structure" -> "Splashify entity list" -> "Add Splashify entity"
 to create splash.
+
+Go to "People" -> "Permissions". Make sure the "Splashify" section has the
+correct permissions in who can administer splash groups and splash entities.
 
 
 3.0 PROBLEMS OR FEATURE REQUESTS
