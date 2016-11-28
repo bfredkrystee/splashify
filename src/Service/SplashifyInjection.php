@@ -304,7 +304,7 @@ class SplashifyInjection {
     $cookie = \Drupal::request()->cookies;
     $splashify_cookies = $cookie->get('splashify');
 
-    if (!array_key_exists($splash->id(), $splashify_cookies)) {
+    if (!is_array($splashify_cookies) || !array_key_exists($splash->id(), $splashify_cookies)) {
       return TRUE;
     }
 
