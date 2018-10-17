@@ -226,7 +226,11 @@ class SplashifyInjection {
       return [];
     }
 
-    setcookie("splashify[" . $this->splash->id() . "]", REQUEST_TIME, NULL, '/');
+    $frequency = $this->splash->getGroup()->getOften();
+
+    $expired_time = $this->timeLine[$frequency];
+
+    setcookie("splashify[" . $this->splash->id() . "]", REQUEST_TIME, REQUEST_TIME + $expired_time, '/');
     return $this->getRenderElement($this->splash);
   }
 
